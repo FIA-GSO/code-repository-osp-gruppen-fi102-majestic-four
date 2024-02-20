@@ -43,7 +43,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Rechts daneben das Bild */}
+      
       <div className="w-1/3">
         <img src="https://www.gso-koeln.de/wp-content/uploads/2023/10/Teaser_TdA.jpg" alt="Bildbeschreibung" className="w-full h-auto object-cover rounded" />
       </div>

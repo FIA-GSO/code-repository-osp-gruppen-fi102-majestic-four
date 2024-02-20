@@ -9,7 +9,7 @@ export default function Login() {
     const { emailInput, setEmailInput, passwordInput, setPasswordInput } =
         useLoginStore();
     return (
-        <main className="h-screen w-screen flex justify-center items-center bg-slate-400">
+        <main className="h-screen w-full flex justify-center items-center bg-slate-400">
             <div className="flex flex-col border-opacity-50">
                 <div
                     className="grid p-5 card bg-base-300 rounded-box place-items-center"

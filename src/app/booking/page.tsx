@@ -2,8 +2,20 @@
 
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
+import { useBookingStore } from "../store/booking-store";
 
 export default function Booking() {
+    const {
+        firmInput,
+        setFirmInput,
+        contactNameInput,
+        setContactNameInput,
+        emailInput,
+        setEmailInput,
+        phoneInput,
+        setPhoneInput,
+    } = useBookingStore();
+
     return (
         <main className="bg-neutral flex min-h-screen flex-col items-center justify-center p-4 px-24 relative">
             <h3 className=" text-primary font-bold text-4xl py-2">
@@ -18,6 +30,8 @@ export default function Booking() {
                             type="text"
                             placeholder="Firma eingeben"
                             className="input input-primary w-full max-w-xs"
+                            value={firmInput}
+                            onChange={(ev) => setFirmInput(ev.target.value)}
                         />
                     </label>
 
@@ -30,6 +44,10 @@ export default function Booking() {
                             type="text"
                             placeholder="Name eingeben"
                             className="input input-primary w-full max-w-xs"
+                            value={contactNameInput}
+                            onChange={(ev) =>
+                                setContactNameInput(ev.target.value)
+                            }
                         />
                     </label>
                 </div>
@@ -43,6 +61,10 @@ export default function Booking() {
                                 type="email"
                                 placeholder="Email eingeben"
                                 className="input input-primary w-full max-w-xs"
+                                value={emailInput}
+                                onChange={(ev) =>
+                                    setEmailInput(ev.target.value)
+                                }
                             />
                         </label>
                     )}
@@ -56,6 +78,8 @@ export default function Booking() {
                             type="text"
                             placeholder="Nummer eingeben"
                             className="input input-primary w-full max-w-xs"
+                            value={phoneInput}
+                            onChange={(ev) => setPhoneInput(ev.target.value)}
                         />
                     </label>
                 </div>

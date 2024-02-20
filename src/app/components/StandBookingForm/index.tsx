@@ -6,7 +6,18 @@ interface IStandBookingForm {
 }
 
 const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
-    const {} = useBookingStore();
+    const {
+        annotationInput,
+        setAnnotationInput,
+        dayOneChecked,
+        setDayOneChecked,
+        dayTwoChecked,
+        setDayTwoChecked,
+        tablesInput,
+        setTablesInput,
+        chairsInput,
+        setChairsInput,
+    } = useBookingStore();
     return (
         <form className={`${className || ""} flex items-center p-4 gap-4`}>
             <div className="flex w-full flex-col items-center">
@@ -17,6 +28,8 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                     </span>
                     <input
                         type="text"
+                        value={annotationInput}
+                        onChange={(ev) => setAnnotationInput(ev.target.value)}
                         placeholder="Anmerkungen oder Wünsche"
                         className="input input-primary w-full max-w-xs"
                     />
@@ -28,6 +41,8 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         <input
                             type="checkbox"
                             className="checkbox checkbox-primary"
+                            checked={dayOneChecked}
+                            onChange={() => setDayOneChecked(!dayOneChecked)}
                         />
                         <span className="label-text mx-4">Tag 1</span>
                     </label>
@@ -35,6 +50,8 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         <input
                             type="checkbox"
                             className="checkbox checkbox-primary"
+                            checked={dayTwoChecked}
+                            onChange={() => setDayTwoChecked(!dayTwoChecked)}
                         />
                         <span className="label-text mx-4">Tag 2</span>
                     </label>
@@ -49,6 +66,10 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         type="number"
                         placeholder="Tischanzahl eingeben"
                         className="input input-primary w-full max-w-xs"
+                        value={tablesInput}
+                        onChange={(ev) =>
+                            setTablesInput(parseInt(ev.target.value))
+                        }
                     />
                 </label>
 
@@ -59,6 +80,10 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         type="number"
                         placeholder="Stuhlanzahl eingeben"
                         className="input input-primary w-full max-w-xs"
+                        value={chairsInput}
+                        onChange={(ev) =>
+                            setChairsInput(parseInt(ev.target.value))
+                        }
                     />
                 </label>
             </div>

@@ -1,3 +1,4 @@
+import { TDates, useBookingStore } from "@/app/store/booking-store";
 import React from "react";
 
 interface ITalkBookingForm {
@@ -5,6 +6,17 @@ interface ITalkBookingForm {
 }
 
 const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
+    const {
+        topicInput,
+        setTopicInput,
+        talkLengthInput,
+        setTalkLengthInput,
+        dateInput,
+        setDateInput,
+        startTimeInput,
+        setStartTimeInput,
+    } = useBookingStore();
+
     const startTime = new Date("2022-01-01T10:00:00");
     const endTime = new Date("2022-01-01T16:00:00");
     const interval = 15; // 15 minutes
@@ -41,6 +53,8 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                         type="text"
                         placeholder="Über Welches Thema?"
                         className="input input-primary w-full max-w-xs"
+                        value={topicInput}
+                        onChange={(ev) => setTopicInput(ev.target.value)}
                     />
                 </label>
 
@@ -53,6 +67,10 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                         className="input input-primary w-full max-w-xs"
                         min={15}
                         max={60}
+                        value={talkLengthInput}
+                        onChange={(ev) =>
+                            setTalkLengthInput(parseInt(ev.target.value))
+                        }
                     />
                 </label>
             </div>
@@ -61,8 +79,16 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                 {/* Datum */}
                 <label className="form-control w-full max-w-xs">
                     <span className="label label-text">Datum</span>
-                    <select className="select select-primary">
-                        <option disabled>Tag auswählen</option>
+                    <select
+                        className="select select-primary"
+                        value={dateInput}
+                        onChange={(ev) =>
+                            setDateInput(ev.target.value as TDates)
+                        }
+                    >
+                        <option disabled value="">
+                            Tag auswählen
+                        </option>
                         <option value="26.01.2024">Freitag - 26.01.24</option>
                         <option value="27.01.2024">Samstag - 27.01.24</option>
                     </select>
@@ -71,8 +97,16 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                 {/* Uhrzeit */}
                 <label className="form-control w-full max-w-xs">
                     <span className="label label-text">Uhrzeit</span>
-                    <select className="select select-primary">
-                        <option disabled>Startzeit auswählen</option>
+                    <select
+                        className="select select-primary"
+                        value={startTimeInput}
+                        onChange={(ev) => {
+                            setStartTimeInput(ev.target.value);
+                        }}
+                    >
+                        <option disabled value="">
+                            Startzeit auswählen
+                        </option>
                         {generateOptions()}
                     </select>
                 </label>

@@ -46,15 +46,15 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
     }, []);
 
     return (
-        <div className="relative h-full w-full border border-primary rounded-xl bg-base-100 p-4">
+        <div
+            className={`${className || ""} relative h-full w-full border border-primary rounded-xl bg-base-100 p-4`}
+        >
             <button className=" absolute top-0 right-0 m-4 btn btn-primary">
                 Neuer Antrag
             </button>
             <h2 className=" text-4xl font-extrabold py-2">Anträge</h2>
             {bookingsList.length > 0 ? (
-                <ul
-                    className={`${className || ""} flex flex-col gap-1 h-56 overflow-y-auto`}
-                >
+                <ul className="flex flex-col gap-1 h-56 overflow-y-auto">
                     {bookingsList.map((element, index) => (
                         <BookingsListItem
                             className=" w-full"

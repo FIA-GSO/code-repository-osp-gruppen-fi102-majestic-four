@@ -1,11 +1,13 @@
 import { create } from "zustand";
 
+export type TLoginState = "guest" | "user" | "admin" | "helper";
+
 interface IGeneralState {
-    projects: number;
-    setProjects: (projects: number) => void;
+    loginState: TLoginState;
+    setLoginState: (loginState: TLoginState) => void;
 }
 
 export const useGeneralStore = create<IGeneralState>()((set) => ({
-    projects: 0,
-    setProjects: (projects) => set({ projects }),
+    loginState: "guest",
+    setLoginState: (loginState) => set({ loginState }),
 }));

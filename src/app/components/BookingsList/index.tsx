@@ -19,6 +19,7 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
                 talkLength: 45,
                 dateInput: "26.01.2024",
                 startTime: "10:00",
+                status: "offen",
             },
             {
                 firm: "Marmelade GmbH",
@@ -30,6 +31,7 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
                 tables: 2,
                 dayOne: false,
                 dayTwo: true,
+                status: "angenommen",
             },
             {
                 firm: "Marmelade GmbH",
@@ -41,6 +43,67 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
                 tables: 2,
                 dayOne: false,
                 dayTwo: true,
+                status: "abgelehnt",
+            },
+            {
+                firm: "Marmelade GmbH",
+                contact: "Johanis Beere",
+                email: "johanis.beere@email.com",
+                phone: "012345566",
+                annotation: "bitte wlan",
+                chairs: 2,
+                tables: 2,
+                dayOne: false,
+                dayTwo: true,
+                status: "abgelehnt",
+            },
+            {
+                firm: "Marmelade GmbH",
+                contact: "Johanis Beere",
+                email: "johanis.beere@email.com",
+                phone: "012345566",
+                annotation: "bitte wlan",
+                chairs: 2,
+                tables: 2,
+                dayOne: false,
+                dayTwo: true,
+                status: "abgelehnt",
+            },
+            {
+                firm: "Marmelade GmbH",
+                contact: "Johanis Beere",
+                email: "johanis.beere@email.com",
+                phone: "012345566",
+                annotation: "bitte wlan",
+                chairs: 2,
+                tables: 2,
+                dayOne: false,
+                dayTwo: true,
+                status: "abgelehnt",
+            },
+            {
+                firm: "Marmelade GmbH",
+                contact: "Johanis Beere",
+                email: "johanis.beere@email.com",
+                phone: "012345566",
+                annotation: "bitte wlan",
+                chairs: 2,
+                tables: 2,
+                dayOne: false,
+                dayTwo: true,
+                status: "abgelehnt",
+            },
+            {
+                firm: "Marmelade GmbH",
+                contact: "Johanis Beere",
+                email: "johanis.beere@email.com",
+                phone: "012345566",
+                annotation: "bitte wlan",
+                chairs: 2,
+                tables: 2,
+                dayOne: false,
+                dayTwo: true,
+                status: "abgelehnt",
             },
         ]);
     }, []);
@@ -54,7 +117,7 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
             </button>
             <h2 className=" text-4xl font-extrabold py-2">Anträge</h2>
             {bookingsList.length > 0 ? (
-                <ul className="flex flex-col gap-1 h-56 overflow-y-auto">
+                <ul className="flex flex-col h-[625px] xl:h-[368px] gap-1 overflow-y-auto">
                     {bookingsList.map((element, index) => (
                         <BookingsListItem
                             className=" w-full"

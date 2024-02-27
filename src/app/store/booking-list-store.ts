@@ -5,8 +5,12 @@ type TGeneralBooking = {
     firm: string;
     contact: string;
     email: string;
+    status: TBookingStatus;
     phone?: string;
 };
+
+export type TBookingStatus = "offen" | "angenommen" | "abgelehnt";
+
 export type TTalkBooking = TGeneralBooking & {
     topic: string;
     talkLength: number;

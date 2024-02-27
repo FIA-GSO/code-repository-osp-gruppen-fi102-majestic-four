@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRegisterStore } from "../store/register-store";
+import { createUser } from "../actions";
 
 interface FormData {
     username: string;
@@ -19,14 +20,20 @@ export default function Register(): JSX.Element {
         setConfirmPasswordInput,
     } = useRegisterStore();
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (passwordInput !== confirmPasswordInput) {
             console.log("error! passwords do not match");
             return;
         } else if (passwordInput === confirmPasswordInput) {
             try {
-                // api call
+                const newUser = await createUser(emailInput, passwordInput);
+                if ("error" in newUser) {
+                    alert(newUser.error);
+                } else {
+                    console.log("User registered:", newUser);
+                    // Optionally, you can redirect the user to another page or perform other actions
+                }
             } catch (error) {
                 console.error("Error during Registration:", error);
             }
@@ -35,7 +42,10 @@ export default function Register(): JSX.Element {
 
     return (
         <div className="h-screen flex justify-center items-center flex-col">
-            <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>
+            <form
+                className="flex flex-col items-center justify-center"
+                onSubmit={handleSubmit}
+            >
                 <label className="form-control w-full max-w-xs">
                     <div className="label">
                         <span className="label-text">Email</span>
@@ -59,7 +69,9 @@ export default function Register(): JSX.Element {
                         name="password"
                         placeholder="Type here.."
                         value={passwordInput}
-                        onChange={(event) => setPasswordInput(event.target.value)}
+                        onChange={(event) =>
+                            setPasswordInput(event.target.value)
+                        }
                         className="input input-bordered w-full max-w-xs"
                     />
                 </label>
@@ -73,7 +85,9 @@ export default function Register(): JSX.Element {
                         name="password"
                         placeholder="Type here.."
                         value={confirmPasswordInput}
-                        onChange={(event) => setConfirmPasswordInput(event.target.value)}
+                        onChange={(event) =>
+                            setConfirmPasswordInput(event.target.value)
+                        }
                         className="input input-bordered w-full max-w-xs"
                     />
                 </label>

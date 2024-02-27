@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type TEmailChangeState = "None" | "Enter" | "Wait";
+export type TChangeState = "None" | "Enter" | "Wait";
 
 interface IProfileState {
     email: string;
@@ -11,8 +11,16 @@ interface IProfileState {
     setContactPerson: (contactPerson: string) => void;
     telefon: number;
     setTelefon: (telefon: number) => void;
-    changeEmail: TEmailChangeState;
-    setChangeEmail: (changeEmail: TEmailChangeState) => void;
+    changeEmail: TChangeState;
+    setChangeEmail: (changeEmail: TChangeState) => void;
+    changePassword: TChangeState;
+    setChangePassword: (changePassword: TChangeState) => void;
+    password: string;
+    setPassword: (password: string) => void;
+    confirmPassword: string;
+    setConfirmPassword: (password: string) => void;
+    code: string;
+    setCode: (code: string) => void;
 }
 
 export const useProfileStore = create<IProfileState>()((set) => ({
@@ -26,4 +34,12 @@ export const useProfileStore = create<IProfileState>()((set) => ({
     setTelefon: (telefon) => set({ telefon }),
     changeEmail: "None",
     setChangeEmail: (changeEmail) => set({ changeEmail }),
+    changePassword: "None",
+    setChangePassword: (changePassword) => set({ changePassword }),
+    password: "",
+    setPassword: (password) => set({ password }),
+    confirmPassword: "",
+    setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
+    code: "000000",
+    setCode: (code) => set({ code }),
 }));

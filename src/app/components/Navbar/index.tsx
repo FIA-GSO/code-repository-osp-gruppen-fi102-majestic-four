@@ -9,7 +9,7 @@ interface INavbar {
 }
 
 const navElements = [
-    { name: "Home", link: "/home", user: ["guest"] },
+    { name: "Home", link: "/", user: ["guest"] },
     { name: "Infos", link: "/infos", user: ["guest", "user"] },
     { name: "Buchen", link: "/booking", user: ["guest", "user"] },
     {

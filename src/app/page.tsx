@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        
+
     
     <header className="App-header">
         <p className="max-w-lg p-4 mx-auto text-lg ">
@@ -28,7 +28,7 @@ Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed l
       </div>
       </div>
       </footer>
-    
+
         </main>
     );
 

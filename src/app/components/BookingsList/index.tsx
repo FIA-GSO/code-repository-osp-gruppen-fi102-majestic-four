@@ -117,7 +117,7 @@ const BookingsList: React.FC<IBookingsList> = ({ className }) => {
             </button>
             <h2 className=" text-4xl font-extrabold py-2">Anträge</h2>
             {bookingsList.length > 0 ? (
-                <ul className="flex flex-col h-[625px] xl:h-[368px] gap-1 overflow-y-auto">
+                <ul className="flex flex-col h-60 gap-1 overflow-y-auto">
                     {bookingsList.map((element, index) => (
                         <BookingsListItem
                             className=" w-full"

@@ -1,10 +1,8 @@
-import Image from "next/image";
-
 export default function Info() {
     return (
         <main className="flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-between p-24">
-            <div className=" h-full flex justify-center">
-                <div className="flex-1 w-2/3 p-8 rounded shadow-lg overflow-y-scroll">
+            <div className="h-full flex portrait:flex-col justify-center">
+                <div className="flex-1 w-2/3 portrait:w-full p-8 rounded shadow-lg overflow-y-scroll">
                     <h1 className="text-center text-3xl font-bold mb-6 ">
                         Tag der Ausbildung am Georg-Simon-Ohm-Berufskolleg
                     </h1>
@@ -74,7 +72,7 @@ export default function Info() {
                 <img
                     src="https://www.gso-koeln.de/wp-content/uploads/2023/10/Teaser_TdA.jpg"
                     alt="Bildbeschreibung"
-                    className=" rounded-2xl "
+                    className="rounded-2xl p-10 portrait:w-96 portrait:place-self-center"
                 />
             </div>
         </main>

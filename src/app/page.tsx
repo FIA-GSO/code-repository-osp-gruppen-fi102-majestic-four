@@ -4,7 +4,7 @@ export default function Home() {
     return (
         <main className="flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-between p-24">
             <div className=" flex flex-col items-center justify-evenly h-full">
-                <p className="max-w-lg p-4 text-lg ">
+                <p className="p-4 px-20 text-lg prose">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Integer nec odio. Praesent libero. Sed cursus ante dapibus
                     diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.

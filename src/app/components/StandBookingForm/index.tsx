@@ -19,7 +19,7 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
         setChairsInput,
     } = useBookingStore();
     return (
-        <form className={`${className || ""} flex items-center p-4 gap-4`}>
+        <form className={`${className || ""} flex items-center p-2 gap-4`}>
             <div className="flex w-full flex-col items-center">
                 {/* Bemerkung Wunsch */}
                 <label className="form-control w-full max-w-xs">

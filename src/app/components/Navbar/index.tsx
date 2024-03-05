@@ -24,11 +24,12 @@ const navElements = [
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
     const { loginState, setLoginState } = useGeneralStore();
+
     return (
         <div
             className={
                 `${className || ""}` +
-                "navbar bg-neutral flex justify-between w-full text-gray-400"
+                "navbar bg-neutral flex justify-between w-full max-h-16"
             }
         >
             <div className="navbar-start">

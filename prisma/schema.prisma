@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Benutzer {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwort     String
+  vorname      String?
+  nachname     String?
+  strasse      String?
+  hausnummer   String?
+  postleitzahl String?
+  ort          String?
+  firma        Firma?   @relation(fields: [firmaId], references: [id])
+  firmaId      Int?     @unique
+  rolle        Rollen?  @relation(fields: [rolleId], references: [id])
+  rolleId      Int?
+  stand        Stand?   @relation("Stand_Benutzer")
+  vortrag      Vortrag? @relation("Vortrag_Benutzer")
+}
+
+model Firma {
+  id              Int        @id @default(autoincrement())
+  name            String
+  ansprechpartner String
+  email           String     @unique
+  telefon         String     @unique
+  fax             String     @unique
+  benutzer        Benutzer[]
+}
+
+model Stand {
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
+  ansprechpartner String
+  telefon         String   @unique
+  firma           String   @unique
+  tag1            Boolean
+  tag2            Boolean
+  bemerkung       String
+  datum           DateTime
+  tisch           Int
+  stuhl           Int
+  benutzer        Benutzer @relation(name: "Stand_Benutzer", fields: [benutzerId], references: [id])
+  benutzerId      Int      @unique
+  status          Status?  @relation(name: "Stand_Status", fields: [statusId], references: [id])
+  statusId        Int?
+}
+
+model Rollen {
+  id          Int        @id @default(autoincrement())
+  bezeichnung String
+  benutzer    Benutzer[]
+}
+
+model Vortrag {
+  id              Int      @id @default(autoincrement())
+  dauer           Int
+  ansprechpartner String
+  firma           String   @unique
+  thema           String
+  benutzer        Benutzer @relation(name: "Vortrag_Benutzer", fields: [benutzerId], references: [id])
+  benutzerId      Int      @unique
+  email           String   @unique
+  datum           String
+  uhrzeit         String
+  status          Status?  @relation(name: "Vortrag_Status", fields: [statusId], references: [id])
+  statusId        Int?
+}
+
+model Status {
+  id          Int       @id @default(autoincrement())
+  bezeichnung String
+  vortrag     Vortrag[] @relation("Vortrag_Status")
+  stand       Stand[]   @relation("Stand_Status")
+}

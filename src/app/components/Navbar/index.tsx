@@ -89,7 +89,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         </button>
                         <Link
                             className="btn btn-ghost text-xl"
-                            href={"/profil"}
+                            href={"/profile"}
                         >
                             Profil
                         </Link>

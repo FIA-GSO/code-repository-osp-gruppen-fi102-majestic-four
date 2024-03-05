@@ -169,7 +169,7 @@ const BookingManager: React.FC<IBookingManager> = ({
 
     return (
         <div
-            className={`${className || ""} relative h-full w-full border border-info rounded-xl bg-base-100 p-4`}
+            className={`${className || ""} relative border border-info rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-info/60`}
         >
             {!fullscreen && (
                 <Link
@@ -179,7 +179,7 @@ const BookingManager: React.FC<IBookingManager> = ({
                     Volle Ansicht
                 </Link>
             )}
-            <h2 className=" text-4xl font-extrabold py-2 text-info flex items-center">
+            <h2 className="px-4 text-4xl font-extrabold py-4 text-info flex items-center sticky top-0 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
                 Anträge{" "}
                 <span className="text-info/20 italic ">
                     ({bookingManagerList.length}{" "}
@@ -187,9 +187,7 @@ const BookingManager: React.FC<IBookingManager> = ({
                 </span>
             </h2>
             {bookingManagerList.length > 0 ? (
-                <ul
-                    className={`flex flex-col gap-1 overflow-y-auto ${fullscreen ? " h-[28rem]" : "h-60"}`}
-                >
+                <ul className={`flex flex-col gap-1 min-h-fit`}>
                     {bookingManagerList.map((element, index) => (
                         <BookingManagerEntry
                             className=" w-full"

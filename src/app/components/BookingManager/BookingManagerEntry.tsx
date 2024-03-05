@@ -13,7 +13,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
 
     return (
         <li className={`${className || ""}`}>
-            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-300">
+            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
                 <summary className="collapse-title text-xl font-bold">
                     <span className="text-info">ID: {booking.id}</span>
                     <span className=" px-2">|</span>

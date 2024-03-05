@@ -72,7 +72,7 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
 
     return (
         <div
-            className={`${className || ""} relative h-full w-full border border-warning rounded-xl bg-base-100 p-4`}
+            className={`${className || ""} relative border border-warning rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-warning/60`}
         >
             <UserManagerModal />
             {!fullscreen && (
@@ -87,7 +87,7 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
             {/* <button className=" absolute top-0 right-0 m-4 btn btn-primary">
                 Neuer Benutzer
             </button> */}
-            <h2 className=" text-4xl font-extrabold py-2 text-warning">
+            <h2 className="px-4 text-4xl font-extrabold py-4 text-warning flex items-center sticky top-0 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
                 Benutzer{" "}
                 <span className="text-warning/20 italic ">
                     ({userList.length}{" "}
@@ -95,9 +95,7 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
                 </span>
             </h2>
             {userList.length > 0 ? (
-                <ul
-                    className={`flex flex-col gap-1 overflow-y-auto ${fullscreen ? " h-[28rem]" : "h-60"}`}
-                >
+                <ul className={`flex flex-col gap-1 min-h-fit`}>
                     {userList.map((element, index) => (
                         <UserManagerEntry
                             className=" w-full"

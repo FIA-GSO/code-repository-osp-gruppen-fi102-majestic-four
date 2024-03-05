@@ -44,7 +44,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
     }
     return (
         <li className={`${className || ""}`}>
-            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-300">
+            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
                 <summary className="collapse-title text-xl font-medium">
                     <div>
                         <span className=" text-warning font-bold">{`ID: ${user.id}`}</span>

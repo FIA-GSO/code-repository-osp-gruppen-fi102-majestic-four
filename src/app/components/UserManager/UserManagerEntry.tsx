@@ -91,48 +91,74 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                 </summary>
                 <div className="collapse-content relative">
                     <div className="flex gap-x-8 flex-wrap w-4/5 text-warning text-lg font-bold text-wrap">
-                        <span>
-                            Id: <span className="text-white">{user.id}</span>
-                        </span>
-                        <span>
-                            Email:{" "}
-                            <span className="text-white">{user.email}</span>
-                        </span>
-                        <span>
-                            Passwort:{" "}
-                            <span className="text-white">{user.passwort}</span>
-                        </span>
-                        <span>
-                            Vorname:{" "}
-                            <span className="text-white">{user.vorname}</span>
-                        </span>
-                        <span>
-                            Nachname:{" "}
-                            <span className="text-white">{user.nachname}</span>
-                        </span>
-                        <span>
-                            Straße:{" "}
-                            <span className="text-white">{user.strasse}</span>
-                        </span>
-                        <span>
-                            Haus Nr.:{" "}
-                            <span className="text-white">
-                                {user.hausnummer}
+                        {user.email && (
+                            <span>
+                                Email:{" "}
+                                <span className="text-white">{user.email}</span>
                             </span>
-                        </span>
-                        <span>
-                            Postleitzahl:{" "}
-                            <span className="text-white">
-                                {user.postleitzahl}
+                        )}
+                        {user.passwort && (
+                            <span>
+                                Passwort:{" "}
+                                <span className="text-white">
+                                    {user.passwort}
+                                </span>
                             </span>
-                        </span>
-                        <span>
-                            Ort: <span className="text-white">{user.ort}</span>
-                        </span>
-                        <span>
-                            Firma:{" "}
-                            <span className="text-white">{user.firmaId}</span>
-                        </span>
+                        )}
+                        {user.vorname && (
+                            <span>
+                                Vorname:{" "}
+                                <span className="text-white">
+                                    {user.vorname}
+                                </span>
+                            </span>
+                        )}
+                        {user.nachname && (
+                            <span>
+                                Nachname:{" "}
+                                <span className="text-white">
+                                    {user.nachname}
+                                </span>
+                            </span>
+                        )}
+                        {user.strasse && (
+                            <span>
+                                Straße:{" "}
+                                <span className="text-white">
+                                    {user.strasse}
+                                </span>
+                            </span>
+                        )}
+                        {user.hausnummer && (
+                            <span>
+                                Haus Nr.:{" "}
+                                <span className="text-white">
+                                    {user.hausnummer}
+                                </span>
+                            </span>
+                        )}
+                        {user.postleitzahl && (
+                            <span>
+                                Postleitzahl:{" "}
+                                <span className="text-white">
+                                    {user.postleitzahl}
+                                </span>
+                            </span>
+                        )}
+                        {user.ort && (
+                            <span>
+                                Ort:{" "}
+                                <span className="text-white">{user.ort}</span>
+                            </span>
+                        )}
+                        {user.firmaId && (
+                            <span>
+                                Firma:{" "}
+                                <span className="text-white">
+                                    {user.firmaId}
+                                </span>
+                            </span>
+                        )}
                         <span>
                             Rolle:{" "}
                             <span className="text-white">{user.rolleId}</span>

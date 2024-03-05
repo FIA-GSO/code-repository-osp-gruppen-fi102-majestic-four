@@ -22,9 +22,7 @@ export default function Dashboard() {
                 </div>
             )}
             {loginState === "admin" && <BookingManager />}
-            {loginState === "admin" && (
-                <UserManager className="flex-1 flex-grow-[2]" />
-            )}
+            {loginState === "admin" && <UserManager />}
         </main>
     );
 }

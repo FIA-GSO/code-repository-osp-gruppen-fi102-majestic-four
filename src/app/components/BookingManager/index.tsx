@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { useBookingManagerStore } from "@/app/store/booking-manager-store";
-import BookingManagerModal from "./BookingManagerModal";
 import BookingManagerEntry from "./BookingManagerEntry";
+import Link from "next/link";
 
 interface IBookingManager {
     className?: string;
+    fullscreen?: boolean;
 }
 
-const BookingManager: React.FC<IBookingManager> = ({ className }) => {
+const BookingManager: React.FC<IBookingManager> = ({
+    className,
+    fullscreen,
+}) => {
     const { bookingManagerList, setBookingManagerList } =
         useBookingManagerStore();
 
@@ -70,6 +74,96 @@ const BookingManager: React.FC<IBookingManager> = ({ className }) => {
                 benutzerId: 2,
                 statusId: 1,
             },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
+            {
+                id: 2,
+                email: "peter.maffay@gmail.com",
+                ansprechpartner: "peter maffay",
+                telefon: "",
+                firma: "tabaluga",
+                tag1: true,
+                tag2: false,
+                bemerkung: "kein wlan",
+                datum: new Date("26.01.2024"),
+                tisch: 2,
+                stuhl: 12,
+                benutzerId: 2,
+                statusId: 1,
+            },
         ]);
     }, []);
 
@@ -77,16 +171,31 @@ const BookingManager: React.FC<IBookingManager> = ({ className }) => {
         <div
             className={`${className || ""} relative h-full w-full border border-info rounded-xl bg-base-100 p-4`}
         >
-            <h2 className=" text-4xl font-extrabold py-2 text-info">Anträge</h2>
-            {BookingManager.length > 0 ? (
-                <ul className="flex flex-col h-60 gap-1 overflow-y-auto">
+            {!fullscreen && (
+                <Link
+                    href={"/admin/booking-manager"}
+                    className="absolute top-0 right-0 m-4 btn btn-info"
+                >
+                    Volle Ansicht
+                </Link>
+            )}
+            <h2 className=" text-4xl font-extrabold py-2 text-info flex items-center">
+                Anträge{" "}
+                <span className="text-info/20 italic ">
+                    ({bookingManagerList.length}{" "}
+                    {bookingManagerList.length === 1 ? "Eintrag" : "Einträge"})
+                </span>
+            </h2>
+            {bookingManagerList.length > 0 ? (
+                <ul
+                    className={`flex flex-col gap-1 overflow-y-auto ${fullscreen ? " h-[28rem]" : "h-60"}`}
+                >
                     {bookingManagerList.map((element, index) => (
                         <BookingManagerEntry
                             className=" w-full"
                             key={index}
                             booking={element}
                         />
-                        // <li key={index}>test</li>
                     ))}
                 </ul>
             ) : (

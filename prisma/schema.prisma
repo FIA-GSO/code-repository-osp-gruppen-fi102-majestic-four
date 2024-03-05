@@ -33,8 +33,8 @@ model Firma {
   name            String
   ansprechpartner String
   email           String     @unique
-  telefon         String     @unique
-  fax             String     @unique
+  telefon         String?    @unique
+  fax             String?    @unique
   benutzer        Benutzer[]
 }
 
@@ -47,7 +47,7 @@ model Stand {
   tag1            Boolean
   tag2            Boolean
   bemerkung       String
-  datum           DateTime
+  datum           String
   tisch           Int
   stuhl           Int
   benutzer        Benutzer @relation(name: "Stand_Benutzer", fields: [benutzerId], references: [id])
@@ -68,6 +68,7 @@ model Vortrag {
   ansprechpartner String
   firma           String   @unique
   thema           String
+  telefon         String?  @unique
   benutzer        Benutzer @relation(name: "Vortrag_Benutzer", fields: [benutzerId], references: [id])
   benutzerId      Int      @unique
   email           String   @unique

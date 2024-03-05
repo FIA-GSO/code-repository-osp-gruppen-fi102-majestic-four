@@ -16,9 +16,10 @@ export default function Home() {
         >
           Continue
         </a>
-      </div>
+      </div> 
     </div>
   );
   
 }
+
 

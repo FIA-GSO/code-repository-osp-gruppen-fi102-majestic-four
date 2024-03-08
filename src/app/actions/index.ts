@@ -1,10 +1,7 @@
 "use server";
-import {
-  prisma
-} from "../db.ts";
-import {
-  Benutzer
-} from "@prisma/client";
+import { prisma } from "../db.ts";
+import { Benutzer } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 // Function to get a user by email
 export async function getUserByEmail(email: string) {
@@ -23,20 +20,22 @@ export async function getUserByEmail(email: string) {
 
 // Function to create a new user
 export async function createUser(email: string, password: string) {
-  try {
-    const newUser = await prisma.benutzer.create({
-      data: {
-        email,
-        passwort: password,
-      },
-    });
-    return newUser;
-  } catch (error) {
-    console.error("Error creating user:", error);
-    return {
-      error: "Cant create User.",
-    };
-  }
+    try {
+        const hash = bcrypt.hashSync(password, 12);
+        const newUser = await prisma.benutzer.create({
+            data: {
+                email,
+                passwort: hash,
+                rolleId: 1,
+            },
+        });
+        return newUser;
+    } catch (error) {
+        console.error("Error creating user:", error);
+        return {
+            error: "Cant create User.",
+        };
+    }
 }
 
 // Function to authenticate user (login)

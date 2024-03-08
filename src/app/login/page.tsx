@@ -2,12 +2,23 @@
 
 import Link from "next/link";
 import { useLoginStore } from "../store/login-store";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import Email from "next-auth/providers/email";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default function Login() {
     const router = useRouter();
     const { emailInput, setEmailInput, passwordInput, setPasswordInput } =
         useLoginStore();
+
+    const session = useSession();
+
+    if (session && session?.data?.user?.rolle === 1) {
+        redirect("/");
+    }
+
     return (
         <main className=" h-[calc(100vh-64px)] w-screen flex justify-center items-center bg-base-100">
             <div className="flex flex-col border-opacity-50">
@@ -15,17 +26,32 @@ export default function Login() {
                     className="grid p-5 card bg-base-300 rounded-box place-items-center"
                     onClick={() => router.push("/booking")}
                 >
-                    <button className="btn btn-active btn-neutral">GAST</button>
+                    <button className="btn btn-active btn-neutral">
+                        Als GAST buchen
+                    </button>
                 </div>
-                <div className="divider">OR</div>
-                <div className="grid p-5 card bg-base-300 rounded-box place-items-center">
+                <div className="divider">ODER</div>
+                <form
+                    className="grid p-5 card bg-base-300 rounded-box place-items-center"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        console.log("submitted");
+                        signIn("credentials", {
+                            redirect: false,
+                            email: emailInput,
+                            password: passwordInput,
+                        });
+                        setEmailInput("");
+                        setPasswordInput("");
+                    }}
+                >
                     <label className="form-control w-full max-w-xs">
                         <div className="label">
                             <span className="label-text">E-Mail</span>
                         </div>
                         <input
                             type="email"
-                            placeholder="Type here"
+                            placeholder="Hier eingeben"
                             className="input input-bordered w-full max-w-xs"
                             value={emailInput}
                             onChange={(e) => setEmailInput(e.target.value)}
@@ -33,20 +59,23 @@ export default function Login() {
                     </label>
                     <label className="form-control w-full max-w-xs">
                         <div className="label">
-                            <span className="label-text">Password</span>
+                            <span className="label-text">Passwort</span>
                         </div>
                         <input
                             type="password"
-                            placeholder="Type here"
+                            placeholder="Hier eingeben"
                             className="input input-bordered w-full max-w-xs"
                             value={passwordInput}
                             onChange={(e) => setPasswordInput(e.target.value)}
                         />
                     </label>
-                    <button className="btn btn-active mt-3 btn-neutral">
+                    <button
+                        type="submit"
+                        className="btn btn-active mt-3 btn-neutral"
+                    >
                         LOGIN
                     </button>
-                </div>
+                </form>
                 <div className="flex items-end justify-center mt-3">
                     <Link href={"/register"} className="link link-neutral">
                         Registrieren

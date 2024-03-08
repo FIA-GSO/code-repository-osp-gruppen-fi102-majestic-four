@@ -1,6 +1,7 @@
 "use client";
 
 import { TLoginState, useGeneralStore } from "@/app/store/general-store";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
@@ -9,21 +10,23 @@ interface INavbar {
 }
 
 const navElements = [
-    { name: "Home", link: "/", user: ["guest"] },
-    { name: "Infos", link: "/infos", user: ["guest", "user"] },
-    { name: "Buchen", link: "/booking", user: ["guest", "user"] },
+    { name: "Home", link: "/", user: [1] },
+    { name: "Infos", link: "/infos", user: [1, 0] },
+    { name: "Buchen", link: "/booking", user: [0, 1] },
     {
         name: "Dashboard",
         link: "/dashboard",
-        user: ["admin", "user", "helper"],
+        user: [2, 1, 3],
     },
-    { name: "Anmeldungen", link: "/all-bookings", user: ["admin"] },
-    { name: "Stornierungen", link: "/all-cancels", user: ["admin"] },
-    { name: "User", link: "/all-user", user: ["admin"] },
+    { name: "Anmeldungen", link: "/all-bookings", user: [2] },
+    { name: "Stornierungen", link: "/all-cancels", user: [2] },
+    { name: "User", link: "/all-user", user: [2] },
 ];
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
     const { loginState, setLoginState } = useGeneralStore();
+
+    const session = useSession();
 
     return (
         <div
@@ -35,7 +38,9 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
             <div className="navbar-start">
                 {navElements.map(
                     (element, index) =>
-                        element["user"].find((e) => e === loginState) && (
+                        element["user"].find(
+                            (e) => e === session?.data?.user?.rolle
+                        ) && (
                             <Link
                                 className="btn btn-ghost text-xl"
                                 href={element["link"]}
@@ -47,7 +52,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 )}
             </div>
             <div className="navbar-center">
-                <select
+                {/* <select
                     className="select select-bordered w-full max-w-xs"
                     value={loginState}
                     onChange={(e) =>
@@ -58,15 +63,18 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                     <option value={"user"}>User</option>
                     <option value={"admin"}>Admin</option>
                     <option value={"helper"}>Helper</option>
-                </select>
+                </select> */}
+                {session.status === "authenticated" && (
+                    <div>{session?.data?.user?.email}</div>
+                )}
             </div>
             <div className="navbar-end">
-                {loginState === "guest" && (
+                {session.status === "unauthenticated" && (
                     <Link className="btn btn-ghost text-xl" href={"/login"}>
                         Login
                     </Link>
                 )}
-                {loginState != "guest" && (
+                {session.status === "authenticated" && (
                     <div>
                         <button className="btn btn-ghost btn-circle">
                             <div className="indicator">
@@ -95,7 +103,8 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         </Link>
                         <Link
                             className="btn btn-ghost text-xl"
-                            href={"/logout"}
+                            onClick={() => signOut()}
+                            href={"/"}
                         >
                             Logout
                         </Link>

@@ -7,7 +7,7 @@ export default withAuth({
     pages: {
         signIn: "/login",
         error: "/error",
-        signOut: "/signout",
+        signOut: "/logout",
     },
 });
 

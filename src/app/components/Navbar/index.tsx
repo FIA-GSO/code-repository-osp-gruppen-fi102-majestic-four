@@ -41,8 +41,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         element["user"].find(
                             (e) =>
                                 e === session?.data?.user?.rolle ||
-                                (e === 4 &&
-                                    session.status !== "authenticated")
+                                (e === 4 && session.status !== "authenticated")
                         ) && (
                             <Link
                                 className="btn btn-ghost text-xl"
@@ -55,18 +54,6 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 )}
             </div>
             <div className="navbar-center">
-                {/* <select
-                    className="select select-bordered w-full max-w-xs"
-                    value={loginState}
-                    onChange={(e) =>
-                        setLoginState(e.target.value as TLoginState)
-                    }
-                >
-                    <option value={"guest"}>Guest</option>
-                    <option value={"user"}>User</option>
-                    <option value={"admin"}>Admin</option>
-                    <option value={"helper"}>Helper</option>
-                </select> */}
                 {session.status === "authenticated" && (
                     <div>{session?.data?.user?.email}</div>
                 )}
@@ -107,7 +94,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         <Link
                             className="btn btn-ghost text-xl"
                             onClick={() => signOut()}
-                            href={"/"}
+                            href={"/logout"}
                         >
                             Logout
                         </Link>

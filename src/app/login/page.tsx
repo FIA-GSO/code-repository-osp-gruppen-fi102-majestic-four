@@ -15,7 +15,7 @@ export default function Login() {
 
     const session = useSession();
 
-    if (session && session?.data?.user?.rolle === 1) {
+    if (session.status !== "unauthenticated") {
         redirect("/");
     }
 
@@ -35,7 +35,6 @@ export default function Login() {
                     className="grid p-5 card bg-base-300 rounded-box place-items-center"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        console.log("submitted");
                         signIn("credentials", {
                             redirect: false,
                             email: emailInput,
@@ -43,6 +42,7 @@ export default function Login() {
                         });
                         setEmailInput("");
                         setPasswordInput("");
+                        redirect("/");
                     }}
                 >
                     <label className="form-control w-full max-w-xs">

@@ -11,8 +11,8 @@ interface INavbar {
 
 const navElements = [
     { name: "Home", link: "/", user: [1] },
-    { name: "Infos", link: "/infos", user: [1, 0] },
-    { name: "Buchen", link: "/booking", user: [0, 1] },
+    { name: "Infos", link: "/infos", user: [1, 4] },
+    { name: "Buchen", link: "/booking", user: [4, 1] },
     {
         name: "Dashboard",
         link: "/dashboard",
@@ -39,7 +39,10 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 {navElements.map(
                     (element, index) =>
                         element["user"].find(
-                            (e) => e === session?.data?.user?.rolle
+                            (e) =>
+                                e === session?.data?.user?.rolle ||
+                                (e === 4 &&
+                                    session.status !== "authenticated")
                         ) && (
                             <Link
                                 className="btn btn-ghost text-xl"

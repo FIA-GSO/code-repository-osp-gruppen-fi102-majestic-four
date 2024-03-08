@@ -33,11 +33,6 @@ export default async function Home() {
                     Suspendisse in justo eu magna luctus suscipit. Sed lectus.
                     Integer euismod lacus luctus magna.
                 </p>
-                {session?.user.rolle !== 1 && (
-                    <Link className="btn btn-wide" href="/login">
-                        Anmelden
-                    </Link>
-                )}
             </div>
         </main>
     );

@@ -91,13 +91,17 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         >
                             Profil
                         </Link>
-                        <Link
+                        <button
                             className="btn btn-ghost text-xl"
-                            onClick={() => signOut()}
-                            href={"/logout"}
+                            onClick={() =>
+                                signOut({
+                                    callbackUrl: "/logout",
+                                    redirect: true,
+                                })
+                            }
                         >
                             Logout
-                        </Link>
+                        </button>
                     </div>
                 )}
             </div>

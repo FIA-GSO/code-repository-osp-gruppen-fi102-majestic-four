@@ -18,9 +18,9 @@ const navElements = [
         link: "/dashboard",
         user: [2, 1, 3],
     },
-    { name: "Anmeldungen", link: "/all-bookings", user: [2] },
-    { name: "Stornierungen", link: "/all-cancels", user: [2] },
-    { name: "User", link: "/all-user", user: [2] },
+    { name: "Anmeldungen", link: "/admin/booking-manager", user: [2] },
+    { name: "Stornierungen", link: "/admin/cancels-manager", user: [2] },
+    { name: "User", link: "/admin/user-manager", user: [2] },
 ];
 
 const Navbar: React.FC<INavbar> = ({ className }) => {

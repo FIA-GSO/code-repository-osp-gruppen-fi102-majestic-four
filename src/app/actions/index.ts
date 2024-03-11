@@ -226,34 +226,3 @@ export async function getAllVortrags() {
         return null;
     }
 }
-
-// Function to create a new Firma
-// Update createFirma function in your action file
-export async function createFirma({
-    name,
-    ansprechpartner,
-    email,
-    telefon,
-}: {
-    name: string;
-    ansprechpartner: string;
-    email: string;
-    telefon?: string | null;
-}) {
-    try {
-        const newFirma = await prisma.firma.create({
-            data: {
-                name,
-                ansprechpartner,
-                email,
-                telefon,
-            },
-        });
-        return newFirma;
-    } catch (error) {
-        console.error("Error:", error);
-        return {
-            error: "Can't create Firma.",
-        };
-    }
-}

@@ -16,10 +16,6 @@ model Benutzer {
   passwort     String
   vorname      String?
   nachname     String?
-  strasse      String?
-  hausnummer   String?
-  postleitzahl String?
-  ort          String?
   firma        String? 
   rolle        Rollen?  @relation(fields: [rolleId], references: [id])
   rolleId      Int?

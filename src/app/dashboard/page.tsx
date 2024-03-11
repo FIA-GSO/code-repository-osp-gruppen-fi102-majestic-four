@@ -3,6 +3,7 @@
 import BookingArchive from "../components/BookingArchive";
 import BookingManager from "../components/BookingManager";
 import BookingsList from "../components/BookingsList";
+import CancelsManager from "../components/CancelsManager";
 import Profile from "../components/Profile";
 import UserManager from "../components/UserManager";
 import { useGeneralStore } from "../store/general-store";
@@ -22,7 +23,12 @@ export default function Dashboard() {
                 </div>
             )}
             {loginState === "admin" && <BookingManager />}
-            {loginState === "admin" && <UserManager />}
+            {loginState === "admin" && (
+                <div className="flex-1 flex portrait:flex-col overflow-auto h-full gap-4">
+                    <UserManager />
+                    <CancelsManager />
+                </div>
+            )}
         </main>
     );
 }

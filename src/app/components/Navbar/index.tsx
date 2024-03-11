@@ -18,7 +18,7 @@ const navElements = [
         user: ["admin", "user", "helper"],
     },
     { name: "Anmeldungen", link: "/admin/booking-manager", user: ["admin"] },
-    { name: "Stornierungen", link: "/all-cancels", user: ["admin"] },
+    { name: "Stornierungen", link: "/admin/cancels-manager", user: ["admin"] },
     { name: "User", link: "/admin/user-manager", user: ["admin"] },
 ];
 

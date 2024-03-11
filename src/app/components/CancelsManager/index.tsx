@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
-import { useBookingManagerStore } from "@/app/store/booking-manager-store";
-import BookingManagerEntry from "./BookingManagerEntry";
+import { useCancelsManagerStore } from "@/app/store/cancels-manager-store";
+import CancelsManagerEntry from "./CancelsManagerEntry";
 import Link from "next/link";
 
-interface IBookingManager {
+interface ICancelsManager {
     className?: string;
     fullscreen?: boolean;
 }
 
-const BookingManager: React.FC<IBookingManager> = ({
+const CancelsManager: React.FC<ICancelsManager> = ({
     className,
     fullscreen,
 }) => {
-    const { bookingManagerList, setBookingManagerList } =
-        useBookingManagerStore();
+    const { cancelsManagerList, setCancelsManagerList } =
+        useCancelsManagerStore();
 
     useEffect(() => {
-        setBookingManagerList([
+        setCancelsManagerList([
             {
                 id: 1,
                 benutzerId: 1,
@@ -169,27 +169,27 @@ const BookingManager: React.FC<IBookingManager> = ({
 
     return (
         <div
-            className={`${className || ""} relative border border-info rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-info/60`}
+            className={`${className || ""} relative border border-orange-500 rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-orange-500/60`}
         >
-            <h2 className="px-4 text-2xl font-extrabold py-2 text-info flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
-                Anträge{" "}
-                <span className="text-info/20 italic ">
-                    ({bookingManagerList.length}{" "}
-                    {bookingManagerList.length === 1 ? "Eintrag" : "Einträge"})
+            <h2 className="px-4 text-2xl font-extrabold py-2 text-orange-500 flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
+                Stornierungen{" "}
+                <span className="text-orange-500/20 italic ">
+                    ({cancelsManagerList.length}{" "}
+                    {cancelsManagerList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
                 {!fullscreen && (
                     <Link
-                        href={"/admin/booking-manager"}
-                        className="ml-auto btn btn-info opacity-30 hover:opacity-100 z-40"
+                        href={"/admin/cancels-manager"}
+                        className="btn bg-orange-500 text-primary-content opacity-30 hover:opacity-100 hover:bg-orange-500 ml-auto z-40"
                     >
                         Volle Ansicht
                     </Link>
                 )}
             </h2>
-            {bookingManagerList.length > 0 ? (
+            {cancelsManagerList.length > 0 ? (
                 <ul className={`flex flex-col gap-1 min-h-fit`}>
-                    {bookingManagerList.map((element, index) => (
-                        <BookingManagerEntry
+                    {cancelsManagerList.map((element, index) => (
+                        <CancelsManagerEntry
                             className=" w-full"
                             key={index}
                             booking={element}
@@ -198,11 +198,11 @@ const BookingManager: React.FC<IBookingManager> = ({
                 </ul>
             ) : (
                 <div className=" text-center w-full text-2xl font-bold italic p-2">
-                    Keine Anträge vorhanden
+                    Keine Stornierungen vorhanden
                 </div>
             )}
         </div>
     );
 };
 
-export default BookingManager;
+export default CancelsManager;

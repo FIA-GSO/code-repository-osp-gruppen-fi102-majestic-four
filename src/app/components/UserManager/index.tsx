@@ -75,24 +75,24 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
             className={`${className || ""} relative border border-warning rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-warning/60`}
         >
             <UserManagerModal />
-            {!fullscreen && (
-                <Link
-                    href={"/admin/user-manager"}
-                    className="absolute top-0 right-0 m-4 btn btn-warning"
-                >
-                    Volle Ansicht
-                </Link>
-            )}
 
             {/* <button className=" absolute top-0 right-0 m-4 btn btn-primary">
                 Neuer Benutzer
             </button> */}
-            <h2 className="px-4 text-4xl font-extrabold py-4 text-warning flex items-center sticky top-0 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
+            <h2 className="px-4 text-2xl font-extrabold py-2 text-warning flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
                 Benutzer{" "}
                 <span className="text-warning/20 italic ">
                     ({userList.length}{" "}
                     {userList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
+                {!fullscreen && (
+                    <Link
+                        href={"/admin/user-manager"}
+                        className="ml-auto btn btn-warning opacity-30 hover:opacity-100 z-40"
+                    >
+                        Volle Ansicht
+                    </Link>
+                )}
             </h2>
             {userList.length > 0 ? (
                 <ul className={`flex flex-col gap-1 min-h-fit`}>

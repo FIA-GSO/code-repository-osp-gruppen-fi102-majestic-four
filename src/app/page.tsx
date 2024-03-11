@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function Home() {
+export default async function Home() {
+    const session = await getServerSession(authOptions);
+
     return (
         <main className="flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-between p-24">
             <div className=" flex flex-col items-center justify-evenly h-full">
@@ -29,9 +33,6 @@ export default function Home() {
                     Suspendisse in justo eu magna luctus suscipit. Sed lectus.
                     Integer euismod lacus luctus magna.
                 </p>
-                <Link className="btn btn-wide" href="/login">
-                    Anmelden
-                </Link>
             </div>
         </main>
     );

@@ -20,22 +20,11 @@ model Benutzer {
   hausnummer   String?
   postleitzahl String?
   ort          String?
-  firma        Firma?   @relation(fields: [firmaId], references: [id])
-  firmaId      Int?     @unique
+  firma        String? 
   rolle        Rollen?  @relation(fields: [rolleId], references: [id])
   rolleId      Int?
   stand        Stand?   @relation("Stand_Benutzer")
   vortrag      Vortrag? @relation("Vortrag_Benutzer")
-}
-
-model Firma {
-  id              Int        @id @default(autoincrement())
-  name            String
-  ansprechpartner String
-  email           String     @unique
-  telefon         String     @unique
-  fax             String     @unique
-  benutzer        Benutzer[]
 }
 
 model Stand {
@@ -47,7 +36,7 @@ model Stand {
   tag1            Boolean
   tag2            Boolean
   bemerkung       String
-  datum           DateTime
+  datum           String
   tisch           Int
   stuhl           Int
   benutzer        Benutzer @relation(name: "Stand_Benutzer", fields: [benutzerId], references: [id])
@@ -68,6 +57,7 @@ model Vortrag {
   ansprechpartner String
   firma           String   @unique
   thema           String
+  telefon         String?  @unique
   benutzer        Benutzer @relation(name: "Vortrag_Benutzer", fields: [benutzerId], references: [id])
   benutzerId      Int      @unique
   email           String   @unique

@@ -5,6 +5,8 @@ import { useProfileStore } from "../store/profile-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { Input } from "postcss";
+import { getUserInfos } from "../actions";
+import { useSession } from "next-auth/react";
 
 export default function Login() {
     const router = useRouter();
@@ -37,7 +39,11 @@ export default function Login() {
 
     const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
+    const session = useSession();
+
     useEffect(() => {
+        const data = getUserInfos(session?.data?.user?.id);
+        console.log(data);
         setChangeEmail("None");
         setChangePassword("None");
         setCode("000000");

@@ -36,7 +36,7 @@ model Stand {
   email           String   @unique
   ansprechpartner String
   firma           String
-  telefon         String
+  telefon         String?
   benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
   benutzerId      Int?      @unique
   status          Status?   @relation(fields: [statusId], references: [id])
@@ -56,7 +56,7 @@ model Vortrag {
   email           String   @unique
   ansprechpartner String
   firma           String
-  telefon         String
+  telefon         String?
   benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
   benutzerId      Int?      @unique
   datum           String

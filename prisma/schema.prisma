@@ -33,9 +33,13 @@ model Stand {
   datum           String
   tisch           Int
   stuhl           Int
-  benutzer        Benutzer @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
-  benutzerId      Int      @unique
-  status          Status?  @relation(fields: [statusId], references: [id])
+  email           String   @unique
+  ansprechpartner String
+  firma           String
+  telefon         String
+  benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
+  benutzerId      Int?      @unique
+  status          Status?   @relation(fields: [statusId], references: [id])
   statusId        Int?
 }
 
@@ -49,8 +53,12 @@ model Vortrag {
   id              Int      @id @default(autoincrement())
   dauer           Int
   thema           String
-  benutzer        Benutzer @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
-  benutzerId      Int      @unique
+  email           String   @unique
+  ansprechpartner String
+  firma           String
+  telefon         String
+  benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
+  benutzerId      Int?      @unique
   datum           String
   uhrzeit         String
   status          Status?  @relation(fields: [statusId], references: [id])

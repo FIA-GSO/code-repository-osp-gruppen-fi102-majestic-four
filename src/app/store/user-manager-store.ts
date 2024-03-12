@@ -14,16 +14,8 @@ interface IUserManagerStore {
     setChangeFirstNameInput: (changeFirstNameInput: string) => void;
     changeLastNameInput: string;
     setChangeLastNameInput: (changeLastNameInput: string) => void;
-    changeStreetInput: string;
-    setChangeStreetInput: (changeStreetInput: string) => void;
-    changeHouseNrInput: string;
-    setChangeHouseNrInput: (changeHouseNrInput: string) => void;
-    changeZipInput: string;
-    setChangeZipInput: (changeZipInput: string) => void;
-    changeCityInput: string;
-    setChangeCityInput: (changeCityInput: string) => void;
-    changeFirmIDInput: number;
-    setChangeFirmIDInput: (changeFirmIDInput: number) => void;
+    changeFirmaInput: string;
+    setChangeFirmaInput: (changeFirmaInput: string) => void;
     changeRoleInput: number;
     setChangeRoleInput: (changeRoleInput: number) => void;
 }
@@ -41,16 +33,8 @@ export const useUserManagerStore = create<IUserManagerStore>()((set) => ({
     changeLastNameInput: "",
     setChangeLastNameInput: (changeLastNameInput) =>
         set({ changeLastNameInput }),
-    changeStreetInput: "",
-    setChangeStreetInput: (changeStreetInput) => set({ changeStreetInput }),
-    changeHouseNrInput: "",
-    setChangeHouseNrInput: (changeHouseNrInput) => set({ changeHouseNrInput }),
-    changeZipInput: "",
-    setChangeZipInput: (changeZipInput) => set({ changeZipInput }),
-    changeCityInput: "",
-    setChangeCityInput: (changeCityInput) => set({ changeCityInput }),
-    changeFirmIDInput: 0,
-    setChangeFirmIDInput: (changeFirmIDInput) => set({ changeFirmIDInput }),
+    changeFirmaInput: "",
+    setChangeFirmaInput: (changeFirmaInput) => set({ changeFirmaInput }),
     changeRoleInput: 0,
     setChangeRoleInput: (changeRoleInput) => set({ changeRoleInput }),
 }));

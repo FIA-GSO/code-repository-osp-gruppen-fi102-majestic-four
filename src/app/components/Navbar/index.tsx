@@ -10,17 +10,17 @@ interface INavbar {
 }
 
 const navElements = [
-    { name: "Home", link: "/", user: [1] },
-    { name: "Infos", link: "/infos", user: [1, 4] },
-    { name: "Buchen", link: "/booking", user: [4, 1] },
+    { name: "Home", link: "/", user: ["user"] },
+    { name: "Infos", link: "/infos", user: ["user", "guest"] },
+    { name: "Buchen", link: "/booking", user: ["guest", "user"] },
     {
         name: "Dashboard",
         link: "/dashboard",
-        user: [2, 1, 3],
+        user: ["admin", "user", "tech"],
     },
-    { name: "Anmeldungen", link: "/admin/booking-manager", user: [2] },
-    { name: "Stornierungen", link: "/admin/cancels-manager", user: [2] },
-    { name: "User", link: "/admin/user-manager", user: [2] },
+    { name: "Anmeldungen", link: "/admin/booking-manager", user: ["admin"] },
+    { name: "Stornierungen", link: "/admin/cancels-manager", user: ["admin"] },
+    { name: "User", link: "/admin/user-manager", user: ["admin"] },
 ];
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
@@ -41,7 +41,8 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                         element["user"].find(
                             (e) =>
                                 e === session?.data?.user?.rolle ||
-                                (e === 4 && session.status !== "authenticated")
+                                (e === "guest" &&
+                                    session.status !== "authenticated")
                         ) && (
                             <Link
                                 className="btn btn-ghost text-xl"

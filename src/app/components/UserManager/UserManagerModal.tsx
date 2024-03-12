@@ -15,16 +15,8 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
         setChangeFirstNameInput,
         changeLastNameInput,
         setChangeLastNameInput,
-        changeStreetInput,
-        setChangeStreetInput,
-        changeHouseNrInput,
-        setChangeHouseNrInput,
-        changeZipInput,
-        setChangeZipInput,
-        changeCityInput,
-        setChangeCityInput,
-        changeFirmIDInput,
-        setChangeFirmIDInput,
+        changeFirmaInput,
+        setChangeFirmaInput,
         changeRoleInput,
         setChangeRoleInput,
     } = useUserManagerStore();
@@ -34,11 +26,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
         setChangeEmailInput("");
         setChangeFirstNameInput("");
         setChangeLastNameInput("");
-        setChangeStreetInput("");
-        setChangeHouseNrInput("");
-        setChangeZipInput("");
-        setChangeCityInput("");
-        setChangeFirmIDInput(0);
+        setChangeFirmaInput("");
         setChangeRoleInput(0);
     }
     return (
@@ -97,72 +85,19 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                                 }
                             />
                         </div>
+
                         <div className="flex flex-col ">
                             <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
-                                Neue Straße
-                            </label>
-                            <input
-                                className="input input-primary max-w-[250px]"
-                                type="text"
-                                value={changeStreetInput}
-                                onChange={(ev) =>
-                                    setChangeStreetInput(ev.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
-                                Neue Haus Nr.
-                            </label>
-                            <input
-                                className="input input-primary max-w-[60px]"
-                                type="text"
-                                value={changeHouseNrInput}
-                                onChange={(ev) =>
-                                    setChangeHouseNrInput(ev.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
-                                Neue Postleitzahl
-                            </label>
-                            <input
-                                className="input input-primary max-w-[100px]"
-                                type="text"
-                                value={changeZipInput}
-                                onChange={(ev) =>
-                                    setChangeZipInput(ev.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
-                                Neuer Ort
-                            </label>
-                            <input
-                                type="text"
-                                className="input input-primary max-w-[144px]"
-                                value={changeCityInput}
-                                onChange={(ev) =>
-                                    setChangeCityInput(ev.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
-                                Neue Firmen ID
+                                Neue Firma
                             </label>
                             <input
                                 className="input input-primary max-w-[144px]"
-                                placeholder="#"
-                                value={changeFirmIDInput}
+                                placeholder="Firmenname"
+                                value={changeFirmaInput}
                                 onChange={(ev) =>
-                                    setChangeFirmIDInput(
-                                        parseInt(ev.target.value)
-                                    )
+                                    setChangeFirmaInput(ev.target.value)
                                 }
-                                type="number"
+                                type="text"
                             />
                         </div>
                         <div className="flex flex-col ">

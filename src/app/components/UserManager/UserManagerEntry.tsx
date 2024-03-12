@@ -11,11 +11,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
         setChangeEmailInput,
         setChangeFirstNameInput,
         setChangeLastNameInput,
-        setChangeStreetInput,
-        setChangeHouseNrInput,
-        setChangeZipInput,
-        setChangeCityInput,
-        setChangeFirmIDInput,
+        setChangeFirmaInput,
         setChangeRoleInput,
     } = useUserManagerStore();
 
@@ -24,22 +20,14 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
         email: string,
         vorname: string,
         nachname: string,
-        strasse: string,
-        hausnummer: string,
-        postleitzahl: string,
-        ort: string,
-        firmaId: number,
+        firma: string,
         rolleId: number
     ) {
         setModalTitle(modalTitle);
         setChangeEmailInput(email);
         setChangeFirstNameInput(vorname);
         setChangeLastNameInput(nachname);
-        setChangeStreetInput(strasse);
-        setChangeHouseNrInput(hausnummer);
-        setChangeZipInput(postleitzahl);
-        setChangeCityInput(ort);
-        setChangeFirmIDInput(firmaId);
+        setChangeFirmaInput(firma);
         setChangeRoleInput(rolleId);
     }
     return (
@@ -68,11 +56,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                                     user.email,
                                     user.vorname || "",
                                     user.nachname || "",
-                                    user.strasse || "",
-                                    user.hausnummer || "",
-                                    user.postleitzahl || "",
-                                    user.ort || "",
-                                    user.firmaId || 0,
+                                    user.firma || "",
                                     user.rolleId || 0
                                 );
                                 (
@@ -121,42 +105,11 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                                 </span>
                             </span>
                         )}
-                        {user.strasse && (
-                            <span>
-                                Straße:{" "}
-                                <span className="text-white">
-                                    {user.strasse}
-                                </span>
-                            </span>
-                        )}
-                        {user.hausnummer && (
-                            <span>
-                                Haus Nr.:{" "}
-                                <span className="text-white">
-                                    {user.hausnummer}
-                                </span>
-                            </span>
-                        )}
-                        {user.postleitzahl && (
-                            <span>
-                                Postleitzahl:{" "}
-                                <span className="text-white">
-                                    {user.postleitzahl}
-                                </span>
-                            </span>
-                        )}
-                        {user.ort && (
-                            <span>
-                                Ort:{" "}
-                                <span className="text-white">{user.ort}</span>
-                            </span>
-                        )}
-                        {user.firmaId && (
+
+                        {user.firma && (
                             <span>
                                 Firma:{" "}
-                                <span className="text-white">
-                                    {user.firmaId}
-                                </span>
+                                <span className="text-white">{user.firma}</span>
                             </span>
                         )}
                         <span>

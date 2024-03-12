@@ -41,9 +41,19 @@ export default function Login() {
 
     const session = useSession();
 
-    useEffect(() => {
-        const data = getUserInfos(session?.data?.user?.id);
+    const fetchUser = async () => {
+        const data = await getUserInfos(parseInt(session?.data?.user?.id));
         console.log(data);
+        if (data === null || "error" in data) {
+            alert(data?.error);
+        } else {
+            setEmail(data.email);
+            setCompany(data.firma || "");
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
         setChangeEmail("None");
         setChangePassword("None");
         setCode("000000");

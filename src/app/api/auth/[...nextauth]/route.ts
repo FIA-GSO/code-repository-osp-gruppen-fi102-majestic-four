@@ -29,6 +29,9 @@ export const authOptions: NextAuthOptions = {
                     where: {
                         email: credentials.email,
                     },
+                    include: {
+                        rolle: true,
+                    },
                 });
 
                 if (!user) {
@@ -47,7 +50,7 @@ export const authOptions: NextAuthOptions = {
                 return {
                     id: user.id + "",
                     email: user.email,
-                    rolle: user.rolleId,
+                    rolle: user.rolle?.bezeichnung,
                 };
             },
         }),

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { createFirma, createVortrag, createStand } from "../actions";
+import { createVortrag, createStand } from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
@@ -31,22 +31,6 @@ export default function Booking() {
 
     const handleSubmit = async () => {
         try {
-            // Create Firma record
-            if(firmInput != null && contactNameInput != null && emailInput != null){
-                const firmaResult = await createFirma({
-                    name: firmInput,
-                    ansprechpartner: contactNameInput,
-                    email: emailInput,
-                    telefon: phoneInput,
-                });
-    
-                if ("error" in firmaResult) {
-                    // Handle error (e.g., show an alert)
-                    console.error("Error creating Firma:", firmaResult.error);
-                    return;
-                }
-            }
-            
             // Create Stand record
             const standResult = await createStand({
                 email: emailInput,
@@ -59,7 +43,7 @@ export default function Booking() {
                 datum: "", // Provide the default date or customize as needed
                 tisch: tablesInput,
                 stuhl: chairsInput,
-                benutzerId: 1 // Assuming firmaResult has the id field
+                benutzerId: 1, // Assuming firmaResult has the id field
             });
 
             if ("error" in standResult) {

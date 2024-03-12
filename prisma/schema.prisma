@@ -29,7 +29,7 @@ model Stand {
   id              Int      @id @default(autoincrement())
   tag1            Boolean
   tag2            Boolean
-  bemerkung       String
+  bemerkung       String?
   datum           String
   tisch           Int
   stuhl           Int
@@ -39,8 +39,8 @@ model Stand {
   telefon         String?
   benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
   benutzerId      Int?      @unique
-  status          Status?   @relation(fields: [statusId], references: [id])
-  statusId        Int?
+  status          Status   @relation(fields: [statusId], references: [id])
+  statusId        Int
 }
 
 model Rollen {
@@ -61,8 +61,8 @@ model Vortrag {
   benutzerId      Int?      @unique
   datum           String
   uhrzeit         String
-  status          Status?  @relation(fields: [statusId], references: [id])
-  statusId        Int?
+  status          Status  @relation(fields: [statusId], references: [id])
+  statusId        Int
 }
 
 model Status {

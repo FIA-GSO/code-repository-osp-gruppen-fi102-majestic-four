@@ -49,6 +49,8 @@ export default function Login() {
         } else {
             setEmail(data.email);
             setCompany(data.firma || "");
+            setTelefon(data.telefon || "");
+            setContactPerson(data.vorname + " " + data.nachname);
         }
     };
 

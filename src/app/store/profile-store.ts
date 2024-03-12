@@ -9,8 +9,8 @@ interface IProfileState {
     setCompany: (company: string) => void;
     contactPerson: string;
     setContactPerson: (contactPerson: string) => void;
-    telefon: number;
-    setTelefon: (telefon: number) => void;
+    telefon: string;
+    setTelefon: (telefon: string) => void;
     changeEmail: TChangeState;
     setChangeEmail: (changeEmail: TChangeState) => void;
     changePassword: TChangeState;
@@ -30,7 +30,7 @@ export const useProfileStore = create<IProfileState>()((set) => ({
     setCompany: (company) => set({ company }),
     contactPerson: "",
     setContactPerson: (contactPerson) => set({ contactPerson }),
-    telefon: 0,
+    telefon: "",
     setTelefon: (telefon) => set({ telefon }),
     changeEmail: "None",
     setChangeEmail: (changeEmail) => set({ changeEmail }),

@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { createVortrag, createStand } from "../actions";
+import React, { useEffect } from "react";
+import { createVortrag, createStand, getUserInfos } from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
+import { useSession } from "next-auth/react";
 
 export default function Booking() {
     const {
@@ -22,17 +23,32 @@ export default function Booking() {
         dayTwoChecked,
         tablesInput,
         chairsInput,
+
+        setDayOneChecked,
+        setDayTwoChecked,
+        setAnnotationInput,
+        setTablesInput,
+        setChairsInput,
+
         // Define states for TalkBookingForm
         topicInput,
         talkLengthInput,
         dateInput,
         startTimeInput,
+
+        setTopicInput,
+        setTalkLengthInput,
+        setDateInput,
+        setStartTimeInput,
     } = useBookingStore();
+
+    const session = useSession();
 
     const handleSubmit = async () => {
         try {
             // Create Stand record
             const standResult = await createStand({
+                benutzerId: parseInt(session.data?.user?.id),
                 email: emailInput,
                 ansprechpartner: contactNameInput,
                 telefon: phoneInput,
@@ -40,15 +56,20 @@ export default function Booking() {
                 tag1: dayOneChecked,
                 tag2: dayTwoChecked,
                 bemerkung: annotationInput,
-                datum: "", // Provide the default date or customize as needed
                 tisch: tablesInput,
                 stuhl: chairsInput,
-                benutzerId: 1, // Assuming firmaResult has the id field
             });
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
                 return;
+            } else {
+                console.log("Stand created successfully!");
+                setDayOneChecked(false);
+                setDayTwoChecked(false);
+                setAnnotationInput("");
+                setTablesInput(0);
+                setChairsInput(0);
             }
 
             // Create Vortrag record
@@ -66,15 +87,36 @@ export default function Booking() {
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
                 return;
+            } else {
+                // Handle successful creation (e.g., show success message)
+                console.log("Vortrag created successfully!");
+                setTopicInput("");
+                setTalkLengthInput(0);
+                setDateInput("");
+                setStartTimeInput("");
             }
-
-            // Handle successful creation (e.g., show success message)
-            console.log("Records created successfully!");
         } catch (error) {
             console.error("Error during record creation:", error);
             // Handle other errors as needed
         }
     };
+
+    const fetchUserInfos = async () => {
+        const data = await getUserInfos(parseInt(session.data?.user?.id));
+
+        if (data === null || "error" in data) return;
+
+        setFirmInput(data.firma || "");
+        data.vorname && data.nachname
+            ? setContactNameInput(`${data.vorname} ${data.nachname}`)
+            : setContactNameInput("");
+        setEmailInput(data.email);
+        setPhoneInput(data.telefon || "");
+    };
+
+    useEffect(() => {
+        if (session.status === "authenticated") fetchUserInfos();
+    }, [session]);
 
     return (
         <main className=" flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-center p-4 px-24 relative">

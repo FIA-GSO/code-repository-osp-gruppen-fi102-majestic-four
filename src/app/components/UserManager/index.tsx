@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useUserManagerStore } from "@/app/store/user-manager-store";
-import { Benutzer } from "@prisma/client";
 import UserManagerEntry from "./UserManagerEntry";
 import UserManagerModal from "./UserManagerModal";
 import Link from "next/link";
+import { getAllUsers } from "@/app/actions";
 
 interface IUserManager {
     className?: string;
@@ -13,61 +13,69 @@ interface IUserManager {
 const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
     const { userList, setUserList } = useUserManagerStore();
 
+    const fetchUsers = async () => {
+        const users = await getAllUsers();
+
+        if (users === null || "error" in users) return;
+
+        setUserList(users);
+    };
     useEffect(() => {
-        setUserList([
-            {
-                id: 1,
-                email: "test@gmail.com",
-                passwort: "abc",
-                vorname: "hans",
-                nachname: "peter",
-                strasse: "teststraße",
-                hausnummer: "10",
-                postleitzahl: "123456",
-                ort: "köln",
-                firmaId: 1,
-                rolleId: 1,
-            },
-            {
-                id: 2,
-                email: "test@gmail.com",
-                passwort: "abc",
-                vorname: "",
-                nachname: "",
-                strasse: "",
-                hausnummer: "",
-                postleitzahl: "",
-                ort: "",
-                firmaId: 1,
-                rolleId: 1,
-            },
-            {
-                id: 2,
-                email: "test@gmail.com",
-                passwort: "abc",
-                vorname: "",
-                nachname: "",
-                strasse: "",
-                hausnummer: "",
-                postleitzahl: "",
-                ort: "",
-                firmaId: 1,
-                rolleId: 1,
-            },
-            {
-                id: 2,
-                email: "test@gmail.com",
-                passwort: "abc",
-                vorname: "",
-                nachname: "",
-                strasse: "",
-                hausnummer: "",
-                postleitzahl: "",
-                ort: "",
-                firmaId: 1,
-                rolleId: 1,
-            },
-        ]);
+        fetchUsers();
+        // setUserList([
+        //     {
+        //         id: 1,
+        //         email: "test@gmail.com",
+        //         passwort: "abc",
+        //         vorname: "hans",
+        //         nachname: "peter",
+        //         strasse: "teststraße",
+        //         hausnummer: "10",
+        //         postleitzahl: "123456",
+        //         ort: "köln",
+        //         firmaId: 1,
+        //         rolleId: 1,
+        //     },
+        //     {
+        //         id: 2,
+        //         email: "test@gmail.com",
+        //         passwort: "abc",
+        //         vorname: "",
+        //         nachname: "",
+        //         strasse: "",
+        //         hausnummer: "",
+        //         postleitzahl: "",
+        //         ort: "",
+        //         firmaId: 1,
+        //         rolleId: 1,
+        //     },
+        //     {
+        //         id: 2,
+        //         email: "test@gmail.com",
+        //         passwort: "abc",
+        //         vorname: "",
+        //         nachname: "",
+        //         strasse: "",
+        //         hausnummer: "",
+        //         postleitzahl: "",
+        //         ort: "",
+        //         firmaId: 1,
+        //         rolleId: 1,
+        //     },
+        //     {
+        //         id: 2,
+        //         email: "test@gmail.com",
+        //         passwort: "abc",
+        //         vorname: "",
+        //         nachname: "",
+        //         strasse: "",
+        //         hausnummer: "",
+        //         postleitzahl: "",
+        //         ort: "",
+        //         firmaId: 1,
+        //         rolleId: 1,
+        //     },
+        // ]);
     }, []);
 
     return (

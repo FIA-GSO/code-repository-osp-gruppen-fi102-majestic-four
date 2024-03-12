@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useCancelsManagerStore } from "@/app/store/cancels-manager-store";
 import CancelsManagerEntry from "./CancelsManagerEntry";
 import Link from "next/link";
+import { getCanceledBookings } from "@/app/actions";
 
 interface ICancelsManager {
     className?: string;
@@ -15,156 +16,15 @@ const CancelsManager: React.FC<ICancelsManager> = ({
     const { cancelsManagerList, setCancelsManagerList } =
         useCancelsManagerStore();
 
+    const fetchCanceledBookings = async () => {
+        const canceledBookings = await getCanceledBookings();
+
+        if (canceledBookings === null || "error" in canceledBookings) return;
+
+        setCancelsManagerList(canceledBookings);
+    };
     useEffect(() => {
-        setCancelsManagerList([
-            {
-                id: 1,
-                benutzerId: 1,
-                firma: "Sucuk Wurst GmbH",
-                ansprechpartner: "Hans Wurst",
-                email: "Hans.Wurst@email.com",
-                thema: "Neuronen Technik",
-                dauer: 45,
-                datum: "26.01.2024",
-                uhrzeit: "10:00",
-                statusId: 0,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-            {
-                id: 2,
-                email: "peter.maffay@gmail.com",
-                ansprechpartner: "peter maffay",
-                telefon: "",
-                firma: "tabaluga",
-                tag1: true,
-                tag2: false,
-                bemerkung: "kein wlan",
-                datum: new Date("26.01.2024"),
-                tisch: 2,
-                stuhl: 12,
-                benutzerId: 2,
-                statusId: 1,
-            },
-        ]);
+        fetchCanceledBookings();
     }, []);
 
     return (

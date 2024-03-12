@@ -1,9 +1,13 @@
 import { create } from "zustand";
-import { Benutzer } from "@prisma/client";
+import { Benutzer, Prisma } from "@prisma/client";
+
+export type UserWithRolle = Prisma.BenutzerGetPayload<{
+    include: { rolle: true };
+}>;
 
 interface IUserManagerStore {
-    userList: Benutzer[];
-    setUserList: (userList: Benutzer[]) => void;
+    userList: UserWithRolle[];
+    setUserList: (userList: UserWithRolle[]) => void;
 
     modalTitle: string;
     setModalTitle: (modalTitle: string) => void;

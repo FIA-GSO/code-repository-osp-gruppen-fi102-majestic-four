@@ -68,7 +68,7 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         className="input input-primary w-full max-w-xs"
                         value={tablesInput}
                         onChange={(ev) =>
-                            setTablesInput(parseInt(ev.target.value))
+                            setTablesInput(parseInt(ev.target.value) || 0)
                         }
                     />
                 </label>
@@ -82,7 +82,7 @@ const StandBookingForm: React.FC<IStandBookingForm> = ({ className }) => {
                         className="input input-primary w-full max-w-xs"
                         value={chairsInput}
                         onChange={(ev) =>
-                            setChairsInput(parseInt(ev.target.value))
+                            setChairsInput(parseInt(ev.target.value) || 0)
                         }
                     />
                 </label>

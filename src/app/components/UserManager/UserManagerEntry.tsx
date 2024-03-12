@@ -1,9 +1,11 @@
-import { useUserManagerStore } from "@/app/store/user-manager-store";
-import { Benutzer } from "@prisma/client";
+import {
+    useUserManagerStore,
+    UserWithRolle,
+} from "@/app/store/user-manager-store";
 
 interface IUserManagerEntry {
     className?: string;
-    user: Benutzer;
+    user: UserWithRolle;
 }
 const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
     const {
@@ -81,14 +83,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                                 <span className="text-white">{user.email}</span>
                             </span>
                         )}
-                        {user.passwort && (
-                            <span>
-                                Passwort:{" "}
-                                <span className="text-white">
-                                    {user.passwort}
-                                </span>
-                            </span>
-                        )}
+
                         {user.vorname && (
                             <span>
                                 Vorname:{" "}
@@ -114,7 +109,9 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                         )}
                         <span>
                             Rolle:{" "}
-                            <span className="text-white">{user.rolleId}</span>
+                            <span className="text-white">
+                                {user.rolle.bezeichnung}
+                            </span>
                         </span>
                     </div>
                 </div>

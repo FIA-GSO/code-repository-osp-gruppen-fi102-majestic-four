@@ -69,7 +69,7 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                         max={60}
                         value={talkLengthInput}
                         onChange={(ev) =>
-                            setTalkLengthInput(parseInt(ev.target.value))
+                            setTalkLengthInput(parseInt(ev.target.value) || 0)
                         }
                     />
                 </label>

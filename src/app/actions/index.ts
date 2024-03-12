@@ -26,7 +26,7 @@ export async function createUser(email: string, password: string) {
             data: {
                 email,
                 passwort: hash,
-                rolleId: 1,
+                rolleId: 2,
             },
         });
         return newUser;

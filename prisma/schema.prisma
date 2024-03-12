@@ -17,27 +17,25 @@ model Benutzer {
   vorname      String?
   nachname     String?
   firma        String? 
-  rolle        Rollen?  @relation(fields: [rolleId], references: [id])
-  rolleId      Int?
-  stand        Stand?   @relation("Stand_Benutzer")
-  vortrag      Vortrag? @relation("Vortrag_Benutzer")
+  telefon      String?
+
+  rolle        Rollen  @relation(fields: [rolleId], references: [id])
+  rolleId      Int
+  vortrag      Vortrag[]
+  stand        Stand[]
 }
 
 model Stand {
   id              Int      @id @default(autoincrement())
-  email           String   @unique
-  ansprechpartner String
-  telefon         String   @unique
-  firma           String   @unique
   tag1            Boolean
   tag2            Boolean
   bemerkung       String
   datum           String
   tisch           Int
   stuhl           Int
-  benutzer        Benutzer @relation(name: "Stand_Benutzer", fields: [benutzerId], references: [id])
+  benutzer        Benutzer @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
   benutzerId      Int      @unique
-  status          Status?  @relation(name: "Stand_Status", fields: [statusId], references: [id])
+  status          Status?  @relation(fields: [statusId], references: [id])
   statusId        Int?
 }
 
@@ -50,22 +48,18 @@ model Rollen {
 model Vortrag {
   id              Int      @id @default(autoincrement())
   dauer           Int
-  ansprechpartner String
-  firma           String   @unique
   thema           String
-  telefon         String?  @unique
-  benutzer        Benutzer @relation(name: "Vortrag_Benutzer", fields: [benutzerId], references: [id])
+  benutzer        Benutzer @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
   benutzerId      Int      @unique
-  email           String   @unique
   datum           String
   uhrzeit         String
-  status          Status?  @relation(name: "Vortrag_Status", fields: [statusId], references: [id])
+  status          Status?  @relation(fields: [statusId], references: [id])
   statusId        Int?
 }
 
 model Status {
   id          Int       @id @default(autoincrement())
   bezeichnung String
-  vortrag     Vortrag[] @relation("Vortrag_Status")
-  stand       Stand[]   @relation("Stand_Status")
+  vortrag     Vortrag[]
+  stand       Stand[]
 }

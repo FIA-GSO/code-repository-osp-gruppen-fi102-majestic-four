@@ -1,7 +1,7 @@
 "use client";
 
 import { getNotificationsByID } from "@/app/actions";
-import { TLoginState, useGeneralStore } from "@/app/store/general-store";
+import { useGeneralStore } from "@/app/store/general-store";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -9,6 +9,8 @@ import React, { useEffect } from "react";
 interface INavbar {
     className?: string;
 }
+
+let notificationList = [];
 
 const navElements = [
     { name: "Home", link: "/", user: ["user"] },
@@ -26,15 +28,30 @@ const navElements = [
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
     const session = useSession();
+    const {
+        hasNotifications,
+        setHasNotifications,
+        notifications,
+        setNotifications,
+    } = useGeneralStore();
 
     useEffect(() => {
-        console.log("suche");
         if (session.status === "authenticated") {
             getNotificationsByID(Number(session.data?.user?.id)).then(
-                (notifications) => console.log(notifications)
+                (notes) => {
+                    console.log("Notes: " + notes);
+                    if (notes) {
+                        notificationList = [...notes];
+                        console.log("notificationList: " + notificationList);
+                        setNotifications(notificationList);
+                    }
+                    notes?.length === 0
+                        ? setHasNotifications(false)
+                        : setHasNotifications(true);
+                }
             );
         }
-    }, [session]);
+    }, [session.status]);
 
     return (
         <div
@@ -94,7 +111,9 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                                         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                                     />
                                 </svg>
-                                <span className="badge badge-xs badge-primary indicator-item"></span>
+                                {hasNotifications === true && (
+                                    <span className="badge badge-xs badge-primary indicator-item"></span>
+                                )}
                             </div>
                         </label>
                         <Link

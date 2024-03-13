@@ -13,6 +13,11 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
 
     const isTalk = booking.type === "vortrag";
 
+    const dateString =
+        "tag1" in booking
+            ? `${booking.tag1 ? (booking.tag2 ? `${booking.datum} & 27.01.2024` : booking.datum) : "27.01.2024"}`
+            : booking.datum;
+
     return (
         <li className={`${className || ""}`}>
             <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
@@ -22,27 +27,28 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                     </span>
                     <span className=" px-2">|</span>
 
-                    <span className="">{booking.datum}</span>
-
-                    <span className=" px-2">|</span>
-
-                    <span className="">{booking.email}</span>
-
-                    <span className=" px-2">-</span>
-                    <span>Status: {booking.status.bezeichnung}</span>
+                    <span className="text-orange-500">
+                        Datum: <span className="text-white">{dateString}</span>
+                    </span>
                 </summary>
                 <div className="collapse-content relative">
                     <div className="flex gap-x-8 flex-wrap w-4/5 text-orange-500 text-lg font-bold text-wrap">
-                        <span>
-                            Firma:{" "}
-                            <span className="text-white">{booking.firma}</span>
-                        </span>
-                        <span>
-                            Kontakt:{" "}
-                            <span className="text-white">
-                                {booking.ansprechpartner}
+                        {booking.firma && (
+                            <span>
+                                Firma:{" "}
+                                <span className="text-white">
+                                    {booking.firma}
+                                </span>
                             </span>
-                        </span>
+                        )}
+                        {booking.ansprechpartner && (
+                            <span>
+                                Kontakt:{" "}
+                                <span className="text-white">
+                                    {booking.ansprechpartner}
+                                </span>
+                            </span>
+                        )}
                         <span>
                             Email:{" "}
                             <span className="text-white">{booking.email}</span>
@@ -50,7 +56,9 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {isTalk && (
                             <span>
                                 Thema:{" "}
-                                <span className="text-white">{isTalk}</span>
+                                <span className="text-white">
+                                    {"thema" in booking && booking.thema}
+                                </span>
                             </span>
                         )}
                         {isTalk && (
@@ -61,14 +69,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                                 </span>
                             </span>
                         )}
-                        {isTalk && (
-                            <span>
-                                Datum:{" "}
-                                <span className="text-white">
-                                    {booking.datum}
-                                </span>
-                            </span>
-                        )}
+
                         {isTalk && (
                             <span>
                                 Uhrzeit:{" "}
@@ -122,6 +123,16 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                                 </span>
                             </span>
                         )}
+                        {!isTalk &&
+                            "bemerkung" in booking &&
+                            booking.bemerkung && (
+                                <span>
+                                    Bemerkung:{" "}
+                                    <span className="text-white">
+                                        {booking.bemerkung}
+                                    </span>
+                                </span>
+                            )}
                     </div>
                 </div>
             </details>

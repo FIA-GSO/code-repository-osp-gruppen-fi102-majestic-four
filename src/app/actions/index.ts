@@ -155,7 +155,7 @@ export async function createStand({
                 bemerkung,
                 tag1,
                 tag2,
-                datum: tag1 ? "24.01.2025" : "25.01.2025",
+                datum: tag1 ? "26.01.2024" : "27.01.2024",
                 statusId: 1,
                 benutzerId: benutzerId,
             },
@@ -233,21 +233,6 @@ export async function createVortrag({
     }
 }
 
-// Function to get a Vortrag by ID
-export async function getVortragById(vortragId: number) {
-    try {
-        const vortrag = await prisma.vortrag.findUnique({
-            where: {
-                id: vortragId,
-            },
-        });
-        return vortrag;
-    } catch (error) {
-        console.error("Error getting Vortrag by ID:", error);
-        return null;
-    }
-}
-
 // Function to get all Vortrags
 export async function getAllTalks() {
     try {
@@ -265,6 +250,45 @@ export async function getAllTalks() {
     } catch (error) {
         console.error("Error getting all Vortrags:", error);
         return null;
+    }
+}
+export async function getAllBookings() {
+    try {
+        const allTalks = await prisma.vortrag.findMany({
+            where: {
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
+            },
+        });
+
+        const allStands = await prisma.stand.findMany({
+            where: {
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
+            },
+        });
+        const extendedTalks = allTalks.map((talk) => ({
+            ...talk,
+            type: "vortrag",
+        }));
+
+        const extendedStands = allStands.map((stand) => ({
+            ...stand,
+            type: "stand",
+        }));
+
+        return [...extendedTalks, ...extendedStands];
+    } catch (error) {
+        console.error("Error fetching bookings:", error);
+        return [];
     }
 }
 
@@ -320,9 +344,56 @@ export async function getCanceledBookings() {
             },
         });
 
-        return [...allTalks, ...allStands];
+        const extendedTalks = allTalks.map((talk) => ({
+            ...talk,
+            type: "vortrag",
+        }));
+
+        const extendedStands = allStands.map((stand) => ({
+            ...stand,
+            type: "stand",
+        }));
+
+        return [...extendedTalks, ...extendedStands];
     } catch (error) {
-        console.error("Error getting all Vortrags:", error);
+        console.error("Error fetching canceled bookings:", error);
+        return [];
+    }
+}
+
+export async function updateUser(
+    userId: number,
+    data: {
+        email?: string;
+        vorname?: string;
+        nachname?: string;
+        rolleId?: number;
+    }
+) {
+    try {
+        const updatedUser = await prisma.benutzer.update({
+            where: {
+                id: userId,
+            },
+            data,
+        });
+        return updatedUser;
+    } catch (error) {
+        console.error("Error changing user", error);
+        return null;
+    }
+}
+
+export async function deleteUser(userId: number) {
+    try {
+        const deletedUser = await prisma.benutzer.delete({
+            where: {
+                id: userId,
+            },
+        });
+        return deletedUser;
+    } catch (error) {
+        console.error("Error deleting user", error);
         return null;
     }
 }

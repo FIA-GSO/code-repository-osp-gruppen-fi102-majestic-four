@@ -8,10 +8,13 @@ export type UserWithRolle = Prisma.BenutzerGetPayload<{
 interface IUserManagerStore {
     userList: UserWithRolle[];
     setUserList: (userList: UserWithRolle[]) => void;
+    updatedUserList: boolean;
+    setUpdatedUserlist: (updatedUserList: boolean) => void;
 
     modalTitle: string;
     setModalTitle: (modalTitle: string) => void;
-
+    userId: number;
+    setUserId: (userId: number) => void;
     changeEmailInput: string;
     setChangeEmailInput: (changeEmailInput: string) => void;
     changeFirstNameInput: string;
@@ -27,8 +30,12 @@ interface IUserManagerStore {
 export const useUserManagerStore = create<IUserManagerStore>()((set) => ({
     userList: [],
     setUserList: (userList) => set({ userList }),
+    updatedUserList: false,
+    setUpdatedUserlist: (updatedUserList) => set({ updatedUserList }),
     modalTitle: "Benutzerdaten ändern",
     setModalTitle: (modalTitle) => set({ modalTitle }),
+    userId: 0,
+    setUserId: (userId) => set({ userId }),
     changeEmailInput: "",
     setChangeEmailInput: (changeEmailInput) => set({ changeEmailInput }),
     changeFirstNameInput: "",

@@ -1,18 +1,11 @@
 import { create } from "zustand";
-import { Stand, Vortrag, Prisma } from "@prisma/client";
+import { getAllBookings } from "../actions";
 
-export type StandWithStatus = Prisma.StandGetPayload<{
-    include: { status: true };
-}>;
-export type VortragWithStatus = Prisma.VortragGetPayload<{
-    include: { status: true };
-}>;
+export type BookingsType = Awaited<ReturnType<typeof getAllBookings>>;
 
 interface IBookingManagerStore {
-    bookingManagerList: (VortragWithStatus | StandWithStatus)[];
-    setBookingManagerList: (
-        bookingManagerList: (VortragWithStatus | StandWithStatus)[]
-    ) => void;
+    bookingManagerList: BookingsType;
+    setBookingManagerList: (bookingManagerList: BookingsType) => void;
     updatedBookings: boolean;
     setUpdatedBookings: (updatedBookings: boolean) => void;
 }

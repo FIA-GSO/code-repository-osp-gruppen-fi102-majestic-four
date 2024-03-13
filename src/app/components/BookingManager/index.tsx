@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useBookingManagerStore } from "@/app/store/booking-manager-store";
 import BookingManagerEntry from "./BookingManagerEntry";
 import Link from "next/link";
-import { getAllStands, getAllTalks } from "@/app/actions";
+import { getAllBookings } from "@/app/actions";
 
 interface IBookingManager {
     className?: string;
@@ -19,177 +19,19 @@ const BookingManager: React.FC<IBookingManager> = ({
         updatedBookings,
         setUpdatedBookings,
     } = useBookingManagerStore();
+    const [showDeclined, setShowDeclined] = useState<boolean>(false);
 
     const fetchBookings = async () => {
-        const stands = await getAllStands();
-        const talks = await getAllTalks();
+        const bookings = await getAllBookings();
 
-        const bookings = [];
-
-        const addStands = stands !== null && !("error" in stands);
-        const addTalks = talks !== null && !("error" in talks);
-
-        if (addStands && addTalks) {
-            setBookingManagerList([...stands, ...talks]);
-        } else {
-            setBookingManagerList([]);
-        }
+        setBookingManagerList(bookings);
 
         setUpdatedBookings(false);
     };
 
     useEffect(() => {
         fetchBookings();
-
-        // setBookingManagerList([
-        //     {
-        //         id: 1,
-        //         benutzerId: 1,
-        //         firma: "Sucuk Wurst GmbH",
-        //         ansprechpartner: "Hans Wurst",
-        //         email: "Hans.Wurst@email.com",
-        //         thema: "Neuronen Technik",
-        //         dauer: 45,
-        //         datum: "26.01.2024",
-        //         uhrzeit: "10:00",
-        //         statusId: 0,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "peter.maffay@gmail.com",
-        //         ansprechpartner: "peter maffay",
-        //         telefon: "",
-        //         firma: "tabaluga",
-        //         tag1: true,
-        //         tag2: false,
-        //         bemerkung: "kein wlan",
-        //         datum: new Date("26.01.2024"),
-        //         tisch: 2,
-        //         stuhl: 12,
-        //         benutzerId: 2,
-        //         statusId: 1,
-        //     },
-        // ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updatedBookings]);
 
     return (
@@ -202,24 +44,53 @@ const BookingManager: React.FC<IBookingManager> = ({
                     ({bookingManagerList.length}{" "}
                     {bookingManagerList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
-                {!fullscreen && (
-                    <Link
-                        href={"/admin/booking-manager"}
-                        className="ml-auto btn btn-info opacity-30 hover:opacity-100 z-40"
-                    >
-                        Volle Ansicht
-                    </Link>
-                )}
+                <div className="ml-auto flex gap-4">
+                    <div className="ml-auto flex flex-col items-center justify-center">
+                        <label className="px-1 text-neutral-content text-sm font-semibold">
+                            Abgelehnte
+                        </label>
+
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-sm"
+                            checked={showDeclined}
+                            onChange={(event) => {
+                                setShowDeclined(event.target.checked);
+                            }}
+                        />
+                    </div>
+                    {!fullscreen && (
+                        <Link
+                            href={"/admin/booking-manager"}
+                            className="btn btn-info opacity-30 hover:opacity-100 z-40"
+                        >
+                            Volle Ansicht
+                        </Link>
+                    )}
+                </div>
             </h2>
             {bookingManagerList.length > 0 ? (
                 <ul className={`flex flex-col gap-1 min-h-fit`}>
-                    {bookingManagerList.map((element, index) => (
-                        <BookingManagerEntry
-                            className=" w-full"
-                            key={index}
-                            booking={element}
-                        />
-                    ))}
+                    {showDeclined
+                        ? bookingManagerList.map((element, index) => (
+                              <BookingManagerEntry
+                                  className=" w-full"
+                                  key={index}
+                                  booking={element}
+                              />
+                          ))
+                        : bookingManagerList
+                              .filter(
+                                  (element) =>
+                                      element.status.bezeichnung !== "declined"
+                              )
+                              .map((element, index) => (
+                                  <BookingManagerEntry
+                                      className=" w-full"
+                                      key={index}
+                                      booking={element}
+                                  />
+                              ))}
                 </ul>
             ) : (
                 <div className=" text-center w-full text-2xl font-bold italic p-2">

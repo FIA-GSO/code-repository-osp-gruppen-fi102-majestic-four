@@ -25,6 +25,7 @@ const CancelsManager: React.FC<ICancelsManager> = ({
     };
     useEffect(() => {
         fetchCanceledBookings();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -17,7 +17,7 @@ export default function Booking() {
         setEmailInput,
         phoneInput,
         setPhoneInput,
-        // Define states for StandBookingForm
+
         dayOneChecked,
         annotationInput,
         dayTwoChecked,
@@ -30,7 +30,6 @@ export default function Booking() {
         setTablesInput,
         setChairsInput,
 
-        // Define states for TalkBookingForm
         topicInput,
         talkLengthInput,
         dateInput,
@@ -48,6 +47,7 @@ export default function Booking() {
         try {
             // Create Stand record
             const standResult = await createStand({
+                //@ts-ignore
                 benutzerId: parseInt(session.data?.user?.id),
                 email: emailInput,
                 ansprechpartner: contactNameInput,
@@ -91,7 +91,7 @@ export default function Booking() {
                 // Handle successful creation (e.g., show success message)
                 console.log("Vortrag created successfully!");
                 setTopicInput("");
-                setTalkLengthInput(0);
+                setTalkLengthInput(15);
                 setDateInput("");
                 setStartTimeInput("");
             }
@@ -102,6 +102,7 @@ export default function Booking() {
     };
 
     const fetchUserInfos = async () => {
+        //@ts-ignore
         const data = await getUserInfos(parseInt(session.data?.user?.id));
 
         if (data === null || "error" in data) return;
@@ -116,6 +117,7 @@ export default function Booking() {
 
     useEffect(() => {
         if (session.status === "authenticated") fetchUserInfos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session]);
 
     return (

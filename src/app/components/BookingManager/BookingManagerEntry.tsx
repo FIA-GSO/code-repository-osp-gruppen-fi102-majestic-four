@@ -1,37 +1,34 @@
 import { changeBookingStatus } from "@/app/actions";
 import {
-    StandWithStatus,
-    VortragWithStatus,
+    BookingsType,
     useBookingManagerStore,
 } from "@/app/store/booking-manager-store";
 
 interface IBookingManagerEntry {
     className?: string;
-    booking: VortragWithStatus | StandWithStatus;
+    booking: BookingsType[number];
 }
 const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
     className,
     booking,
 }) => {
     const { setUpdatedBookings } = useBookingManagerStore();
+
+    const isTalk = booking.type === "vortrag";
+
     return (
         <li className={`${className || ""}`}>
             <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
-                <summary className="collapse-title text-xl font-bold">
+                <summary className="collapse-title font-bold items-center">
                     <span className="text-info">
-                        {(booking as VortragWithStatus).thema
-                            ? "Vortrag"
-                            : "Stand"}{" "}
-                        ID: {booking.id}
+                        {isTalk ? "Vortrag" : "Stand"} ID: {booking.id}
                     </span>
                     <span className=" px-2">|</span>
                     <span className="">{booking.datum}</span>
-                    <span className=" px-2">-</span>
-                    {(booking as VortragWithStatus).thema ? "Vortrag" : "Stand"}
-                    <span className=" px-2">-</span>
-                    {(booking as VortragWithStatus).thema
-                        ? (booking as VortragWithStatus).thema
-                        : booking.firma}
+
+                    <span className=" px-2">|</span>
+                    <span className="">{booking.email}</span>
+
                     <span className=" px-2">-</span>
                     <span>Status: {booking.status.bezeichnung}</span>
                     {booking.status.bezeichnung === "pending" && (
@@ -43,9 +40,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                             onClick={() => {
                                 changeBookingStatus(
                                     booking.id,
-                                    (booking as VortragWithStatus).thema
-                                        ? "vortrag"
-                                        : "stand",
+                                    isTalk ? "vortrag" : "stand",
                                     3
                                 );
                                 setUpdatedBookings(true);
@@ -60,9 +55,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                             onClick={() => {
                                 changeBookingStatus(
                                     booking.id,
-                                    (booking as VortragWithStatus).thema
-                                        ? "vortrag"
-                                        : "stand",
+                                    isTalk ? "vortrag" : "stand",
                                     4
                                 );
                                 setUpdatedBookings(true);
@@ -78,9 +71,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                             onClick={() => {
                                 changeBookingStatus(
                                     booking.id,
-                                    (booking as VortragWithStatus).thema
-                                        ? "vortrag"
-                                        : "stand",
+                                    isTalk ? "vortrag" : "stand",
                                     2
                                 );
                                 setUpdatedBookings(true);
@@ -106,77 +97,76 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                             Email:{" "}
                             <span className="text-white">{booking.email}</span>
                         </span>
-                        {(booking as VortragWithStatus).thema && (
+                        {isTalk && (
                             <span>
                                 Thema:{" "}
-                                <span className="text-white">
-                                    {(booking as VortragWithStatus).thema}
-                                </span>
+                                <span className="text-white">{isTalk}</span>
                             </span>
                         )}
-                        {(booking as VortragWithStatus).thema && (
+                        {isTalk && (
                             <span>
                                 Länge:{" "}
                                 <span className="text-white">
-                                    {(booking as VortragWithStatus).dauer} Min.
+                                    {"dauer" in booking && booking.dauer} Min.
                                 </span>
                             </span>
                         )}
-                        {(booking as VortragWithStatus).thema && (
+                        {isTalk && (
                             <span>
                                 Datum:{" "}
                                 <span className="text-white">
-                                    {(booking as VortragWithStatus).datum}
+                                    {booking.datum}
                                 </span>
                             </span>
                         )}
-                        {(booking as VortragWithStatus).thema && (
+                        {isTalk && (
                             <span>
                                 Uhrzeit:{" "}
                                 <span className="text-white">
-                                    {(booking as VortragWithStatus).uhrzeit} Uhr
+                                    {"uhrzeit" in booking && booking.uhrzeit}{" "}
+                                    Uhr
                                 </span>
                             </span>
                         )}
-                        {!(booking as VortragWithStatus).thema && (
+                        {!isTalk && (
                             <span>
                                 Telefon:{" "}
                                 <span className="text-white">
-                                    {(booking as StandWithStatus).telefon}
+                                    {booking.telefon}
                                 </span>
                             </span>
                         )}
-                        {!(booking as VortragWithStatus).thema && (
+                        {!isTalk && (
                             <span>
                                 Tisch(e):{" "}
                                 <span className="text-white">
-                                    {(booking as StandWithStatus).tisch}
+                                    {"tisch" in booking && booking.tisch}
                                 </span>
                             </span>
                         )}
-                        {!(booking as VortragWithStatus).thema && (
+                        {!isTalk && (
                             <span>
                                 Stuhlanzahl:{" "}
                                 <span className="text-white">
-                                    {(booking as StandWithStatus).stuhl}
+                                    {"stuhl" in booking && booking.stuhl}
                                 </span>
                             </span>
                         )}
-                        {!(booking as VortragWithStatus).thema && (
+                        {!isTalk && (
                             <span>
                                 Tag 1:{" "}
                                 <span className="text-white">
-                                    {(booking as StandWithStatus).tag1
+                                    {"tag1" in booking && booking.tag1
                                         ? "Ja"
                                         : "Nein"}
                                 </span>
                             </span>
                         )}
-                        {!(booking as VortragWithStatus).thema && (
+                        {!isTalk && (
                             <span>
                                 Tag 2:{" "}
                                 <span className="text-white">
-                                    {(booking as StandWithStatus).tag2
+                                    {"tag2" in booking && booking.tag2
                                         ? "Ja"
                                         : "Nein"}
                                 </span>

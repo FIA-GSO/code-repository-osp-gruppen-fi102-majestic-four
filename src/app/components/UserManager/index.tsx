@@ -11,7 +11,8 @@ interface IUserManager {
 }
 
 const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
-    const { userList, setUserList } = useUserManagerStore();
+    const { userList, setUserList, updatedUserList, setUpdatedUserlist } =
+        useUserManagerStore();
 
     const fetchUsers = async () => {
         const users = await getAllUsers();
@@ -21,62 +22,9 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
         setUserList(users);
     };
     useEffect(() => {
-        fetchUsers();
-        // setUserList([
-        //     {
-        //         id: 1,
-        //         email: "test@gmail.com",
-        //         passwort: "abc",
-        //         vorname: "hans",
-        //         nachname: "peter",
-        //         strasse: "teststraße",
-        //         hausnummer: "10",
-        //         postleitzahl: "123456",
-        //         ort: "köln",
-        //         firmaId: 1,
-        //         rolleId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "test@gmail.com",
-        //         passwort: "abc",
-        //         vorname: "",
-        //         nachname: "",
-        //         strasse: "",
-        //         hausnummer: "",
-        //         postleitzahl: "",
-        //         ort: "",
-        //         firmaId: 1,
-        //         rolleId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "test@gmail.com",
-        //         passwort: "abc",
-        //         vorname: "",
-        //         nachname: "",
-        //         strasse: "",
-        //         hausnummer: "",
-        //         postleitzahl: "",
-        //         ort: "",
-        //         firmaId: 1,
-        //         rolleId: 1,
-        //     },
-        //     {
-        //         id: 2,
-        //         email: "test@gmail.com",
-        //         passwort: "abc",
-        //         vorname: "",
-        //         nachname: "",
-        //         strasse: "",
-        //         hausnummer: "",
-        //         postleitzahl: "",
-        //         ort: "",
-        //         firmaId: 1,
-        //         rolleId: 1,
-        //     },
-        // ]);
-    }, []);
+        fetchUsers().finally(() => setUpdatedUserlist(false));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updatedUserList]);
 
     return (
         <div

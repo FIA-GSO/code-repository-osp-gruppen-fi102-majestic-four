@@ -16,6 +16,11 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
 
     const isTalk = booking.type === "vortrag";
 
+    const dateString =
+        "tag1" in booking
+            ? `${booking.tag1 ? (booking.tag2 ? `${booking.datum} & 27.01.2024` : booking.datum) : "27.01.2024"}`
+            : booking.datum;
+
     return (
         <li className={`${className || ""}`}>
             <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
@@ -24,14 +29,23 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                         {isTalk ? "Vortrag" : "Stand"} ID: {booking.id}
                     </span>
                     <span className=" px-2">|</span>
-                    <span className="">{booking.datum}</span>
+                    <span className=" text-info">
+                        Datum: <span className="text-white">{dateString}</span>
+                    </span>
 
                     <span className=" px-2">|</span>
-                    <span className="">{booking.email}</span>
+                    <span>{booking.email}</span>
 
                     <span className=" px-2">-</span>
-                    <span>Status: {booking.status.bezeichnung}</span>
-                    {booking.status.bezeichnung === "pending" && (
+                    <span className=" text-info">
+                        Status:{" "}
+                        <span className="text-white">
+                            {booking.status.bezeichnung}
+                        </span>
+                    </span>
+
+                    {(booking.status.bezeichnung === "pending" ||
+                        booking.status.bezeichnung === "accepted") && (
                         <span className=" px-2">|</span>
                     )}
                     {booking.status.bezeichnung === "pending" && (
@@ -83,16 +97,22 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                 </summary>
                 <div className="collapse-content relative">
                     <div className="flex gap-x-8 flex-wrap w-4/5 text-info text-lg font-bold text-wrap">
-                        <span>
-                            Firma:{" "}
-                            <span className="text-white">{booking.firma}</span>
-                        </span>
-                        <span>
-                            Kontakt:{" "}
-                            <span className="text-white">
-                                {booking.ansprechpartner}
+                        {booking.firma && (
+                            <span>
+                                Firma:{" "}
+                                <span className="text-white">
+                                    {booking.firma}
+                                </span>
                             </span>
-                        </span>
+                        )}
+                        {booking.ansprechpartner && (
+                            <span>
+                                Kontakt:{" "}
+                                <span className="text-white">
+                                    {booking.ansprechpartner}
+                                </span>
+                            </span>
+                        )}
                         <span>
                             Email:{" "}
                             <span className="text-white">{booking.email}</span>
@@ -100,7 +120,9 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                         {isTalk && (
                             <span>
                                 Thema:{" "}
-                                <span className="text-white">{isTalk}</span>
+                                <span className="text-white">
+                                    {"thema" in booking && booking.thema}
+                                </span>
                             </span>
                         )}
                         {isTalk && (
@@ -111,14 +133,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                 </span>
                             </span>
                         )}
-                        {isTalk && (
-                            <span>
-                                Datum:{" "}
-                                <span className="text-white">
-                                    {booking.datum}
-                                </span>
-                            </span>
-                        )}
+
                         {isTalk && (
                             <span>
                                 Uhrzeit:{" "}
@@ -128,7 +143,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                 </span>
                             </span>
                         )}
-                        {!isTalk && (
+                        {!isTalk && booking.telefon && (
                             <span>
                                 Telefon:{" "}
                                 <span className="text-white">
@@ -172,6 +187,16 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                 </span>
                             </span>
                         )}
+                        {!isTalk &&
+                            "bemerkung" in booking &&
+                            booking.bemerkung && (
+                                <span>
+                                    Bemerkung:{" "}
+                                    <span className="text-white">
+                                        {booking.bemerkung}
+                                    </span>
+                                </span>
+                            )}
                     </div>
                 </div>
             </details>

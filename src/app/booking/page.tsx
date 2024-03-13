@@ -45,10 +45,12 @@ export default function Booking() {
 
     const handleSubmit = async () => {
         try {
+            //@ts-ignore
+            const userId = parseInt(session.data?.user?.id);
+
             // Create Stand record
             const standResult = await createStand({
-                //@ts-ignore
-                benutzerId: parseInt(session.data?.user?.id),
+                benutzerId: userId,
                 email: emailInput,
                 ansprechpartner: contactNameInput,
                 telefon: phoneInput,
@@ -62,7 +64,6 @@ export default function Booking() {
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
-                return;
             } else {
                 console.log("Stand created successfully!");
                 setDayOneChecked(false);
@@ -78,7 +79,7 @@ export default function Booking() {
                 ansprechpartner: contactNameInput,
                 firma: firmInput,
                 thema: topicInput,
-                benutzerId: 1,
+                benutzerId: userId,
                 email: emailInput,
                 datum: dateInput,
                 uhrzeit: startTimeInput,
@@ -86,7 +87,6 @@ export default function Booking() {
 
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
-                return;
             } else {
                 // Handle successful creation (e.g., show success message)
                 console.log("Vortrag created successfully!");

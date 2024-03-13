@@ -1,22 +1,6 @@
 "use server";
 import { prisma } from "../db.ts";
-import { Benutzer, Stand } from "@prisma/client";
 import bcrypt from "bcrypt";
-
-// Function to get a user by email
-export async function getUserByEmail(email: string) {
-    try {
-        const user = await prisma.benutzer.findUnique({
-            where: {
-                email,
-            },
-        });
-        return user;
-    } catch (error) {
-        console.error("Error getting user by email:", error);
-        return null;
-    }
-}
 
 export async function getAllUsers() {
     try {
@@ -99,26 +83,6 @@ export async function getUserInfos(id: number) {
     }
 }
 
-// Function to get all Stands
-export async function getAllStands() {
-    try {
-        const allStands = await prisma.stand.findMany({
-            where: {
-                statusId: {
-                    not: 2,
-                },
-            },
-            include: {
-                status: true,
-            },
-        });
-        return allStands;
-    } catch (error) {
-        console.error("Error getting all Stands:", error);
-        return null;
-    }
-}
-
 // Function to create a new Stand
 export async function createStand({
     benutzerId,
@@ -144,6 +108,9 @@ export async function createStand({
     tag2: boolean;
 }) {
     try {
+        if (!email) throw new Error("email invalid");
+        if (!(tag1 || tag2)) throw new Error("no day selected");
+
         const newStand = await prisma.stand.create({
             data: {
                 email,
@@ -166,21 +133,6 @@ export async function createStand({
         return {
             error: "Can't create Stand.",
         };
-    }
-}
-
-// Function to get a Stand by ID
-export async function getStandById(standId: number) {
-    try {
-        const stand = await prisma.stand.findUnique({
-            where: {
-                id: standId,
-            },
-        });
-        return stand;
-    } catch (error) {
-        console.error("Error getting Stand by ID:", error);
-        return null;
     }
 }
 
@@ -207,8 +159,8 @@ export async function createVortrag({
     uhrzeit: string;
 }) {
     try {
-        if (!email || !thema || !dauer)
-            throw new Error("email, thema oder dauer undefined");
+        if (!email || !thema || !dauer || !datum || !uhrzeit)
+            throw new Error("email, thema, dauer, datum oder uhrzeit invalid");
 
         const newVortrag = await prisma.vortrag.create({
             data: {
@@ -233,25 +185,6 @@ export async function createVortrag({
     }
 }
 
-// Function to get all Vortrags
-export async function getAllTalks() {
-    try {
-        const allTalks = await prisma.vortrag.findMany({
-            where: {
-                statusId: {
-                    not: 2,
-                },
-            },
-            include: {
-                status: true,
-            },
-        });
-        return allTalks;
-    } catch (error) {
-        console.error("Error getting all Vortrags:", error);
-        return null;
-    }
-}
 export async function getAllBookings() {
     try {
         const allTalks = await prisma.vortrag.findMany({
@@ -361,6 +294,42 @@ export async function getCanceledBookings() {
     }
 }
 
+export async function getUserBookings(userId: number) {
+    try {
+        const allTalks = await prisma.vortrag.findMany({
+            where: {
+                benutzerId: userId,
+            },
+            include: {
+                status: true,
+            },
+        });
+
+        const allStands = await prisma.stand.findMany({
+            where: {
+                benutzerId: userId,
+            },
+            include: {
+                status: true,
+            },
+        });
+        const extendedTalks = allTalks.map((talk) => ({
+            ...talk,
+            type: "vortrag",
+        }));
+
+        const extendedStands = allStands.map((stand) => ({
+            ...stand,
+            type: "stand",
+        }));
+
+        return [...extendedTalks, ...extendedStands];
+    } catch (error) {
+        console.error("Error fetching user bookings:", error);
+        return [];
+    }
+}
+
 export async function updateUser(
     userId: number,
     data: {
@@ -394,6 +363,148 @@ export async function deleteUser(userId: number) {
         return deletedUser;
     } catch (error) {
         console.error("Error deleting user", error);
+        return null;
+    }
+}
+
+export async function deleteVortrag(userId: number, vortragId: number) {
+    try {
+        const deletedUser = await prisma.vortrag.delete({
+            where: {
+                id: vortragId,
+                benutzerId: userId,
+            },
+        });
+        return deletedUser;
+    } catch (error) {
+        console.error("Error deleting vortrag", error);
+        return null;
+    }
+}
+export async function deleteStand(userId: number, standId: number) {
+    try {
+        const deletedUser = await prisma.stand.delete({
+            where: {
+                id: standId,
+                benutzerId: userId,
+            },
+        });
+        return deletedUser;
+    } catch (error) {
+        console.error("Error deleting stand", error);
+        return null;
+    }
+}
+
+export async function getBookingsForTech() {
+    try {
+        const allTalks = await prisma.vortrag.findMany({
+            where: {
+                statusId: 3,
+            },
+        });
+
+        const allStands = await prisma.stand.findMany({
+            where: {
+                statusId: 3,
+            },
+        });
+
+        const extendedTalks = allTalks.map((talk) => {
+            const {
+                benutzerId,
+                email,
+                ansprechpartner,
+                firma,
+                telefon,
+                statusId,
+                ...rest
+            } = talk;
+            return { ...rest, type: "vortrag" };
+        });
+
+        const extendedStands = allStands.map((stand) => {
+            const {
+                benutzerId,
+                email,
+                ansprechpartner,
+                firma,
+                telefon,
+                statusId,
+                ...rest
+            } = stand;
+            return { ...rest, type: "stand" };
+        });
+
+        return [...extendedTalks, ...extendedStands];
+    } catch (error) {
+        console.error("Error fetching bookings for technician:", error);
+        return [];
+    }
+}
+
+export async function updatedVortrag(
+    userId: number,
+    bookingId: number,
+    data: {
+        thema?: string;
+        dauer?: number;
+        datum?: string;
+        uhrzeit?: string;
+    }
+) {
+    try {
+        if (Object.keys(data).length === 0)
+            throw new Error("keine daten beigefügt");
+
+        const updatedVortrag = await prisma.vortrag.update({
+            where: {
+                id: bookingId,
+                benutzerId: userId,
+            },
+            data: {
+                ...data,
+                statusId: 1,
+            },
+        });
+        return updatedVortrag;
+    } catch (error) {
+        console.error("Error changing vortrag", error);
+        return null;
+    }
+}
+
+export async function updatedStand(
+    userId: number,
+    bookingId: number,
+    data: {
+        bemerkung?: string;
+        tag1?: boolean;
+        tag2?: boolean;
+        tisch?: number;
+        stuhl?: number;
+    }
+) {
+    try {
+        if (Object.keys(data).length === 0)
+            throw new Error("keine daten beigefügt");
+        if (!data.tag1 && !data.tag2) throw new Error("tag1 und tag2 false");
+        console.log(data);
+
+        const updatedStand = await prisma.stand.update({
+            where: {
+                id: bookingId,
+                benutzerId: userId,
+            },
+            data: {
+                ...data,
+                statusId: 1,
+            },
+        });
+        console.log(updatedStand);
+        return updatedStand;
+    } catch (error) {
+        console.error("Error changing stand", error);
         return null;
     }
 }

@@ -16,7 +16,7 @@ const navElements = [
     {
         name: "Dashboard",
         link: "/dashboard",
-        user: ["admin", "user", "tech"],
+        user: ["admin", "user", "technician"],
     },
     { name: "Anmeldungen", link: "/admin/booking-manager", user: ["admin"] },
     { name: "Stornierungen", link: "/admin/cancels-manager", user: ["admin"] },

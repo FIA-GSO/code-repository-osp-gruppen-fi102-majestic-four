@@ -1,9 +1,10 @@
 "use client";
 
+import { getNotificationsByID } from "@/app/actions";
 import { TLoginState, useGeneralStore } from "@/app/store/general-store";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface INavbar {
     className?: string;
@@ -24,9 +25,16 @@ const navElements = [
 ];
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
-    const { loginState, setLoginState } = useGeneralStore();
-
     const session = useSession();
+
+    useEffect(() => {
+        console.log("suche");
+        if (session.status === "authenticated") {
+            getNotificationsByID(Number(session.data?.user?.id)).then(
+                (notifications) => console.log(notifications)
+            );
+        }
+    }, [session]);
 
     return (
         <div
@@ -67,7 +75,10 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 )}
                 {session.status === "authenticated" && (
                     <div>
-                        <button className="btn btn-ghost btn-circle">
+                        <label
+                            htmlFor="my-drawer-4"
+                            className="drawer-button mr-3"
+                        >
                             <div className="indicator">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +96,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                                 </svg>
                                 <span className="badge badge-xs badge-primary indicator-item"></span>
                             </div>
-                        </button>
+                        </label>
                         <Link
                             className="btn btn-ghost text-xl"
                             href={"/profile"}

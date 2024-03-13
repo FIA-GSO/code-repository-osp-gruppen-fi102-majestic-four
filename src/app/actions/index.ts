@@ -79,6 +79,33 @@ export async function getUserInfos(id: number) {
     }
 }
 
+export async function updateUserInfos(
+    id: number,
+    contactPerson: string,
+    telefon: string,
+    firma: string
+) {
+    try {
+        const user = await prisma.benutzer.update({
+            where: {
+                id,
+            },
+            data: {
+                vorname: contactPerson.split(" ")[0],
+                nachname: contactPerson.split(" ")[1],
+                firma: firma,
+                telefon: telefon,
+            },
+        });
+        return user;
+    } catch (error) {
+        console.error("Error modifying user:", error);
+        return {
+            error: "Authentication failed.",
+        };
+    }
+}
+
 // Function to get all Stands
 export async function getAllStands() {
     try {
@@ -226,3 +253,21 @@ export async function getAllVortrags() {
         return null;
     }
 }
+
+export async function getNotificationsByID(id: number) {
+    try {
+        const notifications = await prisma.benachrichtigung.findMany({
+            where: { benutzerId: id },
+        });
+        return notifications;
+    } catch (error) {
+        console.error("Error getting all Vortrags:", error);
+        return null;
+    }
+}
+
+export async function createNotifications(
+    toUserId: number | null = null,
+    message: string,
+    toAdmin: boolean = false
+) {}

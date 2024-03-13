@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "../db.ts";
-import { Benutzer } from "@prisma/client";
+import { Benutzer, Stand } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 // Function to get a user by email
@@ -14,6 +14,26 @@ export async function getUserByEmail(email: string) {
         return user;
     } catch (error) {
         console.error("Error getting user by email:", error);
+        return null;
+    }
+}
+
+export async function getAllUsers() {
+    try {
+        const allUsers = await prisma.benutzer.findMany({
+            where: {
+                rolleId: {
+                    not: 1,
+                },
+            },
+            include: {
+                rolle: true,
+            },
+        });
+
+        return allUsers;
+    } catch (error) {
+        console.error("Error getting all User:", error);
         return null;
     }
 }
@@ -82,7 +102,16 @@ export async function getUserInfos(id: number) {
 // Function to get all Stands
 export async function getAllStands() {
     try {
-        const allStands = await prisma.stand.findMany();
+        const allStands = await prisma.stand.findMany({
+            where: {
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
+            },
+        });
         return allStands;
     } catch (error) {
         console.error("Error getting all Stands:", error);
@@ -92,31 +121,27 @@ export async function getAllStands() {
 
 // Function to create a new Stand
 export async function createStand({
+    benutzerId,
     email,
+    firma,
     ansprechpartner,
     telefon,
-    firma,
+    bemerkung,
     tisch,
     stuhl,
-    bemerkung,
-    // Optional fields with default values
-    tag1 = false,
-    tag2 = false,
-    datum = "", // Set the default value to a valid date
-    benutzerId,
+    tag1,
+    tag2,
 }: {
+    benutzerId?: number;
     email: string;
-    ansprechpartner: string;
-    telefon: string;
     firma: string;
+    ansprechpartner: string;
+    telefon?: string;
+    bemerkung?: string;
     tisch: number;
     stuhl: number;
-    bemerkung: string;
-    // Optional fields
-    tag1?: boolean;
-    tag2?: boolean;
-    datum?: string; // Specify the type as Date
-    benutzerId?: number;
+    tag1: boolean;
+    tag2: boolean;
 }) {
     try {
         const newStand = await prisma.stand.create({
@@ -128,11 +153,11 @@ export async function createStand({
                 tisch,
                 stuhl,
                 bemerkung,
-                // Optional fields
                 tag1,
                 tag2,
-                datum,
-                benutzerId: benutzerId ?? 0, // Set benutzerId to undefined if not provided
+                datum: tag1 ? "26.01.2024" : "27.01.2024",
+                statusId: 1,
+                benutzerId: benutzerId,
             },
         });
         return newStand;
@@ -140,7 +165,7 @@ export async function createStand({
         console.error("Error creating Stand:", error);
         return {
             error: "Can't create Stand.",
-        } as const; // Assert the type to ensure TypeScript understands it's a constant value
+        };
     }
 }
 
@@ -161,34 +186,41 @@ export async function getStandById(standId: number) {
 
 // Function to create a new Vortrag
 export async function createVortrag({
-    dauer,
-    ansprechpartner,
-    firma,
-    thema,
     benutzerId,
     email,
+    firma,
+    ansprechpartner,
+    telefon,
+    dauer,
+    thema,
     datum,
     uhrzeit,
 }: {
-    dauer: number;
-    ansprechpartner: string;
-    firma: string;
-    thema: string;
     benutzerId?: number;
     email: string;
+    firma: string;
+    ansprechpartner: string;
+    telefon?: string;
+    dauer: number;
+    thema: string;
     datum: string;
     uhrzeit: string;
 }) {
     try {
+        if (!email || !thema || !dauer)
+            throw new Error("email, thema oder dauer undefined");
+
         const newVortrag = await prisma.vortrag.create({
             data: {
-                dauer,
-                ansprechpartner,
-                firma,
-                thema,
-                benutzerId: benutzerId ?? 0,
                 email,
+                ansprechpartner,
+                telefon,
+                firma,
                 datum,
+                statusId: 1,
+                benutzerId: benutzerId,
+                dauer,
+                thema,
                 uhrzeit,
             },
         });
@@ -201,28 +233,167 @@ export async function createVortrag({
     }
 }
 
-// Function to get a Vortrag by ID
-export async function getVortragById(vortragId: number) {
+// Function to get all Vortrags
+export async function getAllTalks() {
     try {
-        const vortrag = await prisma.vortrag.findUnique({
+        const allTalks = await prisma.vortrag.findMany({
             where: {
-                id: vortragId,
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
             },
         });
-        return vortrag;
+        return allTalks;
     } catch (error) {
-        console.error("Error getting Vortrag by ID:", error);
+        console.error("Error getting all Vortrags:", error);
+        return null;
+    }
+}
+export async function getAllBookings() {
+    try {
+        const allTalks = await prisma.vortrag.findMany({
+            where: {
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
+            },
+        });
+
+        const allStands = await prisma.stand.findMany({
+            where: {
+                statusId: {
+                    not: 2,
+                },
+            },
+            include: {
+                status: true,
+            },
+        });
+        const extendedTalks = allTalks.map((talk) => ({
+            ...talk,
+            type: "vortrag",
+        }));
+
+        const extendedStands = allStands.map((stand) => ({
+            ...stand,
+            type: "stand",
+        }));
+
+        return [...extendedTalks, ...extendedStands];
+    } catch (error) {
+        console.error("Error fetching bookings:", error);
+        return [];
+    }
+}
+
+export async function changeBookingStatus(
+    bookingId: number,
+    type: "stand" | "vortrag",
+    newStatusId: number
+) {
+    try {
+        if (type === "stand") {
+            const updatedStand = await prisma.stand.update({
+                where: {
+                    id: bookingId,
+                },
+                data: {
+                    statusId: newStatusId,
+                },
+            });
+            return updatedStand;
+        } else {
+            const updatedVortrag = await prisma.vortrag.update({
+                where: {
+                    id: bookingId,
+                },
+                data: {
+                    statusId: newStatusId,
+                },
+            });
+            return updatedVortrag;
+        }
+    } catch (error) {
+        console.error("Error changing status:", error);
         return null;
     }
 }
 
-// Function to get all Vortrags
-export async function getAllVortrags() {
+export async function getCanceledBookings() {
     try {
-        const allVortrags = await prisma.vortrag.findMany();
-        return allVortrags;
+        const allTalks = await prisma.vortrag.findMany({
+            where: {
+                statusId: 2,
+            },
+            include: {
+                status: true,
+            },
+        });
+        const allStands = await prisma.stand.findMany({
+            where: {
+                statusId: 2,
+            },
+            include: {
+                status: true,
+            },
+        });
+
+        const extendedTalks = allTalks.map((talk) => ({
+            ...talk,
+            type: "vortrag",
+        }));
+
+        const extendedStands = allStands.map((stand) => ({
+            ...stand,
+            type: "stand",
+        }));
+
+        return [...extendedTalks, ...extendedStands];
     } catch (error) {
-        console.error("Error getting all Vortrags:", error);
+        console.error("Error fetching canceled bookings:", error);
+        return [];
+    }
+}
+
+export async function updateUser(
+    userId: number,
+    data: {
+        email?: string;
+        vorname?: string;
+        nachname?: string;
+        rolleId?: number;
+    }
+) {
+    try {
+        const updatedUser = await prisma.benutzer.update({
+            where: {
+                id: userId,
+            },
+            data,
+        });
+        return updatedUser;
+    } catch (error) {
+        console.error("Error changing user", error);
+        return null;
+    }
+}
+
+export async function deleteUser(userId: number) {
+    try {
+        const deletedUser = await prisma.benutzer.delete({
+            where: {
+                id: userId,
+            },
+        });
+        return deletedUser;
+    } catch (error) {
+        console.error("Error deleting user", error);
         return null;
     }
 }

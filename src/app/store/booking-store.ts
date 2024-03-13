@@ -62,7 +62,7 @@ export const useBookingStore = create<IBookingState>()((set) => ({
     //Talk
     topicInput: "",
     setTopicInput: (topicInput) => set({ topicInput }),
-    talkLengthInput: 0,
+    talkLengthInput: 15,
     setTalkLengthInput: (talkLengthInput) => set({ talkLengthInput }),
     dateInput: "",
     setDateInput: (dateInput) => set({ dateInput }),

@@ -63,21 +63,22 @@ const BookingListItem: React.FC<IBookingListItem> = ({
 
     return (
         <li className={`${className || ""}`}>
-            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
+            <details className="collapse border border-neutral collapse-arrow my-2 rounded-xl bg-base-100 text-base-content">
                 <summary className="collapse-title font-bold items-center">
                     <span className="text-primary">
                         {isTalk ? "Vortrag" : "Stand"} ID: {booking.id}
                     </span>
                     <span className=" px-2">|</span>
                     <span className=" text-primary">
-                        Datum: <span className="text-white">{dateString}</span>
+                        Datum:{" "}
+                        <span className="text-base-content">{dateString}</span>
                     </span>
 
                     <span className=" px-2">-</span>
 
                     <span className=" text-primary">
                         Status:{" "}
-                        <span className="text-white">
+                        <span className="text-base-content">
                             {booking.status.bezeichnung}
                         </span>
                     </span>
@@ -145,7 +146,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {booking.firma && (
                             <span>
                                 Firma:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {booking.firma}
                                 </span>
                             </span>
@@ -153,19 +154,21 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {booking.ansprechpartner && (
                             <span>
                                 Kontakt:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {booking.ansprechpartner}
                                 </span>
                             </span>
                         )}
                         <span>
                             Email:{" "}
-                            <span className="text-white">{booking.email}</span>
+                            <span className="text-base-content">
+                                {booking.email}
+                            </span>
                         </span>
                         {isTalk && (
                             <span>
                                 Thema:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"thema" in booking && booking.thema}
                                 </span>
                             </span>
@@ -173,7 +176,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {isTalk && (
                             <span>
                                 Länge:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"dauer" in booking && booking.dauer} Min.
                                 </span>
                             </span>
@@ -182,7 +185,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {isTalk && (
                             <span>
                                 Uhrzeit:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"uhrzeit" in booking && booking.uhrzeit}{" "}
                                     Uhr
                                 </span>
@@ -191,7 +194,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {!isTalk && (
                             <span>
                                 Telefon:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {booking.telefon}
                                 </span>
                             </span>
@@ -199,7 +202,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {!isTalk && (
                             <span>
                                 Tisch(e):{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"tisch" in booking && booking.tisch}
                                 </span>
                             </span>
@@ -207,7 +210,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {!isTalk && (
                             <span>
                                 Stuhlanzahl:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"stuhl" in booking && booking.stuhl}
                                 </span>
                             </span>
@@ -215,7 +218,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {!isTalk && (
                             <span>
                                 Tag 1:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"tag1" in booking && booking.tag1
                                         ? "Ja"
                                         : "Nein"}
@@ -225,7 +228,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                         {!isTalk && (
                             <span>
                                 Tag 2:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {"tag2" in booking && booking.tag2
                                         ? "Ja"
                                         : "Nein"}
@@ -237,7 +240,7 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                             booking.bemerkung && (
                                 <span>
                                     Bemerkung:{" "}
-                                    <span className="text-white">
+                                    <span className="text-base-content">
                                         {booking.bemerkung}
                                     </span>
                                 </span>

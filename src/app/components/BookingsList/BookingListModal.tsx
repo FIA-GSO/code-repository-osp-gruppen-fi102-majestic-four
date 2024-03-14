@@ -55,7 +55,10 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
     const userId = parseInt(session.data?.user?.id);
 
     return (
-        <dialog id="change-booking-data" className={`${className || ""} modal`}>
+        <dialog
+            id="change-booking-data"
+            className={`${className || ""} modal text-base-content`}
+        >
             <div className="modal-box w-11/12 max-w-5xl border border-neutral">
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
@@ -74,7 +77,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                     {modalType === "talk" && (
                         <div className=" flex flex-wrap gap-x-5">
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neues Thema
                                 </label>
                                 <input
@@ -87,7 +90,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neuer Dauer
                                 </label>
                                 <input
@@ -106,7 +109,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neues Datum
                                 </label>
                                 <select
@@ -128,7 +131,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 </select>
                             </div>
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neuer Uhrzeit
                                 </label>
                                 <select
@@ -150,7 +153,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                     {modalType === "stand" && (
                         <div className=" flex flex-wrap gap-x-5">
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neue Anmerkung
                                 </label>
                                 <input
@@ -163,7 +166,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col justify-center items-center">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Tag 1
                                 </label>
                                 <input
@@ -176,7 +179,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col justify-center items-center">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Tag 2
                                 </label>
                                 <input
@@ -189,7 +192,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neue Tischanzahl
                                 </label>
                                 <input
@@ -205,7 +208,7 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                                 />
                             </div>
                             <div className="flex flex-col ">
-                                <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                                <label className="px-1 py-2 text-primary text-sm font-semibold">
                                     Neue Stuhlanzahl
                                 </label>
                                 <input

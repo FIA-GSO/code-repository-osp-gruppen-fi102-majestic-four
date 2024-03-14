@@ -149,7 +149,7 @@ export default function Booking() {
     }, [session]);
 
     return (
-        <main className=" flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-center p-4 px-24 relative">
+        <main className="flex h-[calc(100vh-64px)] bg-base-100 text-base-content flex-col items-center justify-center p-4 px-24 relative">
             <h3 className=" text-primary font-bold text-4xl py-2">
                 Allgemeine Informationen
             </h3>

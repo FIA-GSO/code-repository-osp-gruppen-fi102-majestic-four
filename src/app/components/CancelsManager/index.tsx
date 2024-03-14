@@ -30,18 +30,18 @@ const CancelsManager: React.FC<ICancelsManager> = ({
 
     return (
         <div
-            className={`${className || ""} relative border border-orange-500 rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-orange-500/60`}
+            className={`${className || ""} relative border border-neutral rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-base-200 text-base-content`}
         >
-            <h2 className="px-4 text-2xl font-extrabold py-2 text-orange-500 flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
+            <h2 className="px-4 text-2xl font-extrabold py-2 text-accent-content flex items-center sticky top-2 left-0 right-0 bg-accent z-20 rounded-xl my-2">
                 Stornierungen{" "}
-                <span className="text-orange-500/20 italic ">
+                <span className="text-accent-content/40 italic ">
                     ({cancelsManagerList.length}{" "}
                     {cancelsManagerList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
                 {!fullscreen && (
                     <Link
                         href={"/admin/cancels-manager"}
-                        className="btn bg-orange-500 text-primary-content opacity-30 hover:opacity-100 hover:bg-orange-500 ml-auto z-40"
+                        className="btn btn-neutral opacity-30 hover:opacity-100 z-40 ml-auto"
                     >
                         Volle Ansicht
                     </Link>

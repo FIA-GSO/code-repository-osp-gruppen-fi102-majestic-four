@@ -21,6 +21,23 @@ const config: Config = {
             },
         },
     },
+    daisyui: {
+        themes: [
+            {
+                gso: {
+                    primary: "#5b9ad5",
+                    secondary: "#242323",
+                    accent: "#f97316",
+                    neutral: "#6b7280",
+                    "base-100": "#ffffff",
+                    info: "#0f5fd9",
+                    success: "#34d399",
+                    warning: "#fdba74",
+                    error: "#f43f5e",
+                },
+            },
+        ],
+    },
     plugins: [require("daisyui")],
 };
 export default config;

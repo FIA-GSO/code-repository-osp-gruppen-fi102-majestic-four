@@ -11,7 +11,7 @@ export default function Home() {
         return () => clearInterval(id);
     }, [number]);
     return (
-        <main className="flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-between p-24">
+        <main className="flex h-[calc(100vh-64px)] bg-base-100 text-base-content flex-col items-center justify-between p-24">
             <div className=" flex flex-col items-center justify-evenly h-full">
                 <div className="flex gap-5">
                     <div>

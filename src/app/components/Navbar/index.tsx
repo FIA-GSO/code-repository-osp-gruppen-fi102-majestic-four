@@ -55,7 +55,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
         <div
             className={
                 `${className || ""}` +
-                "navbar bg-neutral flex justify-between w-full max-h-16"
+                "navbar bg-primary flex justify-between w-full max-h-16"
             }
         >
             <div className="navbar-start">
@@ -84,7 +84,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
             </div>
             <div className="navbar-end">
                 {session.status === "unauthenticated" && (
-                    <Link className="btn btn-primary text-xl" href={"/login"}>
+                    <Link className="btn btn-neutral text-xl" href={"/login"}>
                         Login
                     </Link>
                 )}
@@ -121,7 +121,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                             Profil
                         </Link>
                         <button
-                            className="btn btn-ghost text-xl"
+                            className="btn btn-neutral text-xl"
                             onClick={() =>
                                 signOut({
                                     callbackUrl: "/logout",

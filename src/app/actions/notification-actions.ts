@@ -3,7 +3,7 @@ import { prisma } from "../db.ts";
 import { Benutzer } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-export async function getNotificationsByID(id: number) {
+export async function getNotificationsByUserID(id: number) {
     try {
         const notifications = await prisma.benachrichtigung.findMany({
             where: { benutzerId: id },

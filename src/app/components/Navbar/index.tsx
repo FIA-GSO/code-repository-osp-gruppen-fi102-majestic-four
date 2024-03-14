@@ -1,6 +1,6 @@
 "use client";
 
-import { getNotificationsByID } from "@/app/actions";
+import { getNotificationsByUserID } from "@/app/actions/notification-actions";
 import { useGeneralStore } from "@/app/store/general-store";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -37,7 +37,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
 
     useEffect(() => {
         if (session.status === "authenticated") {
-            getNotificationsByID(Number(session.data?.user?.id)).then(
+            getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
                 (notes) => {
                     console.log("Notes: " + notes);
                     if (notes) {

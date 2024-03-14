@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createVortrag, createStand, getUserInfos } from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
 import { useSession } from "next-auth/react";
 import { useGeneralStore } from "../store/general-store";
+import { redirect, useRouter } from "next/navigation";
 
 export default function Booking() {
     const {
@@ -43,8 +44,21 @@ export default function Booking() {
     } = useBookingStore();
 
     const { setLastNotification, lastNotification } = useGeneralStore();
+    const [standMessage, setStandMessage] = useState(false);
+    const [vortragMessage, setVortragMessage] = useState(false);
 
     const session = useSession();
+    const router = useRouter();
+    useEffect(() => {
+        if (standMessage && vortragMessage) {
+            setLastNotification({
+                notificationType: "error",
+                message: "Buchen fehlgeschlagen!",
+            });
+            setStandMessage(false);
+            setVortragMessage(false);
+        }
+    }, [standMessage, vortragMessage]);
 
     const handleSubmit = async () => {
         try {
@@ -67,24 +81,13 @@ export default function Booking() {
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "error",
-                        message: "Buchen fehlgeschlagen!",
-                    });
-                }
+                setStandMessage(true);
             } else {
                 setDayOneChecked(false);
                 setDayTwoChecked(false);
                 setAnnotationInput("");
                 setTablesInput(0);
                 setChairsInput(0);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "success",
-                        message: "Buchen erfolgreich!",
-                    });
-                }
             }
 
             // Create Vortrag record
@@ -101,24 +104,13 @@ export default function Booking() {
 
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "error",
-                        message: "Buchen fehlgeschlagen!",
-                    });
-                }
+                setVortragMessage(true);
             } else {
                 // Handle successful creation (e.g., show success message)
                 setTopicInput("");
                 setTalkLengthInput(15);
                 setDateInput("");
                 setStartTimeInput("");
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "success",
-                        message: "Buchen erfolgreich!",
-                    });
-                }
             }
         } catch (error) {
             console.error("Error during record creation:", error);
@@ -238,7 +230,10 @@ export default function Booking() {
 
             <button
                 className="mt-8 bottom-4 btn btn-wide btn-primary sticky"
-                onClick={handleSubmit}
+                onClick={() => {
+                    handleSubmit();
+                    router.push("/booking/success");
+                }}
             >
                 Senden
             </button>

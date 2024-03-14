@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { Benutzer, Stand, Vortrag } from "@prisma/client";
+
+import { getCanceledBookings } from "../actions";
+
+export type BookingCancelType = Awaited<ReturnType<typeof getCanceledBookings>>;
 
 interface ICancelsManagerStore {
-    cancelsManagerList: (Vortrag | Stand)[];
-    setCancelsManagerList: (cancelsManagerList: (Vortrag | Stand)[]) => void;
+    cancelsManagerList: BookingCancelType;
+    setCancelsManagerList: (cancelsManagerList: BookingCancelType) => void;
 }
 
 export const useCancelsManagerStore = create<ICancelsManagerStore>()((set) => ({

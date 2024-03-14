@@ -4,6 +4,31 @@ import React from "react";
 interface ITalkBookingForm {
     className?: string;
 }
+export const generateOptions = () => {
+    const startTime = new Date("2022-01-01T10:00:00");
+    const endTime = new Date("2022-01-01T16:00:00");
+    const interval = 15; // 15 minutes
+
+    const options = [];
+
+    for (
+        let time = startTime;
+        time <= endTime;
+        time.setMinutes(time.getMinutes() + interval)
+    ) {
+        const formattedTime = time.toLocaleTimeString("de-DE", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+        options.push(
+            <option key={formattedTime} value={formattedTime}>
+                {formattedTime}
+            </option>
+        );
+    }
+
+    return options;
+};
 
 const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
     const {
@@ -16,32 +41,6 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
         startTimeInput,
         setStartTimeInput,
     } = useBookingStore();
-
-    const startTime = new Date("2022-01-01T10:00:00");
-    const endTime = new Date("2022-01-01T16:00:00");
-    const interval = 15; // 15 minutes
-
-    const generateOptions = () => {
-        const options = [];
-
-        for (
-            let time = startTime;
-            time <= endTime;
-            time.setMinutes(time.getMinutes() + interval)
-        ) {
-            const formattedTime = time.toLocaleTimeString("de-DE", {
-                hour: "2-digit",
-                minute: "2-digit",
-            });
-            options.push(
-                <option key={formattedTime} value={formattedTime}>
-                    {formattedTime}
-                </option>
-            );
-        }
-
-        return options;
-    };
 
     return (
         <form className={`${className || ""} flex justify-center p-4 gap-4`}>
@@ -67,9 +66,10 @@ const TalkBookingForm: React.FC<ITalkBookingForm> = ({ className }) => {
                         className="input input-primary w-full max-w-xs"
                         min={15}
                         max={60}
+                        step={15}
                         value={talkLengthInput}
                         onChange={(ev) =>
-                            setTalkLengthInput(parseInt(ev.target.value))
+                            setTalkLengthInput(parseInt(ev.target.value) || 15)
                         }
                     />
                 </label>

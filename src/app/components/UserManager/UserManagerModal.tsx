@@ -1,5 +1,6 @@
 import React from "react";
 import { useUserManagerStore } from "@/app/store/user-manager-store";
+import { updateUser } from "@/app/actions";
 
 interface IUserManagerModal {
     className?: string;
@@ -9,6 +10,8 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
     const {
         modalTitle,
         setModalTitle,
+        userId,
+        setUserId,
         changeEmailInput,
         setChangeEmailInput,
         changeFirstNameInput,
@@ -23,6 +26,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
 
     function resetInputValues() {
         setModalTitle("Benutzerdaten ändern");
+        setUserId(0);
         setChangeEmailInput("");
         setChangeFirstNameInput("");
         setChangeLastNameInput("");
@@ -104,17 +108,22 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
                                 Neue Rolle
                             </label>
-                            <input
-                                className="input input-primary max-w-[144px]"
-                                placeholder="#"
+                            <select
+                                className="select select-primary"
                                 value={changeRoleInput}
                                 onChange={(ev) =>
                                     setChangeRoleInput(
                                         parseInt(ev.target.value)
                                     )
                                 }
-                                type="number"
-                            />
+                            >
+                                <option disabled value="">
+                                    Rolle auswählen
+                                </option>
+                                <option value="1">Admin</option>
+                                <option value="2">User</option>
+                                <option value="3">Techniker</option>
+                            </select>
                         </div>
                         <div className="flex flex-col ">
                             <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
@@ -133,7 +142,50 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                     <div className="mt-4 italic text-warning text-sm">
                         Leere Felder werden ignoriert
                     </div>
-                    <button className="btn btn-success mt-4">Speichern</button>
+                    <button
+                        className="btn btn-success mt-4"
+                        onClick={() => {
+                            const data: {
+                                email?: string;
+                                vorname?: string;
+                                nachname?: string;
+                                firma?: string;
+                                rolleId?: number;
+                            } = {};
+                            if (changeEmailInput) {
+                                data.email = changeEmailInput;
+                            }
+                            if (changeFirstNameInput) {
+                                data.vorname = changeFirstNameInput;
+                            }
+                            if (changeLastNameInput) {
+                                data.nachname = changeLastNameInput;
+                            }
+                            if (changeFirmaInput) {
+                                data.firma = changeFirmaInput;
+                            }
+                            if (changeRoleInput) {
+                                data.rolleId = changeRoleInput;
+                            }
+                            updateUser(userId, data).then((user) => {
+                                if (user) {
+                                    //executed if success
+                                    setModalTitle(
+                                        user.nachname && user.vorname
+                                            ? `Benutzerdaten von ${user.nachname.charAt(0).toUpperCase() + user.nachname.slice(1)}, ${user.vorname.charAt(0).toUpperCase() + user.vorname.slice(1)} ändern`
+                                            : `Benutzerdaten von ${user.email} ändern`
+                                    );
+                                    setChangeEmailInput(user.email);
+                                    setChangeFirstNameInput(user.vorname || "");
+                                    setChangeLastNameInput(user.nachname || "");
+                                    setChangeFirmaInput(user.firma || "");
+                                    setChangeRoleInput(user.rolleId);
+                                }
+                            });
+                        }}
+                    >
+                        Speichern
+                    </button>
                 </div>
             </div>
         </dialog>

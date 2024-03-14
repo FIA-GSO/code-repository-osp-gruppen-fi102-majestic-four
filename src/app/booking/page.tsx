@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { createVortrag, createStand } from "../actions";
+import React, { useEffect } from "react";
+import { createVortrag, createStand, getUserInfos } from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
+import { useSession } from "next-auth/react";
 
 export default function Booking() {
     const {
@@ -16,23 +17,40 @@ export default function Booking() {
         setEmailInput,
         phoneInput,
         setPhoneInput,
-        // Define states for StandBookingForm
+
         dayOneChecked,
         annotationInput,
         dayTwoChecked,
         tablesInput,
         chairsInput,
-        // Define states for TalkBookingForm
+
+        setDayOneChecked,
+        setDayTwoChecked,
+        setAnnotationInput,
+        setTablesInput,
+        setChairsInput,
+
         topicInput,
         talkLengthInput,
         dateInput,
         startTimeInput,
+
+        setTopicInput,
+        setTalkLengthInput,
+        setDateInput,
+        setStartTimeInput,
     } = useBookingStore();
+
+    const session = useSession();
 
     const handleSubmit = async () => {
         try {
+            //@ts-ignore
+            const userId = parseInt(session.data?.user?.id);
+
             // Create Stand record
             const standResult = await createStand({
+                benutzerId: userId,
                 email: emailInput,
                 ansprechpartner: contactNameInput,
                 telefon: phoneInput,
@@ -40,15 +58,19 @@ export default function Booking() {
                 tag1: dayOneChecked,
                 tag2: dayTwoChecked,
                 bemerkung: annotationInput,
-                datum: "", // Provide the default date or customize as needed
                 tisch: tablesInput,
                 stuhl: chairsInput,
-                benutzerId: 1, // Assuming firmaResult has the id field
             });
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
-                return;
+            } else {
+                console.log("Stand created successfully!");
+                setDayOneChecked(false);
+                setDayTwoChecked(false);
+                setAnnotationInput("");
+                setTablesInput(0);
+                setChairsInput(0);
             }
 
             // Create Vortrag record
@@ -57,7 +79,7 @@ export default function Booking() {
                 ansprechpartner: contactNameInput,
                 firma: firmInput,
                 thema: topicInput,
-                benutzerId: 1,
+                benutzerId: userId,
                 email: emailInput,
                 datum: dateInput,
                 uhrzeit: startTimeInput,
@@ -65,16 +87,38 @@ export default function Booking() {
 
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
-                return;
+            } else {
+                // Handle successful creation (e.g., show success message)
+                console.log("Vortrag created successfully!");
+                setTopicInput("");
+                setTalkLengthInput(15);
+                setDateInput("");
+                setStartTimeInput("");
             }
-
-            // Handle successful creation (e.g., show success message)
-            console.log("Records created successfully!");
         } catch (error) {
             console.error("Error during record creation:", error);
             // Handle other errors as needed
         }
     };
+
+    const fetchUserInfos = async () => {
+        //@ts-ignore
+        const data = await getUserInfos(parseInt(session.data?.user?.id));
+
+        if (data === null || "error" in data) return;
+
+        setFirmInput(data.firma || "");
+        data.vorname && data.nachname
+            ? setContactNameInput(`${data.vorname} ${data.nachname}`)
+            : setContactNameInput("");
+        setEmailInput(data.email);
+        setPhoneInput(data.telefon || "");
+    };
+
+    useEffect(() => {
+        if (session.status === "authenticated") fetchUserInfos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session]);
 
     return (
         <main className=" flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-center p-4 px-24 relative">

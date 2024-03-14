@@ -1,22 +1,28 @@
-import { useUserManagerStore } from "@/app/store/user-manager-store";
-import { Benutzer } from "@prisma/client";
+import { deleteUser } from "@/app/actions";
+import {
+    useUserManagerStore,
+    UserWithRolle,
+} from "@/app/store/user-manager-store";
 
 interface IUserManagerEntry {
     className?: string;
-    user: Benutzer;
+    user: UserWithRolle;
 }
 const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
     const {
         setModalTitle,
+        setUserId,
         setChangeEmailInput,
         setChangeFirstNameInput,
         setChangeLastNameInput,
         setChangeFirmaInput,
         setChangeRoleInput,
+        setUpdatedUserlist,
     } = useUserManagerStore();
 
     function setupModalValues(
         modalTitle: string,
+        userId: number,
         email: string,
         vorname: string,
         nachname: string,
@@ -24,6 +30,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
         rolleId: number
     ) {
         setModalTitle(modalTitle);
+        setUserId(userId);
         setChangeEmailInput(email);
         setChangeFirstNameInput(vorname);
         setChangeLastNameInput(nachname);
@@ -53,6 +60,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                                     user.nachname && user.vorname
                                         ? `Benutzerdaten von ${user.nachname.charAt(0).toUpperCase() + user.nachname.slice(1)}, ${user.vorname.charAt(0).toUpperCase() + user.vorname.slice(1)} ändern`
                                         : `Benutzerdaten von ${user.email} ändern`,
+                                    user.id,
                                     user.email,
                                     user.vorname || "",
                                     user.nachname || "",
@@ -68,7 +76,16 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                         >
                             Anpassen
                         </button>
-                        <button className="btn btn-error btn-sm ml-2">
+                        <button
+                            className="btn btn-error btn-sm ml-2"
+                            onClick={() => {
+                                deleteUser(user.id).then((deletedUser) => {
+                                    if (deletedUser) {
+                                        setUpdatedUserlist(true);
+                                    }
+                                });
+                            }}
+                        >
                             Löschen
                         </button>
                     </div>
@@ -81,14 +98,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                                 <span className="text-white">{user.email}</span>
                             </span>
                         )}
-                        {user.passwort && (
-                            <span>
-                                Passwort:{" "}
-                                <span className="text-white">
-                                    {user.passwort}
-                                </span>
-                            </span>
-                        )}
+
                         {user.vorname && (
                             <span>
                                 Vorname:{" "}
@@ -114,7 +124,9 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                         )}
                         <span>
                             Rolle:{" "}
-                            <span className="text-white">{user.rolleId}</span>
+                            <span className="text-white">
+                                {user.rolle.bezeichnung}
+                            </span>
                         </span>
                     </div>
                 </div>

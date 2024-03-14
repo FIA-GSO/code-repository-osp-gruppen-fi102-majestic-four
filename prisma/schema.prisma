@@ -11,13 +11,13 @@ datasource db {
 }
 
 model Benutzer {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  passwort     String
-  vorname      String?
-  nachname     String?
-  firma        String? 
-  telefon      String?
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  passwort String
+  vorname  String?
+  nachname String?
+  firma    String?
+  telefon  String?
 
   rolle        Rollen  @relation(fields: [rolleId], references: [id])
   rolleId      Int
@@ -27,20 +27,20 @@ model Benutzer {
 }
 
 model Stand {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   tag1            Boolean
   tag2            Boolean
   bemerkung       String?
   datum           String
   tisch           Int
   stuhl           Int
-  email           String   @unique
+  email           String
   ansprechpartner String
   firma           String
   telefon         String?
   benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
-  benutzerId      Int?      @unique
-  status          Status   @relation(fields: [statusId], references: [id])
+  benutzerId      Int?
+  status          Status    @relation(fields: [statusId], references: [id])
   statusId        Int
 }
 
@@ -51,18 +51,18 @@ model Rollen {
 }
 
 model Vortrag {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   dauer           Int
   thema           String
-  email           String   @unique
+  email           String
   ansprechpartner String
   firma           String
   telefon         String?
   benutzer        Benutzer? @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
-  benutzerId      Int?      @unique
+  benutzerId      Int?
   datum           String
   uhrzeit         String
-  status          Status  @relation(fields: [statusId], references: [id])
+  status          Status    @relation(fields: [statusId], references: [id])
   statusId        Int
 }
 

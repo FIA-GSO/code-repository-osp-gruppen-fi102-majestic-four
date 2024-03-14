@@ -83,6 +83,44 @@ export async function getUserInfos(id: number) {
     }
 }
 
+export async function updateUserInfos(
+    id: number,
+    contactPerson: string,
+    telefon: string,
+    firma: string
+) {
+    try {
+        const user = await prisma.benutzer.update({
+            where: {
+                id,
+            },
+            data: {
+                vorname: contactPerson.split(" ")[0],
+                nachname: contactPerson.split(" ")[1],
+                firma: firma,
+                telefon: telefon,
+            },
+        });
+        return user;
+    } catch (error) {
+        console.error("Error modifying user:", error);
+        return {
+            error: "Authentication failed.",
+        };
+    }
+}
+
+// Function to get all Stands
+export async function getAllStands() {
+    try {
+        const allStands = await prisma.stand.findMany();
+        return allStands;
+    } catch (error) {
+        console.error("Error getting all Stands:", error);
+        return null;
+    }
+}
+
 // Function to create a new Stand
 export async function createStand({
     benutzerId,
@@ -489,7 +527,6 @@ export async function updatedStand(
         if (Object.keys(data).length === 0)
             throw new Error("keine daten beigefügt");
         if (!data.tag1 && !data.tag2) throw new Error("tag1 und tag2 false");
-        console.log(data);
 
         const updatedStand = await prisma.stand.update({
             where: {
@@ -501,7 +538,6 @@ export async function updatedStand(
                 statusId: 1,
             },
         });
-        console.log(updatedStand);
         return updatedStand;
     } catch (error) {
         console.error("Error changing stand", error);

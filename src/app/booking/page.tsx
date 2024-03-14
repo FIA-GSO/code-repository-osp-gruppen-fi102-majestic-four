@@ -6,6 +6,7 @@ import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
 import { useSession } from "next-auth/react";
+import { useGeneralStore } from "../store/general-store";
 
 export default function Booking() {
     const {
@@ -41,6 +42,8 @@ export default function Booking() {
         setStartTimeInput,
     } = useBookingStore();
 
+    const { setLastNotification, lastNotification } = useGeneralStore();
+
     const session = useSession();
 
     const handleSubmit = async () => {
@@ -64,13 +67,24 @@ export default function Booking() {
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
+                if (!lastNotification) {
+                    setLastNotification({
+                        notificationType: "error",
+                        message: "Buchen fehlgeschlagen!",
+                    });
+                }
             } else {
-                console.log("Stand created successfully!");
                 setDayOneChecked(false);
                 setDayTwoChecked(false);
                 setAnnotationInput("");
                 setTablesInput(0);
                 setChairsInput(0);
+                if (!lastNotification) {
+                    setLastNotification({
+                        notificationType: "success",
+                        message: "Buchen erfolgreich!",
+                    });
+                }
             }
 
             // Create Vortrag record
@@ -87,13 +101,24 @@ export default function Booking() {
 
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
+                if (!lastNotification) {
+                    setLastNotification({
+                        notificationType: "error",
+                        message: "Buchen fehlgeschlagen!",
+                    });
+                }
             } else {
                 // Handle successful creation (e.g., show success message)
-                console.log("Vortrag created successfully!");
                 setTopicInput("");
                 setTalkLengthInput(15);
                 setDateInput("");
                 setStartTimeInput("");
+                if (!lastNotification) {
+                    setLastNotification({
+                        notificationType: "success",
+                        message: "Buchen erfolgreich!",
+                    });
+                }
             }
         } catch (error) {
             console.error("Error during record creation:", error);

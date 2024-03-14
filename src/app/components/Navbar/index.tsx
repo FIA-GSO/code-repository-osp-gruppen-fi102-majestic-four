@@ -1,13 +1,16 @@
 "use client";
 
-import { TLoginState, useGeneralStore } from "@/app/store/general-store";
+import { getNotificationsByUserID } from "@/app/actions/notification-actions";
+import { useGeneralStore } from "@/app/store/general-store";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface INavbar {
     className?: string;
 }
+
+let notificationList = [];
 
 const navElements = [
     { name: "Home", link: "/", user: ["user"] },
@@ -24,9 +27,29 @@ const navElements = [
 ];
 
 const Navbar: React.FC<INavbar> = ({ className }) => {
-    const { loginState, setLoginState } = useGeneralStore();
-
     const session = useSession();
+    const {
+        hasNotifications,
+        setHasNotifications,
+        notifications,
+        setNotifications,
+    } = useGeneralStore();
+
+    useEffect(() => {
+        if (session.status === "authenticated") {
+            getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
+                (notes) => {
+                    if (notes) {
+                        notificationList = [...notes];
+                        setNotifications(notificationList);
+                    }
+                    notes?.length === 0
+                        ? setHasNotifications(false)
+                        : setHasNotifications(true);
+                }
+            );
+        }
+    }, [session.status]);
 
     return (
         <div
@@ -67,7 +90,10 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 )}
                 {session.status === "authenticated" && (
                     <div>
-                        <button className="btn btn-ghost btn-circle">
+                        <label
+                            htmlFor="my-drawer-4"
+                            className="drawer-button mr-3"
+                        >
                             <div className="indicator">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +109,11 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                                         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                                     />
                                 </svg>
-                                <span className="badge badge-xs badge-primary indicator-item"></span>
+                                {hasNotifications === true && (
+                                    <span className="badge badge-xs badge-primary indicator-item"></span>
+                                )}
                             </div>
-                        </button>
+                        </label>
                         <Link
                             className="btn btn-ghost text-xl"
                             href={"/profile"}

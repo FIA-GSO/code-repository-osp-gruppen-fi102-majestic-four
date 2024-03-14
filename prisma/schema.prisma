@@ -19,10 +19,11 @@ model Benutzer {
   firma    String?
   telefon  String?
 
-  rolle   Rollen    @relation(fields: [rolleId], references: [id])
-  rolleId Int
-  vortrag Vortrag[]
-  stand   Stand[]
+  rolle        Rollen  @relation(fields: [rolleId], references: [id])
+  rolleId      Int
+  vortrag      Vortrag[]
+  stand        Stand[]
+  benachrichtigung   Benachrichtigung[]
 }
 
 model Stand {
@@ -70,4 +71,11 @@ model Status {
   bezeichnung String
   vortrag     Vortrag[]
   stand       Stand[]
+}
+
+model Benachrichtigung {
+  id              Int           @id @default(autoincrement())
+  benutzer        Benutzer      @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
+  benutzerId      Int           
+  nachricht       String
 }

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export type TChangeState = "None" | "Enter" | "Wait";
+export type TSaveState = "Saved" | "Error" | "Default";
 
 interface IProfileState {
     email: string;
@@ -21,6 +22,8 @@ interface IProfileState {
     setConfirmPassword: (password: string) => void;
     code: string;
     setCode: (code: string) => void;
+    saveState: TSaveState;
+    setSaveState: (saveState: TSaveState) => void;
 }
 
 export const useProfileStore = create<IProfileState>()((set) => ({
@@ -42,4 +45,6 @@ export const useProfileStore = create<IProfileState>()((set) => ({
     setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
     code: "000000",
     setCode: (code) => set({ code }),
+    saveState: "Default",
+    setSaveState: (saveState) => set({ saveState }),
 }));

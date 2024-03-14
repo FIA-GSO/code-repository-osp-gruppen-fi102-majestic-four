@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useProfileStore } from "../store/profile-store";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { use, useEffect, useRef } from "react";
 import { Input } from "postcss";
-import { getUserInfos } from "../actions";
+import { getUserInfos, updateUserInfos } from "../actions";
 import { useSession } from "next-auth/react";
+import { preconnect } from "react-dom";
+import { error } from "console";
 
 export default function Login() {
     const router = useRouter();
@@ -29,6 +31,8 @@ export default function Login() {
         setConfirmPassword,
         code,
         setCode,
+        saveState,
+        setSaveState,
     } = useProfileStore();
     const input1Ref = useRef<HTMLInputElement | null>(null);
     const input2Ref = useRef<HTMLInputElement | null>(null);
@@ -43,19 +47,27 @@ export default function Login() {
 
     const fetchUser = async () => {
         const data = await getUserInfos(parseInt(session?.data?.user?.id));
-        console.log(data);
         if (data === null || "error" in data) {
             alert(data?.error);
         } else {
             setEmail(data.email);
             setCompany(data.firma || "");
             setTelefon(data.telefon || "");
-            setContactPerson(data.vorname + " " + data.nachname);
+            if (data.vorname !== null && data.nachname !== null) {
+                setContactPerson(data.vorname + " " + data.nachname);
+            } else setContactPerson("");
         }
     };
 
     useEffect(() => {
-        fetchUser();
+        setTimeout(() => setSaveState("Default"), 5000);
+    }, [saveState]);
+
+    useEffect(() => {
+        if (session.status === "authenticated") fetchUser();
+    }, [session]);
+
+    useEffect(() => {
         setChangeEmail("None");
         setChangePassword("None");
         setCode("000000");
@@ -572,6 +584,7 @@ export default function Login() {
                                 className="input input-bordered w-full max-w-xs"
                                 value={company}
                                 onChange={(e) => setCompany(e.target.value)}
+                                disabled={session.status !== "authenticated"}
                             />
                         </label>
                         <label className="form-control w-full max-w-xs">
@@ -588,6 +601,7 @@ export default function Login() {
                                 onChange={(e) =>
                                     setContactPerson(e.target.value)
                                 }
+                                disabled={session.status !== "authenticated"}
                             />
                         </label>
                         <label className="form-control w-full max-w-xs">
@@ -600,15 +614,67 @@ export default function Login() {
                                 type="number"
                                 placeholder="Telefonnummer"
                                 className="input input-bordered w-full max-w-xs"
-                                value={telefon === 0 ? "" : telefon}
-                                onChange={(e) =>
-                                    setTelefon(Number(e.target.value))
-                                }
+                                value={telefon}
+                                onChange={(e) => setTelefon(e.target.value)}
+                                disabled={session.status !== "authenticated"}
                             />
                         </label>
-                        <button className="btn btn-active btn-neutral my-10">
+                        <button
+                            className="btn btn-active btn-neutral my-10"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const user = updateUserInfos(
+                                    Number(session?.data?.user?.id),
+                                    contactPerson,
+                                    telefon,
+                                    company
+                                );
+                                if ("error" in user) {
+                                    setSaveState("Error");
+                                } else {
+                                    setSaveState("Saved");
+                                }
+                            }}
+                        >
                             Speichern
                         </button>
+                        {saveState === "Saved" ? (
+                            <div role="alert" className="alert alert-success">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="stroke-current shrink-0 h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <span>Erfolgreich gespeichert!</span>
+                            </div>
+                        ) : (
+                            saveState === "Error" && (
+                                <div role="alert" className="alert alert-error">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="stroke-current shrink-0 h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                    <span>Error!Speichern nicht möglich.</span>
+                                </div>
+                            )
+                        )}
                     </form>
                 )}
             </div>

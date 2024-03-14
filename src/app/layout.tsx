@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { Providers } from "./providers";
+import Notifications from "./components/Notifications";
+import NotificationPopup from "./components/NotificationPopup";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +22,28 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <Providers>
-                    <Navbar />
-                    {children}
+                    <div className="drawer drawer-end ">
+                        <input
+                            id="my-drawer-4"
+                            type="checkbox"
+                            className="drawer-toggle"
+                        />
+                        <div className="drawer-content relative">
+                            <Navbar />
+                            {children}
+                            <NotificationPopup />
+                        </div>
+                        <div className="drawer-side z-[1000]">
+                            <label
+                                htmlFor="my-drawer-4"
+                                aria-label="close sidebar"
+                                className="drawer-overlay"
+                            ></label>
+                            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                                <Notifications />
+                            </ul>
+                        </div>
+                    </div>
                 </Providers>
             </body>
         </html>

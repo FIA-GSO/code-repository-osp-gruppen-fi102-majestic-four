@@ -31,7 +31,6 @@ export default function Register(): JSX.Element {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (passwordInput !== confirmPasswordInput) {
-            console.log("error! passwords do not match");
             return;
         } else if (passwordInput === confirmPasswordInput) {
             try {
@@ -39,7 +38,6 @@ export default function Register(): JSX.Element {
                 if ("error" in newUser) {
                     alert(newUser.error);
                 } else {
-                    console.log("User registered:", newUser);
                     signIn("credentials", {
                         redirect: false,
                         email: emailInput,

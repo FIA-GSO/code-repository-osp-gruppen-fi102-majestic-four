@@ -34,7 +34,10 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
         setChangeRoleInput(0);
     }
     return (
-        <dialog id="change-user-data" className={`${className || ""} modal`}>
+        <dialog
+            id="change-user-data"
+            className={`${className || ""} modal text-base-content`}
+        >
             <div className="modal-box w-11/12 max-w-5xl border border-neutral">
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}
@@ -51,7 +54,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                 <div className="py-4">
                     <div className=" flex flex-wrap gap-x-5">
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neue Email
                             </label>
                             <input
@@ -64,7 +67,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             />
                         </div>
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neuer Vorname
                             </label>
                             <input
@@ -77,7 +80,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             />
                         </div>
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neuer Nachname
                             </label>
                             <input
@@ -91,7 +94,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                         </div>
 
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neue Firma
                             </label>
                             <input
@@ -105,7 +108,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             />
                         </div>
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neue Rolle
                             </label>
                             <select
@@ -126,7 +129,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             </select>
                         </div>
                         <div className="flex flex-col ">
-                            <label className="px-1 py-2 text-neutral-content text-sm font-semibold">
+                            <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neues Passwort
                             </label>
                             <button
@@ -139,7 +142,7 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             </button>
                         </div>
                     </div>
-                    <div className="mt-4 italic text-warning text-sm">
+                    <div className="mt-4 italic text-accent text-sm">
                         Leere Felder werden ignoriert
                     </div>
                     <button

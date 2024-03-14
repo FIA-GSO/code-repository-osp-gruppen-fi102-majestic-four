@@ -7,6 +7,7 @@ import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
 import { useSession } from "next-auth/react";
 import { useGeneralStore } from "../store/general-store";
+import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 
 export default function Booking() {
@@ -48,6 +49,8 @@ export default function Booking() {
     const [vortragMessage, setVortragMessage] = useState(false);
 
     const session = useSession();
+    //@ts-ignore
+    const role = session.data?.user?.rolle;
     const router = useRouter();
     useEffect(() => {
         if (standMessage && vortragMessage) {
@@ -138,7 +141,7 @@ export default function Booking() {
     }, [session]);
 
     return (
-        <main className=" flex h-[calc(100vh-64px)] bg-base-100 flex-col items-center justify-center p-4 px-24 relative">
+        <main className="flex h-[calc(100vh-64px)] bg-base-100 text-base-content flex-col items-center justify-center p-4 px-24 relative">
             <h3 className=" text-primary font-bold text-4xl py-2">
                 Allgemeine Informationen
             </h3>
@@ -228,15 +231,30 @@ export default function Booking() {
                 </details>
             </div>
 
-            <button
-                className="mt-8 bottom-4 btn btn-wide btn-primary sticky"
-                onClick={() => {
-                    handleSubmit();
-                    router.push("/booking/success");
-                }}
-            >
-                Senden
-            </button>
+            <div className="m-4 bottom-4 sticky flex flex-col items-center justify-center">
+                {!role && (
+                    <p className="my-1 mt-2 text-sm font-light">
+                        Mit dem Klick auf senden stimmen Sie den
+                        <Link
+                            className="text-primary underline mx-1"
+                            href={"/datenschutz"}
+                        >
+                            Datenschutzrichtlinien
+                        </Link>
+                        zu
+                    </p>
+                )}
+
+                <button
+                    className=" btn btn-wide btn-primary"
+                    onClick={() => {
+                        handleSubmit();
+                        router.push("/booking/success");
+                    }}
+                >
+                    Senden
+                </button>
+            </div>
         </main>
     );
 }

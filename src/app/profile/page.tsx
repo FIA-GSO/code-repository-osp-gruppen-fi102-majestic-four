@@ -78,7 +78,7 @@ export default function Login() {
     let newCode;
 
     return (
-        <main className="h-[calc(100vh-64px)] w-full flex justify-center items-center bg-slate-800">
+        <main className="h-[calc(100vh-64px)] w-full flex justify-center items-center bg-base-100 text-base-content">
             <div className="gap-10 h-fit w-full flex justify-center items-center">
                 <div className="flex flex-col">
                     <div className="flex flex-col justify-center items-center">
@@ -93,7 +93,7 @@ export default function Login() {
                                     <input
                                         type="email"
                                         placeholder="E-Mail"
-                                        className={`input input-bordered w-full max-w-xs ${changeEmail === "Enter" ? "input-info" : ""}`}
+                                        className={`input input-bordered input-primary text-primary-content w-full max-w-xs ${changeEmail === "Enter" ? "input-info" : ""}`}
                                         value={email}
                                         disabled={changeEmail !== "Enter"}
                                         onChange={(e) =>
@@ -151,7 +151,7 @@ export default function Login() {
                                         id="code1"
                                         type="text"
                                         pattern="\d{1}"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         autoFocus
                                         ref={input1Ref}
@@ -176,7 +176,7 @@ export default function Login() {
                                     <input
                                         id="code2"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input2Ref}
                                         onKeyUp={(e) =>
@@ -200,7 +200,7 @@ export default function Login() {
                                     <input
                                         id="code3"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input3Ref}
                                         onKeyUp={(e) =>
@@ -224,7 +224,7 @@ export default function Login() {
                                     <input
                                         id="code4"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input4Ref}
                                         onKeyUp={(e) =>
@@ -248,7 +248,7 @@ export default function Login() {
                                     <input
                                         id="code5"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input5Ref}
                                         onKeyUp={(e) =>
@@ -272,7 +272,7 @@ export default function Login() {
                                     <input
                                         id="code6"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input6Ref}
                                         onKeyUp={(e) =>
@@ -343,7 +343,7 @@ export default function Login() {
                                         type="password"
                                         placeholder="Passwort"
                                         className={
-                                            "input input-bordered w-full max-w-xs"
+                                            "input input-bordered input-primary text-primary-content w-full max-w-xs"
                                         }
                                         value={password}
                                         onChange={(e) =>
@@ -360,7 +360,7 @@ export default function Login() {
                                     <input
                                         type="password"
                                         placeholder="Passwort bestätigen"
-                                        className={`input input-bordered w-full max-w-xs ${password !== confirmPassword && confirmPassword !== "" ? "input-error" : ""}`}
+                                        className={`input input-bordered input-primary text-primary-content w-full max-w-xs ${password !== confirmPassword && confirmPassword !== "" ? "input-error" : ""}`}
                                         value={confirmPassword}
                                         onChange={(e) =>
                                             setConfirmPassword(e.target.value)
@@ -429,7 +429,7 @@ export default function Login() {
                                         id="code1"
                                         type="text"
                                         pattern="\d{1}"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         autoFocus
                                         ref={input1Ref}
@@ -443,7 +443,7 @@ export default function Login() {
                                     <input
                                         id="code2"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input2Ref}
                                         onKeyUp={(e) =>
@@ -456,7 +456,7 @@ export default function Login() {
                                     <input
                                         id="code3"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input3Ref}
                                         onKeyUp={(e) =>
@@ -469,7 +469,7 @@ export default function Login() {
                                     <input
                                         id="code4"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input4Ref}
                                         onKeyUp={(e) =>
@@ -482,7 +482,7 @@ export default function Login() {
                                     <input
                                         id="code5"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input5Ref}
                                         onKeyUp={(e) =>
@@ -495,7 +495,7 @@ export default function Login() {
                                     <input
                                         id="code6"
                                         type="text"
-                                        className="input input-bordered input-lg w-16"
+                                        className="input input-bordered input-primary text-primary-content input-lg w-16"
                                         maxLength={1}
                                         ref={input6Ref}
                                         onKeyUp={(e) =>
@@ -581,7 +581,7 @@ export default function Login() {
                             <input
                                 type="text"
                                 placeholder="Firma"
-                                className="input input-bordered w-full max-w-xs"
+                                className="input input-bordered input-primary text-primary-content w-full max-w-xs"
                                 value={company}
                                 onChange={(e) => setCompany(e.target.value)}
                                 disabled={session.status !== "authenticated"}
@@ -596,7 +596,7 @@ export default function Login() {
                             <input
                                 type="text"
                                 placeholder="Namen des Ansprechpartners"
-                                className="input input-bordered w-full max-w-xs"
+                                className="input input-bordered input-primary text-primary-content w-full max-w-xs"
                                 value={contactPerson}
                                 onChange={(e) =>
                                     setContactPerson(e.target.value)
@@ -613,7 +613,7 @@ export default function Login() {
                             <input
                                 type="number"
                                 placeholder="Telefonnummer"
-                                className="input input-bordered w-full max-w-xs"
+                                className="input input-bordered input-primary text-primary-content w-full max-w-xs"
                                 value={telefon}
                                 onChange={(e) => setTelefon(e.target.value)}
                                 disabled={session.status !== "authenticated"}

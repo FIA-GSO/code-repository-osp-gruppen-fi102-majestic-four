@@ -4,6 +4,7 @@ import { useRegisterStore } from "../store/register-store";
 import { createUser } from "../actions";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 interface FormData {
     username: string;
@@ -51,7 +52,7 @@ export default function Register(): JSX.Element {
     };
 
     return (
-        <div className="h-screen flex justify-center items-center flex-col">
+        <div className="flex justify-center items-center flex-col bg-base-100 h-[calc(100vh-64px)] py-10 px-20 gap-4 ">
             {session.status !== "loading" ? (
                 <form
                     className="flex flex-col items-center justify-center"
@@ -107,6 +108,16 @@ export default function Register(): JSX.Element {
                         />
                     </label>
                     <br />
+                    <p className="mb-4 text-sm font-light">
+                        Mit dem Klick auf registrieren stimmen Sie den
+                        <Link
+                            className="text-primary underline mx-1"
+                            href={"/datenschutz"}
+                        >
+                            Datenschutzrichtlinien
+                        </Link>
+                        zu
+                    </p>
                     <button className="btn" type="submit">
                         Register
                     </button>

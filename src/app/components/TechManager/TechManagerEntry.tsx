@@ -14,7 +14,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
 
     return (
         <li
-            className={`${className || ""} border border-neutral-content my-2 rounded-xl bg-base-100 p-4 flex flex-col gap-y-4`}
+            className={`${className || ""} border border-neutral my-2 rounded-xl bg-base-100 text-base-content p-4 flex flex-col gap-y-4`}
         >
             <div className="font-bold text-xl">
                 <span className="text-primary">
@@ -22,7 +22,8 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                 </span>
                 <span className=" px-2">|</span>
                 <span className="text-primary">
-                    Datum: <span className="text-white">{dateString}</span>
+                    Datum:{" "}
+                    <span className="text-base-content">{dateString}</span>
                 </span>
             </div>
             <div className="relative">
@@ -30,7 +31,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {isTalk && (
                         <span>
                             Thema:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"thema" in booking && booking.thema}
                             </span>
                         </span>
@@ -38,7 +39,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {isTalk && (
                         <span>
                             Länge:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"dauer" in booking && booking.dauer} Min.
                             </span>
                         </span>
@@ -46,7 +47,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {isTalk && (
                         <span>
                             Uhrzeit:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"uhrzeit" in booking && booking.uhrzeit} Uhr
                             </span>
                         </span>
@@ -54,7 +55,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {!isTalk && (
                         <span>
                             Tisch(e):{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"tisch" in booking && booking.tisch}
                             </span>
                         </span>
@@ -62,7 +63,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {!isTalk && (
                         <span>
                             Stuhlanzahl:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"stuhl" in booking && booking.stuhl}
                             </span>
                         </span>
@@ -70,7 +71,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {!isTalk && (
                         <span>
                             Tag 1:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"tag1" in booking && booking.tag1
                                     ? "Ja"
                                     : "Nein"}
@@ -80,7 +81,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {!isTalk && (
                         <span>
                             Tag 2:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {"tag2" in booking && booking.tag2
                                     ? "Ja"
                                     : "Nein"}
@@ -90,7 +91,7 @@ const TechManagerEntry: React.FC<ITechManager> = ({ className, booking }) => {
                     {!isTalk && "bemerkung" in booking && booking.bemerkung && (
                         <span>
                             Bemerkung:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {booking.bemerkung}
                             </span>
                         </span>

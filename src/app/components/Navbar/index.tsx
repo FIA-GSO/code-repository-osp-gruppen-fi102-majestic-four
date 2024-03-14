@@ -39,10 +39,8 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
         if (session.status === "authenticated") {
             getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
                 (notes) => {
-                    console.log("Notes: " + notes);
                     if (notes) {
                         notificationList = [...notes];
-                        console.log("notificationList: " + notificationList);
                         setNotifications(notificationList);
                     }
                     notes?.length === 0

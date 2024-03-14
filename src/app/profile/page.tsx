@@ -47,7 +47,6 @@ export default function Login() {
 
     const fetchUser = async () => {
         const data = await getUserInfos(parseInt(session?.data?.user?.id));
-        console.log(data);
         if (data === null || "error" in data) {
             alert(data?.error);
         } else {
@@ -635,7 +634,6 @@ export default function Login() {
                                 } else {
                                     setSaveState("Saved");
                                 }
-                                console.log(saveState);
                             }}
                         >
                             Speichern

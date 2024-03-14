@@ -29,7 +29,6 @@ const TechManager: React.FC<ITechManager> = ({ className }) => {
         const userId = parseInt(session.data?.user?.id);
 
         const bookings = await getBookingsForTech();
-        console.log(bookings);
 
         setBookingsList(bookings);
 

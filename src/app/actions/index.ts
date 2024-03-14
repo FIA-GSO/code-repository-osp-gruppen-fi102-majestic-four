@@ -527,7 +527,6 @@ export async function updatedStand(
         if (Object.keys(data).length === 0)
             throw new Error("keine daten beigefügt");
         if (!data.tag1 && !data.tag2) throw new Error("tag1 und tag2 false");
-        console.log(data);
 
         const updatedStand = await prisma.stand.update({
             where: {
@@ -539,7 +538,6 @@ export async function updatedStand(
                 statusId: 1,
             },
         });
-        console.log(updatedStand);
         return updatedStand;
     } catch (error) {
         console.error("Error changing stand", error);

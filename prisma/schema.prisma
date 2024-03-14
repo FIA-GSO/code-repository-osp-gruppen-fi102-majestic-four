@@ -76,6 +76,6 @@ model Status {
 model Benachrichtigung {
   id              Int           @id @default(autoincrement())
   benutzer        Benutzer      @relation(fields: [benutzerId], references: [id], onDelete: Cascade)
-  benutzerId      Int           @unique
+  benutzerId      Int           
   nachricht       String
 }

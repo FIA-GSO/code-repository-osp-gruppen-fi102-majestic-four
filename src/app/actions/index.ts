@@ -253,21 +253,3 @@ export async function getAllVortrags() {
         return null;
     }
 }
-
-export async function getNotificationsByID(id: number) {
-    try {
-        const notifications = await prisma.benachrichtigung.findMany({
-            where: { benutzerId: id },
-        });
-        return notifications;
-    } catch (error) {
-        console.error("Error getting all Vortrags:", error);
-        return null;
-    }
-}
-
-export async function createNotifications(
-    toUserId: number | null = null,
-    message: string,
-    toAdmin: boolean = false
-) {}

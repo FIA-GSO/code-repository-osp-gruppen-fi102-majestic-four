@@ -52,10 +52,7 @@ export default function BookingsSuccessPage() {
                                 finden Sie in ihrem Dashboard
                             </p>
                         </div>
-                        <Link
-                            href={"/dashboard"}
-                            className="btn btn-primary mt-4"
-                        >
+                        <Link href={"/dashboard"} className="btn btn-primary">
                             zum Dashboard
                         </Link>
                     </>

@@ -7,6 +7,7 @@ import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
 import { useSession } from "next-auth/react";
 import { useGeneralStore } from "../store/general-store";
+import Link from "next/link";
 
 export default function Booking() {
     const {
@@ -45,6 +46,8 @@ export default function Booking() {
     const { setLastNotification, lastNotification } = useGeneralStore();
 
     const session = useSession();
+    //@ts-ignore
+    const role = session.data?.user?.rolle;
 
     const handleSubmit = async () => {
         try {
@@ -236,12 +239,27 @@ export default function Booking() {
                 </details>
             </div>
 
-            <button
-                className="mt-8 bottom-4 btn btn-wide btn-primary sticky"
-                onClick={handleSubmit}
-            >
-                Senden
-            </button>
+            <div className="m-4 bottom-4 sticky flex flex-col items-center justify-center">
+                {!role && (
+                    <p className="my-1 mt-2 text-sm font-light">
+                        Mit dem Klick auf senden stimmen Sie den
+                        <Link
+                            className="text-primary underline mx-1"
+                            href={"/datenschutz"}
+                        >
+                            Datenschutzrichtlinien
+                        </Link>
+                        zu
+                    </p>
+                )}
+
+                <button
+                    className=" btn btn-wide btn-primary"
+                    onClick={handleSubmit}
+                >
+                    Senden
+                </button>
+            </div>
         </main>
     );
 }

@@ -77,7 +77,7 @@ export default function Login() {
                     </button>
                 </form>
                 <div className="flex items-end justify-center mt-3">
-                    <Link href={"/register"} className="link link-neutral">
+                    <Link href={"/register"} className="link link-primary">
                         Registrieren
                     </Link>
                 </div>

@@ -39,10 +39,10 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
     }
     return (
         <li className={`${className || ""}`}>
-            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
+            <details className="collapse border border-neutral collapse-arrow my-2 rounded-xl bg-base-100 text-base-content">
                 <summary className="collapse-title text-xl font-medium">
                     <div>
-                        <span className=" text-warning font-bold">{`ID: ${user.id}`}</span>
+                        <span className=" text-error font-bold">{`ID: ${user.id}`}</span>
                         <span className=" font-bold"> | </span>
                         <span className=" font-bold">{user.email}</span>
 
@@ -91,18 +91,20 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                     </div>
                 </summary>
                 <div className="collapse-content relative">
-                    <div className="flex gap-x-8 flex-wrap w-4/5 text-warning text-lg font-bold text-wrap">
+                    <div className="flex gap-x-8 flex-wrap w-4/5 text-error text-lg font-bold text-wrap">
                         {user.email && (
                             <span>
                                 Email:{" "}
-                                <span className="text-white">{user.email}</span>
+                                <span className="text-base-content">
+                                    {user.email}
+                                </span>
                             </span>
                         )}
 
                         {user.vorname && (
                             <span>
                                 Vorname:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {user.vorname}
                                 </span>
                             </span>
@@ -110,7 +112,7 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                         {user.nachname && (
                             <span>
                                 Nachname:{" "}
-                                <span className="text-white">
+                                <span className="text-base-content">
                                     {user.nachname}
                                 </span>
                             </span>
@@ -119,12 +121,14 @@ const UserManagerEntry: React.FC<IUserManagerEntry> = ({ className, user }) => {
                         {user.firma && (
                             <span>
                                 Firma:{" "}
-                                <span className="text-white">{user.firma}</span>
+                                <span className="text-base-content">
+                                    {user.firma}
+                                </span>
                             </span>
                         )}
                         <span>
                             Rolle:{" "}
-                            <span className="text-white">
+                            <span className="text-base-content">
                                 {user.rolle.bezeichnung}
                             </span>
                         </span>

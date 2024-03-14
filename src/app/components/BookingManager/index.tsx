@@ -47,11 +47,11 @@ const BookingManager: React.FC<IBookingManager> = ({
 
     return (
         <div
-            className={`${className || ""} relative border border-info rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-info/60`}
+            className={`${className || ""} relative border border-neutral rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-base-200 text-base-content`}
         >
-            <h2 className="px-4 text-2xl font-extrabold py-2 text-info flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
+            <h2 className="px-4 text-2xl font-extrabold py-2 bg-primary text-primary-content flex items-center sticky top-2 left-0 right-0 z-20 rounded-xl my-2">
                 Anträge{" "}
-                <span className="text-info/20 italic ">
+                <span className="text-primary-content/40 italic ">
                     ({filterArchivedBookings.length}{" "}
                     {filterArchivedBookings.length === 1
                         ? "Eintrag"
@@ -60,13 +60,13 @@ const BookingManager: React.FC<IBookingManager> = ({
                 </span>
                 <div className="ml-auto flex gap-4">
                     <div className="ml-auto flex flex-col items-center justify-center">
-                        <label className="px-1 text-neutral-content text-sm font-semibold">
+                        <label className="px-1 text-primary-content text-sm font-semibold">
                             Abgelehnte
                         </label>
 
                         <input
                             type="checkbox"
-                            className="toggle toggle-sm"
+                            className="toggle toggle-sm toggle-success"
                             checked={showDeclined}
                             onChange={(event) => {
                                 setShowDeclined(event.target.checked);
@@ -76,7 +76,7 @@ const BookingManager: React.FC<IBookingManager> = ({
                     {!fullscreen && (
                         <Link
                             href={"/admin/booking-manager"}
-                            className="btn btn-info opacity-30 hover:opacity-100 z-40"
+                            className="btn btn-neutral opacity-30 hover:opacity-100 z-40"
                         >
                             Volle Ansicht
                         </Link>

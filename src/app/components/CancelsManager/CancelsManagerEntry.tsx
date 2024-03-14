@@ -20,23 +20,26 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
 
     return (
         <li className={`${className || ""}`}>
-            <details className="collapse border border-neutral-content collapse-arrow my-2 rounded-xl bg-base-100">
+            <details className="collapse border border-neutral collapse-arrow my-2 rounded-xl bg-base-100 text-base-content">
                 <summary className="collapse-title font-bold">
-                    <span className="text-orange-500">
+                    <span className="text-accent">
                         {isTalk ? "Vortrag" : "Stand"} ID: {booking.id}
                     </span>
                     <span className=" px-2">|</span>
 
-                    <span className="text-orange-500">
-                        Datum: <span className="text-white">{dateString}</span>
+                    <span className="text-accent">
+                        Datum:{" "}
+                        <span className="text-accent-content">
+                            {dateString}
+                        </span>
                     </span>
                 </summary>
                 <div className="collapse-content relative">
-                    <div className="flex gap-x-8 flex-wrap w-4/5 text-orange-500 text-lg font-bold text-wrap">
+                    <div className="flex gap-x-8 flex-wrap w-4/5 text-accent text-lg font-bold text-wrap">
                         {booking.firma && (
                             <span>
                                 Firma:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {booking.firma}
                                 </span>
                             </span>
@@ -44,19 +47,21 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {booking.ansprechpartner && (
                             <span>
                                 Kontakt:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {booking.ansprechpartner}
                                 </span>
                             </span>
                         )}
                         <span>
                             Email:{" "}
-                            <span className="text-white">{booking.email}</span>
+                            <span className="text-accent-content">
+                                {booking.email}
+                            </span>
                         </span>
                         {isTalk && (
                             <span>
                                 Thema:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"thema" in booking && booking.thema}
                                 </span>
                             </span>
@@ -64,7 +69,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {isTalk && (
                             <span>
                                 Länge:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"dauer" in booking && booking.dauer} Min.
                                 </span>
                             </span>
@@ -73,7 +78,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {isTalk && (
                             <span>
                                 Uhrzeit:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"uhrzeit" in booking && booking.uhrzeit}{" "}
                                     Uhr
                                 </span>
@@ -82,7 +87,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {!isTalk && (
                             <span>
                                 Telefon:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {booking.telefon}
                                 </span>
                             </span>
@@ -90,7 +95,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {!isTalk && (
                             <span>
                                 Tisch(e):{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"tisch" in booking && booking.tisch}
                                 </span>
                             </span>
@@ -98,7 +103,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {!isTalk && (
                             <span>
                                 Stuhlanzahl:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"stuhl" in booking && booking.stuhl}
                                 </span>
                             </span>
@@ -106,7 +111,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {!isTalk && (
                             <span>
                                 Tag 1:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"tag1" in booking && booking.tag1
                                         ? "Ja"
                                         : "Nein"}
@@ -116,7 +121,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                         {!isTalk && (
                             <span>
                                 Tag 2:{" "}
-                                <span className="text-white">
+                                <span className="text-accent-content">
                                     {"tag2" in booking && booking.tag2
                                         ? "Ja"
                                         : "Nein"}
@@ -128,7 +133,7 @@ const CancelsManagerEntry: React.FC<ICancelsManagerEntry> = ({
                             booking.bemerkung && (
                                 <span>
                                     Bemerkung:{" "}
-                                    <span className="text-white">
+                                    <span className="text-accent-content">
                                         {booking.bemerkung}
                                     </span>
                                 </span>

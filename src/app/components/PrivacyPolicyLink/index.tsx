@@ -20,7 +20,7 @@ const PrivacyPolicyPage: React.FC = () => {
         return (
             <Link
                 href={"/datenschutz"}
-                className="absolute text-lg font-light text-primary underline bottom-4 right-4"
+                className="absolute text-lg font-light text-secondary underline bottom-4 right-4"
             >
                 Datenschutzrichtlinien
             </Link>

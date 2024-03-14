@@ -12,12 +12,12 @@ import TechManager from "../components/TechManager";
 
 export default function Dashboard() {
     const session = useSession();
-    const { loginState } = useGeneralStore();
+
     // @ts-ignore
     const rolle = session.data?.user?.rolle;
 
     return (
-        <main className="bg-base-100 h-[calc(100vh-64px)] flex flex-col py-10 px-20 gap-4 ">
+        <main className="bg-base-100 text-base-content h-[calc(100vh-64px)] flex flex-col py-10 px-20 gap-4 ">
             {/* User Dashboard */}
             {rolle === "user" && (
                 <BookingsList className=" flex-1 flex-grow-[2]" />

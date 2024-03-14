@@ -49,16 +49,16 @@ const TechManager: React.FC<ITechManager> = ({ className }) => {
 
     return (
         <div
-            className={`${className || ""} relative border border-primary rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-base-300`}
+            className={`${className || ""} relative border border-neutral rounded-xl px-4 flex-1 flex flex-col overflow-auto h-full bg-base-200 text-base-content`}
         >
-            <h2 className="px-4 text-2xl font-extrabold py-2 flex items-center sticky top-2 left-0 right-0 bg-base-300 z-20 rounded-xl my-2">
+            <h2 className="px-4 text-2xl font-extrabold py-2 flex items-center sticky top-2 left-0 right-0 z-20 rounded-xl my-2 bg-primary text-primary-content">
                 Anträge{" "}
-                <span className="text-white/20 italic ">
+                <span className="text-primary-content/40 italic ">
                     ({filteredBookings.length}{" "}
                     {filteredBookings.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
                 <select
-                    className="select select-primary ml-auto"
+                    className="select bg-base text-base-content ml-auto"
                     value={dateInput}
                     onChange={(ev) => setDateInput(ev.target.value as TDates)}
                 >

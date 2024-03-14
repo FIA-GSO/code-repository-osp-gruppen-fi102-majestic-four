@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
     };
 
     return (
-        <main className="bg-base-100 text-base-content h-[calc(100vh-64px)] flex flex-col py-10 px-20 gap-4 ">
+        <main className="bg-base-100 text-base-content h-[calc(100vh-64px)] flex flex-col justify-center items-center py-10 px-20 gap-4 ">
             <button
                 onClick={goBack}
                 className="absolute px-4 py-2 mt-4 font-semibold rounded-lg bottom-5 right-5 btn btn-primary"
@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
                 Zurück
             </button>
 
-            <div className="w-full h-[calc(100%-50px)] max-w-6xl p-10 py-6 overflow-y-auto bg-base-200 shadow-xl rounded-xl border border-primary">
+            <div className="w-full p-10 py-6 overflow-y-auto bg-base-200 shadow-xl rounded-xl border border-primary">
                 <h1 className="py-4 text-5xl font-bold text-primary">
                     Datenschutzrichtlinie
                 </h1>

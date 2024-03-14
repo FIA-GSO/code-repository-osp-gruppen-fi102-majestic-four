@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createVortrag, createStand, getUserInfos } from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
@@ -41,6 +41,11 @@ export default function Booking() {
         setTalkLengthInput,
         setDateInput,
         setStartTimeInput,
+
+        standOpen,
+        setStandOpen,
+        talkOpen,
+        setTalkOpen,
     } = useBookingStore();
 
     const { setLastNotification, lastNotification } = useGeneralStore();
@@ -220,7 +225,13 @@ export default function Booking() {
                 Erweiterte Informationen
             </h3>
             <div className="w-full xl:flex xl:gap-20 xl:items-start">
-                <details className="collapse border border-primary bg-base-200 collapse-arrow my-2 ">
+                <details
+                    onToggle={(ev) =>
+                        setStandOpen((ev.target as HTMLDetailsElement).open)
+                    }
+                    open={standOpen}
+                    className={`collapse border border-primary bg-base-200 collapse-arrow my-2 text-center`}
+                >
                     <summary className="collapse-title text-xl font-medium text-center">
                         Standinformationen ein- und ausklappen
                     </summary>
@@ -229,7 +240,13 @@ export default function Booking() {
                     </div>
                 </details>
 
-                <details className="collapse border border-primary bg-base-200 collapse-arrow my-2 text-center">
+                <details
+                    onToggle={(ev) =>
+                        setTalkOpen((ev.target as HTMLDetailsElement).open)
+                    }
+                    open={talkOpen}
+                    className={`collapse border border-primary bg-base-200 collapse-arrow my-2 text-center`}
+                >
                     <summary className="collapse-title text-xl font-medium">
                         Vortraginformationen ein- und ausklappen
                     </summary>

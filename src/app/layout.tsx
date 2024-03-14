@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import { Providers } from "./providers";
 import Notifications from "./components/Notifications";
+import NotificationPopup from "./components/NotificationPopup";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +28,10 @@ export default function RootLayout({
                             type="checkbox"
                             className="drawer-toggle"
                         />
-                        <div className="drawer-content">
+                        <div className="drawer-content relative">
                             <Navbar />
                             {children}
+                            <NotificationPopup />
                         </div>
                         <div className="drawer-side z-[1000]">
                             <label

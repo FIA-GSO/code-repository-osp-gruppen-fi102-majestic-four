@@ -18,8 +18,6 @@ const Notifications: React.FC<INotifications> = ({ className }) => {
         setNotifications,
     } = useGeneralStore();
 
-    console.log(notifications[0]);
-
     return (
         <div>
             {notifications.map((e, index) => {

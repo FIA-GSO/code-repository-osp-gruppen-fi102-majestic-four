@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import { Providers } from "./providers";
 import Notifications from "./components/Notifications";
 import NotificationPopup from "./components/NotificationPopup";
-
+import PrivacyPolicyLink from "./components/PrivacyPolicyLink";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -32,6 +32,7 @@ export default function RootLayout({
                             <Navbar />
                             {children}
                             <NotificationPopup />
+                            <PrivacyPolicyLink />
                         </div>
                         <div className="drawer-side z-[1000]">
                             <label

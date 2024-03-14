@@ -56,7 +56,7 @@ const BookingsList: React.FC<IBookingsList> = ({ className, fullscreen }) => {
                     {filteredBookings.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
                 <div className=" ml-auto flex items-center gap-4">
-                    <Link href={"/booking"} className="btn btn-primary">
+                    <Link href={"/booking"} className="link link-primary">
                         Neuer Antrag
                     </Link>
                     {(!fullscreen && (

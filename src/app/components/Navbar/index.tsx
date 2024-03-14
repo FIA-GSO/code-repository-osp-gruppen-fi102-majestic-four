@@ -84,7 +84,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
             </div>
             <div className="navbar-end">
                 {session.status === "unauthenticated" && (
-                    <Link className="btn btn-ghost text-xl" href={"/login"}>
+                    <Link className="btn btn-primary text-xl" href={"/login"}>
                         Login
                     </Link>
                 )}

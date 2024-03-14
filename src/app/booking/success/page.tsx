@@ -11,6 +11,10 @@ export default function BookingsSuccessPage() {
     return (
         <main className="bg-base-100 h-[calc(100vh-64px)] w-full py-10 px-20 gap-4 flex justify-center items-center">
             <div className="p-10 py-14 flex flex-col gap-y-8 justify-center items-center bg-base-200 rounded-3xl border border-primary shadow-md text-base-content max-w-[54rem]">
+                <h1 className=" text-primary text-4xl font-bold ">
+                    Erfolgreiche Antragstellung
+                </h1>
+
                 <div className="divider divider-neutral">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -21,9 +25,7 @@ export default function BookingsSuccessPage() {
                         <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
                     </svg>
                 </div>
-                <h1 className=" text-primary text-4xl font-bold ">
-                    Erfolgreiche Antragstellung
-                </h1>
+
                 {!role && (
                     <div className="px-4 rounded-md ">
                         <p className="text-lg mb-8">
@@ -45,7 +47,7 @@ export default function BookingsSuccessPage() {
                 {role === "user" && (
                     <>
                         <div className="px-4 rounded-md w-1/2">
-                            <p className="text-lg mb-8">
+                            <p className="text-lg">
                                 Vielen Dank für Ihre Antragstellung! Ihre
                                 Anfrage wurde erfolgreich bearbeitet.
                                 Detaillierte Informationen zu Ihrem Antrag

@@ -7,11 +7,13 @@ import { signIn, useSession } from "next-auth/react";
 import Email from "next-auth/providers/email";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { useGeneralStore } from "../store/general-store";
 
 export default function Login() {
     const router = useRouter();
     const { emailInput, setEmailInput, passwordInput, setPasswordInput } =
         useLoginStore();
+    const { setLastNotification } = useGeneralStore();
 
     const session = useSession();
 
@@ -37,10 +39,22 @@ export default function Login() {
                             redirect: false,
                             email: emailInput,
                             password: passwordInput,
+                        }).then((response) => {
+                            if (response?.error) {
+                                setLastNotification({
+                                    notificationType: "error",
+                                    message:
+                                        "Passwort oder E-mail-Adresse ist falsch!",
+                                });
+                            } else if (response?.ok) {
+                                setLastNotification({
+                                    notificationType: "success",
+                                    message: "Erfolgreich eingelogt!",
+                                });
+                            }
                         });
                         setEmailInput("");
                         setPasswordInput("");
-                        redirect("/");
                     }}
                 >
                     <label className="form-control w-full max-w-xs">

@@ -1,8 +1,10 @@
 import { changeBookingStatus } from "@/app/actions";
+import { sendNotifications } from "@/app/actions/notification-actions";
 import {
     BookingsType,
     useBookingManagerStore,
 } from "@/app/store/booking-manager-store";
+import { useGeneralStore } from "@/app/store/general-store";
 
 interface IBookingManagerEntry {
     className?: string;
@@ -13,6 +15,7 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
     booking,
 }) => {
     const { setUpdatedBookings } = useBookingManagerStore();
+    const { setLastNotification } = useGeneralStore();
 
     const isTalk = booking.type === "vortrag";
 
@@ -59,6 +62,14 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                     3
                                 );
                                 setUpdatedBookings(true);
+                                setLastNotification({
+                                    notificationType: "success",
+                                    message: `${isTalk ? "Vortrag" : "Stand"} wurde genemigt!`,
+                                });
+                                sendNotifications(
+                                    booking.benutzerId,
+                                    `Ein ${isTalk ? "Vortrag" : "Stand"} wurde genemigt!`
+                                );
                             }}
                         >
                             Annehmen
@@ -74,6 +85,14 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                     4
                                 );
                                 setUpdatedBookings(true);
+                                setLastNotification({
+                                    notificationType: "success",
+                                    message: `${isTalk ? "Vortrag" : "Stand"} wurde abgelehnt!`,
+                                });
+                                sendNotifications(
+                                    booking.benutzerId,
+                                    `Ein ${isTalk ? "Vortrag" : "Stand"} wurde abgelehnt!`
+                                );
                             }}
                         >
                             Ablehnen
@@ -90,6 +109,14 @@ const BookingManagerEntry: React.FC<IBookingManagerEntry> = ({
                                     2
                                 );
                                 setUpdatedBookings(true);
+                                setLastNotification({
+                                    notificationType: "success",
+                                    message: `${isTalk ? "Vortrag" : "Stand"} wurde storniert!`,
+                                });
+                                sendNotifications(
+                                    booking.benutzerId,
+                                    `Ein ${isTalk ? "Vortrag" : "Stand"} wurde storniert!`
+                                );
                             }}
                         >
                             Stornieren

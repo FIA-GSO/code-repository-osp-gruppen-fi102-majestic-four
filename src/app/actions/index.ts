@@ -41,32 +41,6 @@ export async function createUser(email: string, password: string) {
         };
     }
 }
-
-// Function to authenticate user (login)
-export async function authenticateUser(email: string, password: string) {
-    try {
-        const user = await prisma.benutzer.findUnique({
-            where: {
-                email,
-            },
-        });
-
-        if (!user || user.passwort !== password) {
-            // User not found or password doesn't match
-            return {
-                error: "Invalid credentials.",
-            };
-        }
-        // Successful authentication
-        return user;
-    } catch (error) {
-        console.error("Error authenticating user:", error);
-        return {
-            error: "Authentication failed.",
-        };
-    }
-}
-
 export async function getUserInfos(id: number) {
     try {
         const user = await prisma.benutzer.findUnique({
@@ -388,6 +362,71 @@ export async function updateUser(
     } catch (error) {
         console.error("Error changing user", error);
         return null;
+    }
+}
+export async function updatePassword(
+    userId: number,
+    oldPassword: string,
+    newPassword: string
+) {
+    try {
+        const user = await prisma.benutzer.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+        if (user) {
+            const isPasswordValid = await bcrypt.compare(
+                oldPassword,
+                user.passwort
+            );
+            if (isPasswordValid) {
+                const hash = bcrypt.hashSync(newPassword, 12);
+                const updatedUser = await prisma.benutzer.update({
+                    where: {
+                        id: userId,
+                    },
+                    data: { passwort: hash },
+                });
+                return true;
+            } else {
+                return false;
+            }
+        }
+    } catch (error) {
+        console.error("Error by changing the password", error);
+        return undefined;
+    }
+}
+
+export async function resetPassword(userId: number) {
+    try {
+        const hash = bcrypt.hashSync("passwort", 12);
+        const updatedUser = await prisma.benutzer.update({
+            where: {
+                id: userId,
+            },
+            data: { passwort: hash },
+        });
+        return updatedUser;
+    } catch (error) {
+        console.error("Error by changing the password", error);
+        return undefined;
+    }
+}
+
+export async function checkEmailUnique(email: string) {
+    try {
+        const user = await prisma.benutzer.findUnique({
+            where: {
+                email,
+            },
+        });
+        if (user) return false;
+        else return true;
+    } catch (error) {
+        console.error("Error by finding a email address", error);
+        return undefined;
     }
 }
 

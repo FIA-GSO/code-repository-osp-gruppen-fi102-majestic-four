@@ -1,13 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { createVortrag, createStand, getUserInfos } from "../actions";
+import {
+    createVortrag,
+    createStand,
+    getUserInfos,
+    checkEmailUnique,
+} from "../actions";
 import StandBookingForm from "../components/StandBookingForm";
 import TalkBookingForm from "../components/TalkBookingForm";
 import { useBookingStore } from "../store/booking-store";
 import { useSession } from "next-auth/react";
 import { useGeneralStore } from "../store/general-store";
 import Link from "next/link";
+import { redirect, useRouter } from "next/navigation";
+import { sendNotifications } from "../actions/notification-actions";
 
 export default function Booking() {
     const {
@@ -49,15 +56,32 @@ export default function Booking() {
     } = useBookingStore();
 
     const { setLastNotification, lastNotification } = useGeneralStore();
+    const [standMessage, setStandMessage] = useState(false);
+    const [vortragMessage, setVortragMessage] = useState(false);
+
+    const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     const session = useSession();
     //@ts-ignore
     const role = session.data?.user?.rolle;
+    const router = useRouter();
+    useEffect(() => {
+        if (standMessage && vortragMessage) {
+            setLastNotification({
+                notificationType: "error",
+                message: "Buchen fehlgeschlagen!",
+            });
+            setStandMessage(false);
+            setVortragMessage(false);
+        }
+    }, [standMessage, vortragMessage]);
 
     const handleSubmit = async () => {
         try {
             //@ts-ignore
             const userId = parseInt(session.data?.user?.id);
+            let standCreated = false;
+            let vortragCreated = false;
 
             // Create Stand record
             const standResult = await createStand({
@@ -75,24 +99,19 @@ export default function Booking() {
 
             if ("error" in standResult) {
                 console.error("Error creating Stand:", standResult.error);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "error",
-                        message: "Buchen fehlgeschlagen!",
-                    });
-                }
+                setStandMessage(true);
             } else {
                 setDayOneChecked(false);
                 setDayTwoChecked(false);
                 setAnnotationInput("");
                 setTablesInput(0);
                 setChairsInput(0);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "success",
-                        message: "Buchen erfolgreich!",
-                    });
-                }
+                standCreated = true;
+                sendNotifications(
+                    null,
+                    `Es wurde ein Stand (ID:${standResult.id}) beantragt.`,
+                    true
+                );
             }
 
             // Create Vortrag record
@@ -109,24 +128,22 @@ export default function Booking() {
 
             if ("error" in vortragResult) {
                 console.error("Error creating Vortrag:", vortragResult.error);
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "error",
-                        message: "Buchen fehlgeschlagen!",
-                    });
-                }
+                setVortragMessage(true);
             } else {
                 // Handle successful creation (e.g., show success message)
                 setTopicInput("");
                 setTalkLengthInput(15);
                 setDateInput("");
                 setStartTimeInput("");
-                if (!lastNotification) {
-                    setLastNotification({
-                        notificationType: "success",
-                        message: "Buchen erfolgreich!",
-                    });
-                }
+                vortragCreated = true;
+                sendNotifications(
+                    null,
+                    `Es wurde ein Vortrag (ID:${vortragResult.id}) beantragt.`,
+                    true
+                );
+            }
+            if (standCreated || vortragCreated) {
+                router.push("/booking/success");
             }
         } catch (error) {
             console.error("Error during record creation:", error);
@@ -191,7 +208,7 @@ export default function Booking() {
 
                 <div className="flex w-full justify-evenly">
                     {/* Email */}
-                    {true && (
+                    <div className="flex w-full justify-evenly max-w-xs flex-col">
                         <label className="form-control w-full max-w-xs">
                             <span className="label label-text">Email</span>
                             <input
@@ -204,7 +221,16 @@ export default function Booking() {
                                 }
                             />
                         </label>
-                    )}
+                        {!emailInput.match(emailPattern) &&
+                            emailInput != "" && (
+                                <div className="label">
+                                    <span className="label-text-alt text-red-600">
+                                        Geben Sie eine gültige E-Mail Adresse
+                                        ein!
+                                    </span>
+                                </div>
+                            )}
+                    </div>
 
                     {/* Telefon */}
                     <label className="form-control w-full max-w-xs">
@@ -272,7 +298,22 @@ export default function Booking() {
 
                 <button
                     className=" btn btn-wide btn-primary"
-                    onClick={handleSubmit}
+                    onClick={() => {
+                        if (session.status === "authenticated") handleSubmit();
+                        else {
+                            checkEmailUnique(emailInput).then((response) => {
+                                if (response === true) {
+                                    handleSubmit();
+                                } else {
+                                    setLastNotification({
+                                        notificationType: "error",
+                                        message:
+                                            "Es existiert bereits ein User mit dieser E-Mail Adresse!",
+                                    });
+                                }
+                            });
+                        }
+                    }}
                 >
                     Senden
                 </button>

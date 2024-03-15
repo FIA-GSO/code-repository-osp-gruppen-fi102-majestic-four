@@ -7,7 +7,6 @@ import BookingsList from "../components/BookingsList";
 import CancelsManager from "../components/CancelsManager";
 import Profile from "../components/Profile";
 import UserManager from "../components/UserManager";
-import { useGeneralStore } from "../store/general-store";
 import TechManager from "../components/TechManager";
 
 export default function Dashboard() {

@@ -65,6 +65,6 @@ export async function deleteNotification(notificationId: number) {
         console.error("Error deleting Notification:", error);
         return {
             error: "Can't deleting Notification.",
-        } as const; // Assert the type to ensure TypeScript understands it's a constant value
+        };
     }
 }

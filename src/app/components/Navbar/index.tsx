@@ -10,8 +10,6 @@ interface INavbar {
     className?: string;
 }
 
-let notificationList = [];
-
 const navElements = [
     { name: "Home", link: "/", user: ["user"] },
     { name: "Infos", link: "/infos", user: ["user", "guest"] },
@@ -36,19 +34,21 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
     } = useGeneralStore();
 
     useEffect(() => {
-        if (session.status === "authenticated") {
-            getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
-                (notes) => {
-                    if (notes) {
-                        notificationList = [...notes];
-                        setNotifications(notificationList);
+        const id = setInterval(() => {
+            if (session.status === "authenticated") {
+                getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
+                    (notes) => {
+                        if (notes) {
+                            setNotifications([...notes]);
+                            setHasNotifications(notes.length > 0);
+                        } else {
+                            setHasNotifications(notifications.length > 0);
+                        }
                     }
-                    notes?.length === 0
-                        ? setHasNotifications(false)
-                        : setHasNotifications(true);
-                }
-            );
-        }
+                );
+            }
+        }, 5000);
+        return () => clearInterval(id);
     }, [session.status]);
 
     return (
@@ -110,7 +110,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                                     />
                                 </svg>
                                 {hasNotifications === true && (
-                                    <span className="badge badge-xs badge-primary indicator-item"></span>
+                                    <span className="badge badge-xs badge-accent indicator-item"></span>
                                 )}
                             </div>
                         </label>

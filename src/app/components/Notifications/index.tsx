@@ -11,18 +11,19 @@ interface INotifications {
 
 const Notifications: React.FC<INotifications> = ({ className }) => {
     const session = useSession();
-    const {
-        hasNotifications,
-        setHasNotifications,
-        notifications,
-        setNotifications,
-    } = useGeneralStore();
+    const { notifications, setNotifications, setHasNotifications } =
+        useGeneralStore();
 
     return (
         <div>
+            <div className=" text-2xl font-bold">Benachrichtigungen:</div>
+            <div className="divider"></div>
+            {notifications.length === 0 && (
+                <div className="text-lg">Keine Benachrichtigungen!</div>
+            )}
             {notifications.map((e, index) => {
                 return (
-                    <div>
+                    <div key={index}>
                         <div role="alert" className="alert alert-success">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -40,12 +41,18 @@ const Notifications: React.FC<INotifications> = ({ className }) => {
                             <span>{e.nachricht}</span>
                             <button
                                 className="btn btn-square btn-sm"
-                                onClick={async () => {
-                                    deleteNotification(Number(e.id));
-                                    setNotifications(
-                                        notifications.filter(
-                                            (element) => element !== e
-                                        )
+                                onClick={() => {
+                                    deleteNotification(Number(e.id)).then(
+                                        () => {
+                                            setNotifications(
+                                                notifications.filter(
+                                                    (element) => element !== e
+                                                )
+                                            );
+                                            notifications.length > 0
+                                                ? setHasNotifications(true)
+                                                : setHasNotifications(false);
+                                        }
                                     );
                                 }}
                             >

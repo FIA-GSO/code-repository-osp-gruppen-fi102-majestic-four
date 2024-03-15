@@ -1,6 +1,4 @@
-import { useBookingListStore } from "@/app/store/booking-list-store";
 import React, { useEffect } from "react";
-import BookingsListItem from "../BookingListItem";
 import Link from "next/link";
 import { getUserInfos } from "@/app/actions";
 import { useSession } from "next-auth/react";
@@ -38,7 +36,6 @@ const Profile: React.FC<IProfile> = ({ className }) => {
         }
     };
     useEffect(() => {
-        console.log("hey");
         if (session.status === "authenticated") fetchUser();
     }, [session]);
 

@@ -415,6 +415,21 @@ export async function resetPassword(userId: number) {
     }
 }
 
+export async function checkEmailUnique(email: string) {
+    try {
+        const user = await prisma.benutzer.findUnique({
+            where: {
+                email,
+            },
+        });
+        if (user) return false;
+        else return true;
+    } catch (error) {
+        console.error("Error by finding a email address", error);
+        return undefined;
+    }
+}
+
 export async function deleteUser(userId: number) {
     try {
         const deletedUser = await prisma.benutzer.delete({

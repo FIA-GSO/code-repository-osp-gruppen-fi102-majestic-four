@@ -10,8 +10,6 @@ interface INavbar {
     className?: string;
 }
 
-let notificationList = [];
-
 const navElements = [
     { name: "Home", link: "/", user: ["user"] },
     { name: "Infos", link: "/infos", user: ["user", "guest"] },
@@ -36,20 +34,23 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
     } = useGeneralStore();
 
     useEffect(() => {
-        if (session.status === "authenticated") {
-            getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
-                (notes) => {
-                    if (notes) {
-                        notificationList = [...notes];
-                        setNotifications(notificationList);
+        const id = setInterval(() => {
+            if (session.status === "authenticated") {
+                getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
+                    (notes) => {
+                        if (notes) {
+                            console.log(notes);
+                            setNotifications([...notes]);
+                        }
+                        notifications.length > 0
+                            ? setHasNotifications(true)
+                            : setHasNotifications(false);
                     }
-                    notes?.length === 0
-                        ? setHasNotifications(false)
-                        : setHasNotifications(true);
-                }
-            );
-        }
-    }, [session.status]);
+                );
+            }
+        }, 5000);
+        return () => clearInterval(id);
+    }, []);
 
     return (
         <div
@@ -110,7 +111,7 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                                     />
                                 </svg>
                                 {hasNotifications === true && (
-                                    <span className="badge badge-xs badge-primary indicator-item"></span>
+                                    <span className="badge badge-xs badge-accent indicator-item"></span>
                                 )}
                             </div>
                         </label>

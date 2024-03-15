@@ -73,12 +73,20 @@ const BookingManager: React.FC<IBookingManager> = ({
                             }}
                         />
                     </div>
-                    {!fullscreen && (
+
+                    {(!fullscreen && (
                         <Link
                             href={"/admin/booking-manager"}
-                            className="btn btn-neutral opacity-30 hover:opacity-100 z-40"
+                            className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
                         >
                             Volle Ansicht
+                        </Link>
+                    )) || (
+                        <Link
+                            href={"/dashboard"}
+                            className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
+                        >
+                            Zurück
                         </Link>
                     )}
                 </div>

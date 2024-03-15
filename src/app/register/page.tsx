@@ -58,7 +58,7 @@ export default function Register(): JSX.Element {
         <div className="flex justify-center items-center flex-col bg-base-100 h-[calc(100vh-64px)] py-10 px-20 gap-4 ">
             {session.status !== "loading" ? (
                 <form
-                    className="flex flex-col items-center justify-center"
+                    className="flex flex-col items-center justify-center text-base-content"
                     onSubmit={(e) => {
                         handleSubmit(e);
                     }}
@@ -138,7 +138,7 @@ export default function Register(): JSX.Element {
                         zu
                     </p>
                     <button
-                        className="btn"
+                        className="btn btn-primary"
                         type="submit"
                         disabled={
                             !passwordInput.match(passwordPattern) ||

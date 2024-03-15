@@ -41,12 +41,19 @@ const UserManager: React.FC<IUserManager> = ({ className, fullscreen }) => {
                     ({userList.length}{" "}
                     {userList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
-                {!fullscreen && (
+                {(!fullscreen && (
                     <Link
                         href={"/admin/user-manager"}
                         className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
                     >
                         Volle Ansicht
+                    </Link>
+                )) || (
+                    <Link
+                        href={"/dashboard"}
+                        className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
+                    >
+                        Zurück
                     </Link>
                 )}
             </h2>

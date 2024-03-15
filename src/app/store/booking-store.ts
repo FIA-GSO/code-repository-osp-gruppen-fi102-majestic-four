@@ -24,6 +24,8 @@ interface IBookingState {
     setDayOneChecked: (dayOneChecked: boolean) => void;
     dayTwoChecked: boolean;
     setDayTwoChecked: (dayTwoChecked: boolean) => void;
+    standOpen: boolean;
+    setStandOpen: (standOpen: boolean) => void;
 
     //Talk
     topicInput: string;
@@ -34,6 +36,8 @@ interface IBookingState {
     setDateInput: (dateInput: TDates) => void;
     startTimeInput: string;
     setStartTimeInput: (startTimeInput: string) => void;
+    talkOpen: boolean;
+    setTalkOpen: (talkOpen: boolean) => void;
 }
 
 export const useBookingStore = create<IBookingState>()((set) => ({
@@ -58,6 +62,8 @@ export const useBookingStore = create<IBookingState>()((set) => ({
     setDayOneChecked: (dayOneChecked) => set({ dayOneChecked }),
     dayTwoChecked: false,
     setDayTwoChecked: (dayTwoChecked) => set({ dayTwoChecked }),
+    standOpen: false,
+    setStandOpen: (standOpen) => set({ standOpen }),
 
     //Talk
     topicInput: "",
@@ -68,4 +74,6 @@ export const useBookingStore = create<IBookingState>()((set) => ({
     setDateInput: (dateInput) => set({ dateInput }),
     startTimeInput: "",
     setStartTimeInput: (startTimeInput) => set({ startTimeInput }),
+    talkOpen: false,
+    setTalkOpen: (talkOpen) => set({ talkOpen }),
 }));

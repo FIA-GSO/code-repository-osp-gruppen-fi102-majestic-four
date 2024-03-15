@@ -38,12 +38,19 @@ const CancelsManager: React.FC<ICancelsManager> = ({
                     ({cancelsManagerList.length}{" "}
                     {cancelsManagerList.length === 1 ? "Eintrag" : "Einträge"})
                 </span>
-                {!fullscreen && (
+                {(!fullscreen && (
                     <Link
                         href={"/admin/cancels-manager"}
-                        className="btn btn-neutral opacity-30 hover:opacity-100 z-40 ml-auto"
+                        className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
                     >
                         Volle Ansicht
+                    </Link>
+                )) || (
+                    <Link
+                        href={"/dashboard"}
+                        className="ml-auto btn btn-neutral opacity-30 hover:opacity-100 z-40"
+                    >
+                        Zurück
                     </Link>
                 )}
             </h2>

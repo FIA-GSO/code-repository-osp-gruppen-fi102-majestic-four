@@ -23,7 +23,7 @@ Link zu Erd (nochmal neu erzeugen)
 Um das Repository auf Ihrem lokalen System zu klonen, führen Sie den folgenden Befehl aus:
 
 ```bash
-git clone https://github.com/DeinBenutzername/DeinProjekt.git
+git clone https://github.com/FIA-GSO/code-repository-osp-gruppen-fi102-majestic-four.git
 ```
 
 **2. Abhängigkeiten installieren:**

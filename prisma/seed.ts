@@ -64,6 +64,34 @@ async function main() {
             rolleId: 3,
         },
     });
+
+    await prisma.vortrag.create({
+        data: {
+            email: "user@usermail.de",
+            benutzerId: 2,
+            thema: "Altes Thema",
+            dauer: 15,
+            datum: "26.01.2024",
+            uhrzeit: "10:30",
+            ansprechpartner: "",
+            firma: "",
+            statusId: 5,
+        },
+    });
+    await prisma.stand.create({
+        data: {
+            email: "user@usermail.de",
+            benutzerId: 2,
+            datum: "26.01.2024",
+            ansprechpartner: "",
+            firma: "",
+            statusId: 5,
+            tag1: true,
+            tag2: false,
+            tisch: 10,
+            stuhl: 20,
+        },
+    });
 }
 
 main()

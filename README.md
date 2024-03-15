@@ -11,7 +11,7 @@ Dises Projekt ist eine Umsetzung für ein Marketplace für den Tag der Ausbildun
 
 ## Frontend Wireflow
 
-Link zum Wireflow
+[Link zum Wireflow](https://app.eraser.io/workspace/EaW7fwFLXO6kxgvP7HIc?origin=share)
 
 ## Datenkbank
 
@@ -39,6 +39,103 @@ npm i
 npm run prisma
 ```
 
+Die Datenbank wird mit folgenden Daten initialisiert:
+
+### Rollen
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Bezeichnung</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>admin</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>user</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>technician</td>
+    </tr>
+  </tbody>
+</table>
+
+### Benutzer
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Email</th>
+      <th>Passwort</th>
+      <th>RolleId</th>
+      <th>Dummy Daten für weitere Felder</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>admin@gso.de</td>
+      <td>123</td>
+      <td>1</td>
+      <td>Dummy Daten für weitere Felder</td>
+    </tr>
+    <tr>
+    <td>2</td>
+      <td>user@usermail.de</td>
+      <td>123</td>
+      <td>2</td>
+      <td>Dummy Daten für weitere Felder</td>
+    </tr>
+    <tr>
+    <td>3</td>
+      <td>tech@gso.de</td>
+      <td>123</td>
+      <td>3</td>
+      <td>Dummy Daten für weitere Felder</td>
+    </tr>
+  </tbody>
+</table>
+
+### Status
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Bezeichnung</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>canceled</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>accepted</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>declined</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>archived</td>
+    </tr>
+  </tbody>
+</table>
+
 **4. Development Server starten:**
 Um den Entwicklungsserver zu starten, verwenden Sie den folgenden Befehl:
 
@@ -47,6 +144,17 @@ npm run dev
 ```
 
 Der Server läuft dann unter [http://localhost:3000](http://localhost:3000) im Browser.
+
+## Unsere Dokumente
+
+[**Algemein**](Dokumente/Algemein/)
+
+**Rollenspezifische Dokumente**
+
+-   [Entwickler](Dokumente/Rollenspezifsch/Entwickler/)
+-   [Projektmanager](Dokumente/Rollenspezifsch/Projektmanager/)
+-   [Qualitätsmanager](Dokumente/Rollenspezifsch/Qualitätsmanager/)
+-   [Architekt](Dokumente/Rollenspezifsch/Architekt/)
 
 ## Weitere Informationen zu NextJS
 

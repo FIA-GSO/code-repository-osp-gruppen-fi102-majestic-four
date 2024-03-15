@@ -1,14 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import { useProfileStore } from "../store/profile-store";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useRef } from "react";
-import { Input } from "postcss";
-import { getUserInfos, updateUserInfos } from "../actions";
-import { useSession } from "next-auth/react";
-import { preconnect } from "react-dom";
-import { error } from "console";
+import { useEffect, useRef } from "react";
+import {
+    deleteUser,
+    getUserInfos,
+    updatePassword,
+    updateUser,
+    updateUserInfos,
+} from "../actions";
+import { signOut, useSession } from "next-auth/react";
+import { useGeneralStore } from "../store/general-store";
 
 export default function Login() {
     const router = useRouter();
@@ -29,10 +32,16 @@ export default function Login() {
         setPassword,
         confirmPassword,
         setConfirmPassword,
+        oldPassword,
+        setOldPassword,
         code,
         setCode,
         saveState,
         setSaveState,
+        firstStep,
+        setFirstStep,
+        deleteInput,
+        setDeleteInput,
     } = useProfileStore();
     const input1Ref = useRef<HTMLInputElement | null>(null);
     const input2Ref = useRef<HTMLInputElement | null>(null);
@@ -42,8 +51,11 @@ export default function Login() {
     const input6Ref = useRef<HTMLInputElement | null>(null);
 
     const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordPattern = /^\S{8,}$/;
 
     const session = useSession();
+
+    const { setLastNotification } = useGeneralStore();
 
     const fetchUser = async () => {
         const data = await getUserInfos(parseInt(session?.data?.user?.id));
@@ -118,7 +130,10 @@ export default function Login() {
                                 </button>
                                 <button
                                     onClick={
-                                        (e) => setChangeEmail("None")
+                                        (e) => {
+                                            setChangeEmail("None");
+                                            fetchUser();
+                                        }
                                         //Frage die Email wieder an und setzte die auf den State}
                                     }
                                     className="btn btn-square"
@@ -299,6 +314,14 @@ export default function Login() {
                                         onClick={(e) => {
                                             setChangeEmail("None");
                                             setCode("000000");
+                                            updateUser(
+                                                parseInt(
+                                                    session.data?.user?.id
+                                                ),
+                                                {
+                                                    email: email,
+                                                }
+                                            );
                                         }}
                                         className="btn btn-active btn-neutral"
                                     >
@@ -308,6 +331,7 @@ export default function Login() {
                                         onClick={(e) => {
                                             setChangeEmail("None");
                                             setCode("000000");
+                                            fetchUser();
                                         }}
                                         className="btn btn-square"
                                     >
@@ -336,6 +360,24 @@ export default function Login() {
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">
+                                            Altes Passwort
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="password"
+                                        placeholder="Altes Passwort"
+                                        className={
+                                            "input input-bordered input-primary text-primary-content w-full max-w-xs"
+                                        }
+                                        value={oldPassword}
+                                        onChange={(e) =>
+                                            setOldPassword(e.target.value)
+                                        }
+                                    />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">
                                             Passwort
                                         </span>
                                     </div>
@@ -350,6 +392,15 @@ export default function Login() {
                                             setPassword(e.target.value)
                                         }
                                     />
+                                    {!password.match(passwordPattern) &&
+                                        password != "" && (
+                                            <div className="label">
+                                                <span className="label-text-alt text-red-600">
+                                                    Passwort muss mindestens 8
+                                                    Zeichen lang sein!
+                                                </span>
+                                            </div>
+                                        )}
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
@@ -385,7 +436,7 @@ export default function Login() {
                                         onClick={(e) => {
                                             setChangePassword("Wait");
                                         }}
-                                        className="btn btn-active btn-neutral"
+                                        className="btn btn-active btn-neutral mx-2"
                                     >
                                         Bestätige das neue Passwort
                                     </button>
@@ -509,10 +560,40 @@ export default function Login() {
                                 <div className="flex">
                                     <button
                                         onClick={(e) => {
-                                            setChangeEmail("None");
+                                            setChangePassword("None");
                                             setCode("000000");
                                             setPassword("");
+                                            setOldPassword("");
                                             setConfirmPassword("");
+                                            updatePassword(
+                                                parseInt(
+                                                    session.data?.user?.id
+                                                ),
+                                                oldPassword,
+                                                password
+                                            ).then((answer) => {
+                                                if (answer === undefined) {
+                                                    setLastNotification({
+                                                        notificationType:
+                                                            "error",
+                                                        message: "Error!",
+                                                    });
+                                                } else if (answer === true)
+                                                    setLastNotification({
+                                                        notificationType:
+                                                            "success",
+                                                        message:
+                                                            "Passwort erfolgreich geändert!",
+                                                    });
+                                                else {
+                                                    setLastNotification({
+                                                        notificationType:
+                                                            "error",
+                                                        message:
+                                                            "Altes Passwort falsch!",
+                                                    });
+                                                }
+                                            });
                                         }}
                                         className="btn btn-active btn-neutral"
                                     >
@@ -553,7 +634,7 @@ export default function Login() {
                                     onClick={(e) => {
                                         setChangeEmail("Enter");
                                     }}
-                                    className="btn btn-active btn-neutral mt-10"
+                                    className="btn btn-active btn-neutral mt-10 mx-1"
                                 >
                                     E-Mail ändern
                                 </button>
@@ -564,12 +645,96 @@ export default function Login() {
                                     onClick={(e) => {
                                         setChangePassword("Enter");
                                     }}
-                                    className="btn btn-active btn-neutral my-10"
+                                    className="btn btn-active btn-neutral my-10 mx-1"
                                 >
                                     Password ändern
                                 </button>
                             )}
                     </div>
+                    {changeEmail === "None" && changePassword === "None" && (
+                        <div>
+                            <button
+                                onClick={() => {
+                                    if (
+                                        document.getElementById(
+                                            "my_modal_3"
+                                        ) !== null
+                                    ) {
+                                        document
+                                            ?.getElementById("my_modal_3")
+                                            ?.showModal();
+                                    }
+                                }}
+                                className="btn btn-active btn-neutral my-10 mx-1 btn-error"
+                            >
+                                Account löschen
+                            </button>
+                            <dialog id="my_modal_3" className="modal">
+                                <div className="modal-box">
+                                    <form method="dialog">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button
+                                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                            onClick={() => setFirstStep(true)}
+                                        >
+                                            ✕
+                                        </button>
+                                    </form>
+                                    <h3 className="font-bold text-lg">
+                                        Account Löschen?
+                                    </h3>
+                                    {firstStep === true ? (
+                                        <div>
+                                            <p className="py-4">
+                                                Wollen Sie den Account wirklich
+                                                löschen?
+                                            </p>
+                                            <button
+                                                onClick={() =>
+                                                    setFirstStep(false)
+                                                }
+                                                className="btn btn-neutral"
+                                            >
+                                                Ja
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <p className="py-4">
+                                                Geben Sie "löschen" in das Feld
+                                                ein!
+                                            </p>
+                                            <input
+                                                type="text"
+                                                placeholder="Type here"
+                                                className="input input-bordered input-error w-full max-w-xs"
+                                            />
+                                            <button
+                                                className="btn btn-error"
+                                                onClick={() => {
+                                                    signOut();
+                                                    deleteUser(
+                                                        parseInt(
+                                                            session.data?.user
+                                                                ?.id
+                                                        )
+                                                    );
+                                                    setLastNotification({
+                                                        notificationType:
+                                                            "success",
+                                                        message:
+                                                            "Account erfolgreich gelöscht!",
+                                                    });
+                                                }}
+                                            >
+                                                Löschen
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </dialog>
+                        </div>
+                    )}
                 </div>
                 <div className="divider divider-horizontal"></div>
                 {changeEmail === "None" && changePassword === "None" && (
@@ -629,52 +794,14 @@ export default function Login() {
                                     telefon,
                                     company
                                 );
-                                if ("error" in user) {
-                                    setSaveState("Error");
-                                } else {
-                                    setSaveState("Saved");
-                                }
+                                setLastNotification({
+                                    notificationType: "success",
+                                    message: "Profil erfolgreich bearbeitet!",
+                                });
                             }}
                         >
                             Speichern
                         </button>
-                        {saveState === "Saved" ? (
-                            <div role="alert" className="alert alert-success">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="stroke-current shrink-0 h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span>Erfolgreich gespeichert!</span>
-                            </div>
-                        ) : (
-                            saveState === "Error" && (
-                                <div role="alert" className="alert alert-error">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="stroke-current shrink-0 h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                    <span>Error!Speichern nicht möglich.</span>
-                                </div>
-                            )
-                        )}
                     </form>
                 )}
             </div>

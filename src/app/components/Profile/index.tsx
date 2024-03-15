@@ -61,18 +61,22 @@ const Profile: React.FC<IProfile> = ({ className }) => {
             <div className="flex items-center justify-center gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="text-primary text-sm font-bold">
-                        Email: <span className=" text-white">{email}</span>
+                        Email:{" "}
+                        <span className="text-base-content">{email}</span>
                     </div>
                     <div className="text-primary text-sm font-bold">
-                        Firma: <span className=" text-white">{company}</span>
+                        Firma:{" "}
+                        <span className="text-base-content">{company}</span>
                     </div>
                     <div className="text-primary text-sm font-bold">
                         Ansprechpartner:{" "}
-                        <span className=" text-white">{contactPerson}</span>
+                        <span className="text-base-content">
+                            {contactPerson}
+                        </span>
                     </div>
                     <div className="text-primary text-sm font-bold">
                         Telefonnummer:{" "}
-                        <span className=" text-white">{telefon}</span>
+                        <span className="text-base-content">{telefon}</span>
                     </div>
                 </div>
             </div>

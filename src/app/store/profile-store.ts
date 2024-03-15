@@ -18,12 +18,18 @@ interface IProfileState {
     setChangePassword: (changePassword: TChangeState) => void;
     password: string;
     setPassword: (password: string) => void;
+    oldPassword: string;
+    setOldPassword: (oldPassword: string) => void;
     confirmPassword: string;
     setConfirmPassword: (password: string) => void;
     code: string;
     setCode: (code: string) => void;
     saveState: TSaveState;
     setSaveState: (saveState: TSaveState) => void;
+    firstStep: boolean;
+    setFirstStep: (firstStep: boolean) => void;
+    deleteInput: string;
+    setDeleteInput: (deleteInput: string) => void;
 }
 
 export const useProfileStore = create<IProfileState>()((set) => ({
@@ -41,10 +47,16 @@ export const useProfileStore = create<IProfileState>()((set) => ({
     setChangePassword: (changePassword) => set({ changePassword }),
     password: "",
     setPassword: (password) => set({ password }),
+    oldPassword: "",
+    setOldPassword: (oldPassword) => set({ oldPassword }),
     confirmPassword: "",
     setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
     code: "000000",
     setCode: (code) => set({ code }),
     saveState: "Default",
     setSaveState: (saveState) => set({ saveState }),
+    firstStep: true,
+    setFirstStep: (firstStep) => set({ firstStep }),
+    deleteInput: "",
+    setDeleteInput: (deleteInput) => set({ deleteInput }),
 }));

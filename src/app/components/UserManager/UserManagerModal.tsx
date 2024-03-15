@@ -1,6 +1,9 @@
 import React from "react";
 import { useUserManagerStore } from "@/app/store/user-manager-store";
-import { updateUser } from "@/app/actions";
+import { resetPassword, updateUser } from "@/app/actions";
+import { sendNotifications } from "@/app/actions/notification-actions";
+import { useGeneralStore } from "@/app/store/general-store";
+import { useSession } from "next-auth/react";
 
 interface IUserManagerModal {
     className?: string;
@@ -24,6 +27,8 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
         setChangeRoleInput,
     } = useUserManagerStore();
 
+    const { setLastNotification } = useGeneralStore();
+    const session = useSession();
     function resetInputValues() {
         setModalTitle("Benutzerdaten ändern");
         setUserId(0);
@@ -132,63 +137,97 @@ const UserManagerModal: React.FC<IUserManagerModal> = ({ className }) => {
                             <label className="px-1 py-2 text-primary text-sm font-semibold">
                                 Neues Passwort
                             </label>
-                            <button
-                                className="btn btn-primary max-w-[144px]"
-                                onClick={(ev) =>
-                                    console.log("generate temp password")
-                                }
-                            >
-                                Reset
-                            </button>
+                            <form method="dialog">
+                                <button
+                                    className="btn btn-primary max-w-[144px]"
+                                    onClick={(ev) => {
+                                        resetPassword(userId).then((user) => {
+                                            if (user) {
+                                                setLastNotification({
+                                                    notificationType: "success",
+                                                    message:
+                                                        "Passwort wurde erfolgreich auf 'passwort' zurückgesetzt!",
+                                                });
+                                                sendNotifications(
+                                                    userId,
+                                                    `Ein Admin hat dein Passwort auf 'passwort' zurückgesetzt.`
+                                                );
+                                            } else {
+                                                setLastNotification({
+                                                    notificationType: "success",
+                                                    message:
+                                                        "Anpassung erfolgreich!",
+                                                });
+                                            }
+                                        });
+                                    }}
+                                >
+                                    Reset
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div className="mt-4 italic text-accent text-sm">
                         Leere Felder werden ignoriert
                     </div>
-                    <button
-                        className="btn btn-success mt-4"
-                        onClick={() => {
-                            const data: {
-                                email?: string;
-                                vorname?: string;
-                                nachname?: string;
-                                firma?: string;
-                                rolleId?: number;
-                            } = {};
-                            if (changeEmailInput) {
-                                data.email = changeEmailInput;
-                            }
-                            if (changeFirstNameInput) {
-                                data.vorname = changeFirstNameInput;
-                            }
-                            if (changeLastNameInput) {
-                                data.nachname = changeLastNameInput;
-                            }
-                            if (changeFirmaInput) {
-                                data.firma = changeFirmaInput;
-                            }
-                            if (changeRoleInput) {
-                                data.rolleId = changeRoleInput;
-                            }
-                            updateUser(userId, data).then((user) => {
-                                if (user) {
-                                    //executed if success
-                                    setModalTitle(
-                                        user.nachname && user.vorname
-                                            ? `Benutzerdaten von ${user.nachname.charAt(0).toUpperCase() + user.nachname.slice(1)}, ${user.vorname.charAt(0).toUpperCase() + user.vorname.slice(1)} ändern`
-                                            : `Benutzerdaten von ${user.email} ändern`
-                                    );
-                                    setChangeEmailInput(user.email);
-                                    setChangeFirstNameInput(user.vorname || "");
-                                    setChangeLastNameInput(user.nachname || "");
-                                    setChangeFirmaInput(user.firma || "");
-                                    setChangeRoleInput(user.rolleId);
+                    <form method="dialog">
+                        <button
+                            className="btn btn-success mt-4"
+                            onClick={() => {
+                                const data: {
+                                    email?: string;
+                                    vorname?: string;
+                                    nachname?: string;
+                                    firma?: string;
+                                    rolleId?: number;
+                                } = {};
+                                if (changeEmailInput) {
+                                    data.email = changeEmailInput;
                                 }
-                            });
-                        }}
-                    >
-                        Speichern
-                    </button>
+                                if (changeFirstNameInput) {
+                                    data.vorname = changeFirstNameInput;
+                                }
+                                if (changeLastNameInput) {
+                                    data.nachname = changeLastNameInput;
+                                }
+                                if (changeFirmaInput) {
+                                    data.firma = changeFirmaInput;
+                                }
+                                if (changeRoleInput) {
+                                    data.rolleId = changeRoleInput;
+                                }
+                                updateUser(userId, data).then((user) => {
+                                    if (user) {
+                                        //executed if success
+                                        setModalTitle(
+                                            user.nachname && user.vorname
+                                                ? `Benutzerdaten von ${user.nachname.charAt(0).toUpperCase() + user.nachname.slice(1)}, ${user.vorname.charAt(0).toUpperCase() + user.vorname.slice(1)} ändern`
+                                                : `Benutzerdaten von ${user.email} ändern`
+                                        );
+                                        setChangeEmailInput(user.email);
+                                        setChangeFirstNameInput(
+                                            user.vorname || ""
+                                        );
+                                        setChangeLastNameInput(
+                                            user.nachname || ""
+                                        );
+                                        setChangeFirmaInput(user.firma || "");
+                                        setChangeRoleInput(user.rolleId);
+                                        setLastNotification({
+                                            notificationType: "success",
+                                            message: "Anpassung erfolgreich!",
+                                        });
+                                        sendNotifications(
+                                            user.id,
+                                            `Ein Admin hat dein Profil bearbeitet.`
+                                        );
+                                    }
+                                });
+                            }}
+                        >
+                            Speichern
+                        </button>
+                    </form>
                 </div>
             </div>
         </dialog>

@@ -1,9 +1,11 @@
 import { changeBookingStatus, deleteStand, deleteVortrag } from "@/app/actions";
+import { sendNotifications } from "@/app/actions/notification-actions";
 import {
     BookingsType,
     useBookingListStore,
 } from "@/app/store/booking-list-store";
 import { TDates } from "@/app/store/booking-store";
+import { useGeneralStore } from "@/app/store/general-store";
 import { useSession } from "next-auth/react";
 
 interface IBookingListItem {
@@ -30,6 +32,8 @@ const BookingListItem: React.FC<IBookingListItem> = ({
         setModalType,
     } = useBookingListStore();
     const session = useSession();
+
+    const { setLastNotification } = useGeneralStore();
 
     //@ts-ignore
     const userId = parseInt(session.data?.user?.id);
@@ -119,6 +123,29 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                                     : deleteStand(userId, booking.id).then(() =>
                                           setUpdatedBookings(true)
                                       );
+                                if (isTalk) {
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message:
+                                            "Antrag für einen Vortrag erfolgreich gelöscht!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat einen Antrag für einen Vortrag gelöscht`,
+                                        true
+                                    );
+                                } else {
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message:
+                                            "Antrag für einen Stand erfolgreich gelöscht!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat einen Antrag für einen Stand gelöscht`,
+                                        true
+                                    );
+                                }
                             }}
                         >
                             Löschen
@@ -135,6 +162,28 @@ const BookingListItem: React.FC<IBookingListItem> = ({
                                     2
                                 );
                                 setUpdatedBookings(true);
+                                if (isTalk) {
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message:
+                                            "Vortrag erfolgreich storniert!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat einen Vortrag storniert`,
+                                        true
+                                    );
+                                } else {
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message: "Stand erfolgreich storniert!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat einen Stand storniert`,
+                                        true
+                                    );
+                                }
                             }}
                         >
                             Stornieren

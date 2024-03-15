@@ -5,6 +5,8 @@ import { useBookingListStore } from "@/app/store/booking-list-store";
 import { generateOptions } from "../TalkBookingForm";
 import { TDates } from "@/app/store/booking-store";
 import { useSession } from "next-auth/react";
+import { sendNotifications } from "@/app/actions/notification-actions";
+import { useGeneralStore } from "@/app/store/general-store";
 
 interface IBookingListModal {
     className?: string;
@@ -53,6 +55,8 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
     const session = useSession();
     //@ts-ignore
     const userId = parseInt(session.data?.user?.id);
+
+    const { setLastNotification } = useGeneralStore();
 
     return (
         <dialog
@@ -225,30 +229,52 @@ const BookingListModal: React.FC<IBookingListModal> = ({ className }) => {
                             </div>
                         </div>
                     )}
+                    <form method="dialog">
+                        <button
+                            className="btn btn-success mt-4"
+                            onClick={() => {
+                                if (modalType === "stand") {
+                                    updatedStand(userId, bookingId, {
+                                        bemerkung: annotationInput,
+                                        tag1: dayOneChecked,
+                                        tag2: dayTwoChecked,
+                                        stuhl: chairsInput,
+                                        tisch: tablesInput,
+                                    }).then(() => setUpdatedBookings(true));
 
-                    <button
-                        className="btn btn-success mt-4"
-                        onClick={() => {
-                            if (modalType === "stand") {
-                                updatedStand(userId, bookingId, {
-                                    bemerkung: annotationInput,
-                                    tag1: dayOneChecked,
-                                    tag2: dayTwoChecked,
-                                    stuhl: chairsInput,
-                                    tisch: tablesInput,
-                                }).then(() => setUpdatedBookings(true));
-                            } else {
-                                updatedVortrag(userId, bookingId, {
-                                    thema: topicInput,
-                                    dauer: talkLengthInput,
-                                    datum: dateInput,
-                                    uhrzeit: startTimeInput,
-                                }).then(() => setUpdatedBookings(true));
-                            }
-                        }}
-                    >
-                        Speichern
-                    </button>
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message: "Anpassung erfolgreich!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat eine Vortragsanmeldung bearbeitet`,
+                                        true
+                                    );
+                                    resetInputValues();
+                                } else {
+                                    updatedVortrag(userId, bookingId, {
+                                        thema: topicInput,
+                                        dauer: talkLengthInput,
+                                        datum: dateInput,
+                                        uhrzeit: startTimeInput,
+                                    }).then(() => setUpdatedBookings(true));
+                                    setLastNotification({
+                                        notificationType: "success",
+                                        message: "Anpassung erfolgreich!",
+                                    });
+                                    sendNotifications(
+                                        null,
+                                        `Der Benutzer ${session.data?.user?.email} hat eine Standanmeldung bearbeitet`,
+                                        true
+                                    );
+                                    resetInputValues();
+                                }
+                            }}
+                        >
+                            Speichern
+                        </button>
+                    </form>
                 </div>
             </div>
         </dialog>

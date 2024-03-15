@@ -25,6 +25,9 @@ export default function Register(): JSX.Element {
 
     const session = useSession();
 
+    const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordPattern = /^\S{8,}$/;
+
     if (session?.status === "authenticated") {
         redirect("/");
     }
@@ -75,6 +78,13 @@ export default function Register(): JSX.Element {
                             className="input input-bordered w-full max-w-xs"
                         />
                     </label>
+                    {!emailInput.match(emailPattern) && emailInput != "" && (
+                        <div className="label">
+                            <span className="label-text-alt text-red-600">
+                                Bitte gebe eine E-Mail Adresse ein!
+                            </span>
+                        </div>
+                    )}
                     <br />
                     <label className="form-control w-full max-w-xs">
                         <div className="label">
@@ -91,6 +101,15 @@ export default function Register(): JSX.Element {
                             className="input input-bordered w-full max-w-xs"
                         />
                     </label>
+                    {!passwordInput.match(passwordPattern) &&
+                        passwordInput != "" && (
+                            <div className="label">
+                                <span className="label-text-alt text-red-600">
+                                    Passwort muss mindestens 8 Zeichen lang
+                                    sein!
+                                </span>
+                            </div>
+                        )}
                     <br />
                     <label className="form-control w-full max-w-xs">
                         <div className="label">
@@ -118,7 +137,15 @@ export default function Register(): JSX.Element {
                         </Link>
                         zu
                     </p>
-                    <button className="btn" type="submit">
+                    <button
+                        className="btn"
+                        type="submit"
+                        disabled={
+                            !passwordInput.match(passwordPattern) ||
+                            passwordInput != confirmPasswordInput ||
+                            !emailInput.match(emailPattern)
+                        }
+                    >
                         Register
                     </button>
                 </form>

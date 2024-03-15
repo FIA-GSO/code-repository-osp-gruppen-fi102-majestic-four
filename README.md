@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# OSP Marketplace
 
-## Getting Started
+Dises Projekt ist eine Umsetzung für ein Marketplace für den Tag der Ausbildung am GSO. Es wurde im Rahmen des Oberstufenprojekts durchgeführt.
 
+**Eingesetzte Technologien:**
+
+-   NextJS (Frontend & Backend)
+-   TailwindCSS (Styling)
+-   PrismaJS (ORM)
+-   SQLite (Datenbank)
+
+## Frontend Wireflow
+
+Link zum Wireflow
+
+## Datenkbank
+
+Link zu Erd (nochmal neu erzeugen)
+
+## Schritt-für-Schritt-Betriebsanleitung
+
+**1. Repository klonen:**
+Um das Repository auf Ihrem lokalen System zu klonen, führen Sie den folgenden Befehl aus:
+
+```bash
+git clone https://github.com/DeinBenutzername/DeinProjekt.git
+```
+
+**2. Abhängigkeiten installieren:**
+Installieren Sie die erforderlichen Abhängigkeiten, indem Sie den folgenden Befehl ausführen:
+
+```bash
 npm i
+```
 
-First, run the development server:
+**3. Initialisieren der Datenbank:**
+
+```bash
+npm run prisma
+```
+
+**4. Development Server starten:**
+Um den Entwicklungsserver zu starten, verwenden Sie den folgenden Befehl:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Der Server läuft dann unter [http://localhost:3000](http://localhost:3000) im Browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Weitere Informationen zu NextJS
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Um mehr über Next.js zu erfahren, schauen Sie sich die folgenden Ressourcen an:
 
-## Learn More
+-   [Next.js Documentation](https://nextjs.org/docs) - erfahren Sie mehr über die Funktionen und API von Next.js.
+-   [Learn Next.js](https://nextjs.org/learn) - ein interaktives Next.js-Tutorial.
 
-To learn more about Next.js, take a look at the following resources:
+## Unser Git Workflow
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![commonflow](https://commonflow.org/spec/1.0.0-rc.5.svg)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Orientiert sich an [Common Flow](https://commonflow.org/), wurde aber von uns ein wenig angepasst.**
 
-## Git Workflow
+Bei kleinen Änderungen kann direkt auf dem main gearbeitet werden.
 
-[Git Workflow](https://commonflow.org/)
+**Bei einem größeren Feature:**
+
+1. Branch erstellen (Namen soll kurze Beschreibung vom Feature haben durch Bindestriche getrennt z.B. **„user-authentification“** oder **„connect-database“**)
+2. Änderung vornehmen und committen, bis Feature umgesetzt
+3. Pull Request erstellen
+4. Review mit Team Mitglied
+5. (Rebase und) In den Main mergen

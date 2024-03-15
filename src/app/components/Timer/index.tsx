@@ -49,7 +49,7 @@ const Timer: React.FC<ITimer> = ({ className }) => {
         return () => clearInterval(id);
     }, [seconds]);
     return (
-        <div className=" flex flex-col items-center  h-full">
+        <div className=" flex flex-col items-center text-base-content h-full">
             <div className="flex gap-5">
                 <div>
                     <span className="countdown font-mono text-4xl">

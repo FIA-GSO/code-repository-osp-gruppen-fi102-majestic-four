@@ -43,15 +43,19 @@ const Notifications: React.FC<INotifications> = ({ className }) => {
                                 className="btn btn-square btn-sm"
                                 onClick={() => {
                                     deleteNotification(Number(e.id)).then(
-                                        () => {
-                                            setNotifications(
-                                                notifications.filter(
-                                                    (element) => element !== e
-                                                )
-                                            );
-                                            notifications.length > 0
-                                                ? setHasNotifications(true)
-                                                : setHasNotifications(false);
+                                        (result) => {
+                                            if ("error" in result) {
+                                            } else {
+                                                setNotifications(
+                                                    notifications.filter(
+                                                        (element) =>
+                                                            element.id !== e.id
+                                                    )
+                                                );
+                                                setHasNotifications(
+                                                    notifications.length > 0
+                                                );
+                                            }
                                         }
                                     );
                                 }}

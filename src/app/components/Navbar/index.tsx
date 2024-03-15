@@ -39,18 +39,17 @@ const Navbar: React.FC<INavbar> = ({ className }) => {
                 getNotificationsByUserID(parseInt(session.data?.user?.id)).then(
                     (notes) => {
                         if (notes) {
-                            console.log(notes);
                             setNotifications([...notes]);
+                            setHasNotifications(notes.length > 0);
+                        } else {
+                            setHasNotifications(notifications.length > 0);
                         }
-                        notifications.length > 0
-                            ? setHasNotifications(true)
-                            : setHasNotifications(false);
                     }
                 );
             }
         }, 5000);
         return () => clearInterval(id);
-    }, []);
+    }, [session.status]);
 
     return (
         <div
